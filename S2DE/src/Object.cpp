@@ -57,6 +57,14 @@ void Object::UpdateAll(float delta) {
 	}
 }
 
+void Object::FixedUpdateAll(float delta) {
+	std::list<Object*>::iterator it = objects.begin();
+	for (it = objects.begin(); it != objects.end(); it++) {
+		Object* object = *it;
+		object->FixedUpdateComponents(delta);
+	}
+}
+
 void Object::DisposeAll() {
 	std::list<Object*>::iterator it = objects.begin();
 	for (it = objects.begin(); it != objects.end(); it++) {
@@ -79,6 +87,14 @@ void Object::UpdateComponents(float delta) {
 	for (it = components.begin(); it != components.end(); it++) {
 		Component* component = *it;
 		component->Update(delta);
+	}
+}
+
+void Object::FixedUpdateComponents(float delta) {
+	std::list<Component*>::iterator it;
+	for (it = components.begin(); it != components.end(); it++) {
+		Component* component = *it;
+		component->FixedUpdate(delta);
 	}
 }
 

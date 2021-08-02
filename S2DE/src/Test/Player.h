@@ -7,7 +7,7 @@ using namespace S2DE;
 class Player : public Component {
 
 public:
-	void Update(float delta);
+	void FixedUpdate(float delta);
 
 private:
 	float counter;

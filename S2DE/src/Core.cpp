@@ -9,11 +9,13 @@
 
 using namespace S2DE;
 
+const float FIXED_TIME_STEP = 0.01666666f;
 
 static bool hasInit;
 static bool isRunning;
 static SDL_Event e;
 static int tickCounter;
+static float fixedDeltaCounter;
 
 bool Core::IsRunning() { return isRunning; };
 
@@ -70,12 +72,17 @@ void Core::Loop() {
 	int tickDelta = currentTick - tickCounter;
 	float timeDelta = tickDelta / 1000.0f;
 	tickCounter = currentTick;
+	fixedDeltaCounter += timeDelta;
+
+	if(fixedDeltaCounter >= FIXED_TIME_STEP) {
+		Object::FixedUpdateAll(fixedDeltaCounter);
+
+		//fixedDeltaCounter -= FIXED_TIME_STEP;
+		fixedDeltaCounter = 0;
+	}
 
 	//clears all graphics
 	Window::Clear();
-
-	//update physics
-	//Object::FixedUpdateAll();
 
 	//update gameplay
 	Object::UpdateAll(timeDelta);
