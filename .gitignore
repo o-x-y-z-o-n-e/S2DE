@@ -1,6 +1,13 @@
+# Compilied binaries
 [Bb]in/
 [Tt]mp/
 
 # Visual Studio files
 .vs/
+*.vcxproj
+*.filters
 *.user
+*.sln
+
+# Windows libraries & dependencies
+S2DE/[Vv]endor/

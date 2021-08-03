@@ -1,7 +1,12 @@
 COMPILER = g++
 BIN = bin/S2DE
 COMPILER_FLAGS = -w
-LINKER_FLAGS = -lSDL2 -lSDL2_image
+
+ifeq ($(OS),Windows_NT)
+    LINKER_FLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image
+else
+    LINKER_FLAGS = -lSDL2 -lSDL2_image
+endif
 
 DIR1_H = $(wildcard S2DE/src/*.h)
 DIR2_H = $(wildcard S2DE/src/Test/*.h)
