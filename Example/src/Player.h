@@ -11,4 +11,6 @@ public:
 
 private:
 	float counter;
+	void Move(float delta);
+	Vector velocity;
 };

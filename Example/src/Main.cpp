@@ -19,6 +19,7 @@ int main(int argc, char** args) {
 	Input::AddBinding("down", SDLK_DOWN);
 	Input::AddBinding("left", SDLK_LEFT);
 	Input::AddBinding("right", SDLK_RIGHT);
+	Input::AddBinding("jump", SDLK_SPACE);
 
 	gridObj = Object::Create("Grid");
 	grid = new Sprite();

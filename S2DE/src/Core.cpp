@@ -75,7 +75,7 @@ void Core::Loop() {
 	fixedDeltaCounter += timeDelta;
 
 	if(fixedDeltaCounter >= FIXED_TIME_STEP) {
-		Object::FixedUpdateAll(fixedDeltaCounter);
+		//Object::FixedUpdateAll(fixedDeltaCounter);
 
 		//fixedDeltaCounter -= FIXED_TIME_STEP;
 		fixedDeltaCounter = 0;
