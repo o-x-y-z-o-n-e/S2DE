@@ -13,26 +13,28 @@ namespace S2DE {
 	public:
 		std::string Name;
 		Object() {}
-		void SetPosition(Vector position);
-		Vector GetPosition();
+		void SetPosition(vect position);
+		vect GetPosition();
 		void AddComponent(Component* component);
 
         //template <class T>
         //T* GetComponent(T value);
 
 	private:
-		Vector position;
+		vect position;
 		std::list<Component*> components;
 		void StartComponents();
-		void UpdateComponents(float delta);
+		void DynamicUpdateComponents(float delta);
         void FixedUpdateComponents(float delta);
+		void LateUpdateComponents(float delta);
 		void Dispose();
 
 	public:
 		static Object* Create(std::string name);
 		static void StartAll();
-		static void UpdateAll(float delta);
+		static void DynamicUpdateAll(float delta);
         static void FixedUpdateAll(float delta);
+		static void LateUpdateAll(float delta);
 		static void DisposeAll();
 
 	};

@@ -13,7 +13,7 @@ namespace S2DE {
         bool Centered;
 		void Init();
 		void Start();
-		void Update(float delta);
+		void LateUpdate(float delta);
 		void Dispose();
         void SetTexture(Texture* texture);
 

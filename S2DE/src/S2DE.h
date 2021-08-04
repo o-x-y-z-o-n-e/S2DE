@@ -8,3 +8,5 @@
 #include "Sprite.h"
 #include "Texture.h"
 #include "Window.h"
+#include "Physics.h"
+#include "StaticBody.h"

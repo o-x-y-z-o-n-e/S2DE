@@ -15,25 +15,24 @@ void Player::Move(float delta) {
 
     printf("left");
 
-    Vector position = GetObject()->GetPosition();
+    S2DE::vect oldPosition = GetObject()->GetPosition();
+	S2DE::vect newPosition = *new S2DE::vect(oldPosition.x, oldPosition.y);
 
     if(S2DE::Input::GetPress("up")) {
         velocity.y = -9.81f;
         printf("up");
     }
 
-    if(position.y > 0) {
-        velocity.y += 9.81f * delta;
-    }
+	velocity.y += 9.81f * delta;
 
-    //position += velocity * delta;
-    position.x += velocity.x * delta;
-    position.y += velocity.y * delta;
+    //newPosition.x += velocity.x * delta;
+    //newPosition.y += velocity.y * delta;
 
-    if(position.y > 0) {
-        position.y = 0;
-        velocity.y = 0;
-    }
+	newPosition = newPosition + (velocity * delta);
 
-    GetObject()->SetPosition(position);
+	if (S2DE::Physics::RectIntersects(bounds, newPosition, floor, *new S2DE::vect())) {
+		newPosition = oldPosition;
+	}
+
+    GetObject()->SetPosition(newPosition);
 }

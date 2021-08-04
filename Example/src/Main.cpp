@@ -27,7 +27,7 @@ int main(int argc, char** args) {
 	Texture* gridTex = new Texture();
 	gridTex->Load("/home/jeremy/Desktop/S2DE/bin/res/grid.png");
 	grid->SetTexture(gridTex);
-	gridObj->SetPosition(*new Vector(0, 0));
+	gridObj->SetPosition(*new vect(0, 0));
 	grid->Centered = true;
 
 	playerObj = Object::Create("Player");
@@ -38,7 +38,7 @@ int main(int argc, char** args) {
 	Texture* playerTex = new Texture();
 	playerTex->Load("/home/jeremy/Desktop/S2DE/bin/res/smile.png");
 	playerSprite->SetTexture(playerTex);
-	playerObj->SetPosition(*new Vector(0, 0));
+	playerObj->SetPosition(*new vect(0, 0));
 	playerSprite->Centered = true;
 
 	Core::Start();

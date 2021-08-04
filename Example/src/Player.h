@@ -2,9 +2,7 @@
 
 #include <S2DE.h>
 
-using namespace S2DE;
-
-class Player : public Component {
+class Player : public S2DE::Component {
 
 public:
 	void FixedUpdate(float delta);
@@ -12,5 +10,8 @@ public:
 private:
 	float counter;
 	void Move(float delta);
-	Vector velocity;
+	S2DE::vect velocity;
+	S2DE::rect bounds;
+
+	S2DE::rect floor;
 };

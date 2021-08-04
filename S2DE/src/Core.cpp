@@ -75,7 +75,7 @@ void Core::Loop() {
 	fixedDeltaCounter += timeDelta;
 
 	if(fixedDeltaCounter >= FIXED_TIME_STEP) {
-		//Object::FixedUpdateAll(fixedDeltaCounter);
+		Object::FixedUpdateAll(fixedDeltaCounter);
 
 		//fixedDeltaCounter -= FIXED_TIME_STEP;
 		fixedDeltaCounter = 0;
@@ -85,7 +85,8 @@ void Core::Loop() {
 	Window::Clear();
 
 	//update gameplay
-	Object::UpdateAll(timeDelta);
+	Object::DynamicUpdateAll(timeDelta);
+	Object::LateUpdateAll(timeDelta);
 
 	//update graphics
 	Window::Update();

@@ -8,7 +8,9 @@ void Component::Init() {}
 
 void Component::Start() {}
 
-void Component::Update(float delta) {}
+void Component::DynamicUpdate(float delta) {}
+
+void Component::LateUpdate(float delta) {}
 
 void Component::FixedUpdate(float delta) {}
 

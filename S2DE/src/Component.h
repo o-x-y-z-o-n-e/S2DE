@@ -11,7 +11,8 @@ namespace S2DE {
 		void AddToObject(Object* object);
 		virtual void Init();
 		virtual void Start();
-		virtual void Update(float delta);
+		virtual void DynamicUpdate(float delta);
+		virtual void LateUpdate(float delta);
 		virtual void FixedUpdate(float delta);
 		virtual void Dispose();
 

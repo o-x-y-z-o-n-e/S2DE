@@ -14,9 +14,9 @@ void Sprite::Start() {
 
 }
 
-void Sprite::Update(float delta) {
+void Sprite::LateUpdate(float delta) {
 	if(texture != NULL) {
-		Vector position = GetObject()->GetPosition();
+		vect position = GetObject()->GetPosition();
 		if(Centered) {
 			position.x -= texture->GetWidth()/2;
 			position.y -= texture->GetHeight()/2;

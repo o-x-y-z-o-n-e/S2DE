@@ -18,7 +18,7 @@ const int CAMERA_Y_OFFSET = CAMERA_HEIGHT/2;
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 400;
 
-static Vector* cameraPosition;
+static vect cameraPosition;
 
 static bool hasInit;
 static SDL_Window* window;
@@ -56,7 +56,7 @@ int Window::Init() {
 
 	SDL_RenderSetLogicalSize(renderer, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-	cameraPosition = new Vector(0, 0);
+	cameraPosition = *new vect(0, 0);
 
 	hasInit = true;
 
@@ -88,26 +88,13 @@ void Window::Close() {
 }
 
 void Window::ApplyTexture(Texture* texture, int x, int y) {
-	SDL_Rect rect = { (CAMERA_X_OFFSET - (int)cameraPosition->x) + x, (CAMERA_Y_OFFSET + (int)cameraPosition->y) + y, texture->GetWidth(), texture->GetHeight() };
+	SDL_Rect rect = { (CAMERA_X_OFFSET - (int)cameraPosition.x) + x, (CAMERA_Y_OFFSET + (int)cameraPosition.y) + y, texture->GetWidth(), texture->GetHeight() };
 	SDL_RenderCopy(renderer, texture->GetSDL(), NULL, &rect);
 }
 
 Texture* Window::LoadTexture(std::string path) {
 	Texture* texture = new Texture();
 	texture->Load(path);
-
-	/*
-	SDL_Texture* texture = NULL;
-	SDL_Surface* loadedSurface = IMG_Load (path.c_str());
-	if(loadedSurface == NULL) {
-		printf("Unable to load image %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
-		return NULL;
-	}
-
-	texture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
-	if(texture == NULL) printf("Unable to load texture %s! SDL Error: %s\n", path.c_str(), SDL_GetError());
-
-	SDL_FreeSurface(loadedSurface);*/
 
 	return texture;
 }
