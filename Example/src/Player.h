@@ -5,9 +5,13 @@
 class Player : public S2DE::Component {
 
 public:
+	//Player();
+	void Init();
 	void FixedUpdate(float delta);
 
 private:
+	S2DE::Sprite* sprite;
+
 	float counter;
 	void Move(float delta);
 	S2DE::vect velocity;

@@ -1,6 +1,17 @@
 #include "Player.h"
 #include <cmath>
 
+/*
+Player::Player() {
+	printf("player created");
+}*/
+
+void Player::Init() {
+	sprite = new S2DE::Sprite();
+	sprite->SetTexture(S2DE::Window::LoadTexture("C:/Users/jerem/Documents/Projects/Software/S2DE/bin/res/player.png"));
+	sprite->Centered = true;
+}
+
 void Player::FixedUpdate(float delta) {
     counter += delta;
 
@@ -12,8 +23,6 @@ void Player::FixedUpdate(float delta) {
 }
 
 void Player::Move(float delta) {
-
-    printf("left");
 
     S2DE::vect oldPosition = GetObject()->GetPosition();
 	S2DE::vect newPosition = *new S2DE::vect(oldPosition.x, oldPosition.y);

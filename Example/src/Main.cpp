@@ -9,7 +9,6 @@ Sprite* grid;
 
 Object* playerObj;
 Player* player;
-Sprite* playerSprite;
 
 int main(int argc, char** args) {
 
@@ -21,6 +20,7 @@ int main(int argc, char** args) {
 	Input::AddBinding("right", SDLK_RIGHT);
 	Input::AddBinding("jump", SDLK_SPACE);
 
+	/*
 	gridObj = Object::Create("Grid");
 	grid = new Sprite();
 	gridObj->AddComponent(grid);
@@ -28,18 +28,12 @@ int main(int argc, char** args) {
 	gridTex->Load("/home/jeremy/Desktop/S2DE/bin/res/grid.png");
 	grid->SetTexture(gridTex);
 	gridObj->SetPosition(*new vect(0, 0));
-	grid->Centered = true;
+	grid->Centered = true;*/
 
 	playerObj = Object::Create("Player");
 	player = new Player();
 	playerObj->AddComponent(player);
-	playerSprite = new Sprite();
-	playerObj->AddComponent(playerSprite);
-	Texture* playerTex = new Texture();
-	playerTex->Load("/home/jeremy/Desktop/S2DE/bin/res/smile.png");
-	playerSprite->SetTexture(playerTex);
 	playerObj->SetPosition(*new vect(0, 0));
-	playerSprite->Centered = true;
 
 	Core::Start();
 

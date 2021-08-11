@@ -41,20 +41,23 @@ int Window::Init() {
 		return -1;
 	}
 
+	int imgFlags = IMG_INIT_PNG;
+	if (!(IMG_Init(imgFlags) & imgFlags)) {
+		printf("[S2DE] Failed to initialize texture loader! SDL_Error: %s\n", SDL_GetError());
+		return -1;
+	}
+
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	if(renderer == NULL) {
 		printf("[S2DE] Renderer could not be created! SDL Error: %s\n", SDL_GetError());
 		return -1;
 	}
-	SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+	SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0xFF, 0xFF);
 
-	int imgFlags = IMG_INIT_PNG;
-	if(!(IMG_Init(imgFlags) & imgFlags)) {
-		printf("[S2DE] Failed to initialize texture loader! SDL_Error: %s\n", SDL_GetError());
-		return -1;
-	}
+	
 
 	SDL_RenderSetLogicalSize(renderer, CAMERA_WIDTH, CAMERA_HEIGHT);
+
 
 	cameraPosition = *new vect(0, 0);
 
@@ -69,6 +72,7 @@ void Window::Clear() {
 
 void Window::Update() {
 	SDL_RenderPresent(renderer);
+	SDL_Delay(0);
 }
 
 void Window::Close() {
