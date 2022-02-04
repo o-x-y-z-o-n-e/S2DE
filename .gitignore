@@ -8,6 +8,3 @@
 *.filters
 *.user
 *.sln
-
-# Windows libraries & dependencies
-S2DE/[Vv]endor/
