@@ -74,25 +74,25 @@
     <LinkIncremental>true</LinkIncremental>
     <IntDir>$(SolutionDir)tmp\$(ProjectName)\win32\</IntDir>
     <OutDir>$(SolutionDir)bin\$(ProjectName)\win32\</OutDir>
-    <IncludePath>$(ProjectDir)include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IntDir>$(SolutionDir)tmp\$(ProjectName)\win32\</IntDir>
     <OutDir>$(SolutionDir)bin\$(ProjectName)\win32\</OutDir>
-    <IncludePath>$(ProjectDir)include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <IntDir>$(SolutionDir)tmp\$(ProjectName)\win64\</IntDir>
     <OutDir>$(SolutionDir)bin\$(ProjectName)\win64\</OutDir>
-    <IncludePath>$(ProjectDir)include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <IntDir>$(SolutionDir)tmp\$(ProjectName)\win64\</IntDir>
     <OutDir>$(SolutionDir)bin\$(ProjectName)\win64\</OutDir>
-    <IncludePath>$(ProjectDir)include\;$(IncludePath)</IncludePath>
+    <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -100,15 +100,17 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SDL2)include\;$(SDL2_image)include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include\;$(SDL2)include\SDL2\;$(SDL2_image)include\SDL2\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(SDL2)lib\x86\;$(SDL2_image)lib\x86\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -119,7 +121,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SDL2)include\;$(SDL2_image)include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include\;$(SDL2)include\SDL2\;$(SDL2_image)include\SDL2\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -128,8 +130,10 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(SDL2)lib\x86\;$(SDL2_image)lib\x86\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -138,15 +142,17 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SDL2)include\SDL2\;$(SDL2_image)include\SDL2\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include\;$(SDL2)include\SDL2\;$(SDL2_image)include\SDL2\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(SDL2)lib\x64\;$(SDL2_image)lib\x64\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -157,7 +163,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SDL2)include\SDL2\;$(SDL2_image)include\SDL2\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)include\;$(SDL2)include\SDL2\;$(SDL2_image)include\SDL2\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -166,32 +172,31 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(SDL2)lib\x64\;$(SDL2_image)lib\x64\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\Component.cpp" />
     <ClCompile Include="source\Core.cpp" />
-    <ClCompile Include="source\Input.cpp" />
     <ClCompile Include="source\Object.cpp" />
-    <ClCompile Include="source\Physics.cpp" />
+    <ClCompile Include="source\ObjectManager.cpp" />
     <ClCompile Include="source\Sprite.cpp" />
-    <ClCompile Include="source\StaticBody.cpp" />
     <ClCompile Include="source\Texture.cpp" />
     <ClCompile Include="source\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Component.h" />
-    <ClInclude Include="include\Core.h" />
-    <ClInclude Include="include\Input.h" />
+    <ClInclude Include="include\internal\ObjectManager.h" />
+    <ClInclude Include="include\internal\TextureManager.h" />
     <ClInclude Include="include\Object.h" />
-    <ClInclude Include="include\Physics.h" />
     <ClInclude Include="include\S2DE.h" />
     <ClInclude Include="include\Sprite.h" />
-    <ClInclude Include="include\StaticBody.h" />
     <ClInclude Include="include\Texture.h" />
-    <ClInclude Include="include\Window.h" />
+    <ClInclude Include="include\Types.h" />
+    <ClInclude Include="include\internal\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

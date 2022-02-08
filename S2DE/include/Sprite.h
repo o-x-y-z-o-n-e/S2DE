@@ -1,24 +1,27 @@
-#pragma once
+#ifndef S2DE_SPRITE_H
+#define S2DE_SPRITE_H
 
 #include "Component.h"
 
 namespace S2DE {
 
-    //class Component;
     class Texture;
 
     class Sprite : public Component {
 
 	public:
+		~Sprite();
+
         bool Centered;
 		void Init();
 		void Start();
 		void LateUpdate(float delta);
-		void Dispose();
         void SetTexture(Texture* texture);
 
 	private:
-		Texture* texture;
+		Texture* m_texture = nullptr;
 
 	};
 }
+
+#endif

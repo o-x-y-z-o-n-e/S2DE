@@ -1,24 +1,23 @@
 #include "Component.h"
 #include "Object.h"
 
-using namespace S2DE;
+namespace S2DE {
 
+	void Component::Init() {}
 
-void Component::Init() {}
+	void Component::Start() {}
 
-void Component::Start() {}
+	void Component::DynamicUpdate(float delta) {}
 
-void Component::DynamicUpdate(float delta) {}
+	void Component::LateUpdate(float delta) {}
 
-void Component::LateUpdate(float delta) {}
+	void Component::FixedUpdate(float delta) {}
 
-void Component::FixedUpdate(float delta) {}
+	void Component::AddToObject(Object* object) {
+		m_object = object;
+		m_object->AddComponent(this);
+	}
 
-void Component::Dispose() {}
+	Object* Component::GetObject() { return m_object; }
 
-void Component::AddToObject(Object* object) {
-	this->object = object;
-	this->object->AddComponent(this);
 }
-
-Object* Component::GetObject() { return object; }

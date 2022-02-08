@@ -1,8 +1,8 @@
-#pragma once
+#ifndef S2DE_OBJECT_H
+#define S2DE_OBJECT_H
 
-#include "Core.h"
+#include "Types.h"
 #include <string>
-#include <list>
 
 namespace S2DE {
 
@@ -11,32 +11,26 @@ namespace S2DE {
     class Object {
 
 	public:
-		std::string Name;
 		Object() {}
-		void SetPosition(vect position);
-		vect GetPosition();
-		void AddComponent(Component* component);
 
-        //template <class T>
-        //T* GetComponent(T value);
+		std::string Name;
+		void SetPosition(vec2f position);
+		vec2f GetPosition();
+		void AddComponent(Component* component);
+		Component* GetComponent(int i);
+		int GetComponentCount();
 
 	private:
-		vect position;
-		std::list<Component*> components;
-		void StartComponents();
-		void DynamicUpdateComponents(float delta);
-        void FixedUpdateComponents(float delta);
-		void LateUpdateComponents(float delta);
-		void Dispose();
+		vec2f m_position;
+		Component** m_components = nullptr;
+		int m_componentCount = 0;
 
 	public:
 		static Object* Create(std::string name);
-		static void StartAll();
-		static void DynamicUpdateAll(float delta);
-        static void FixedUpdateAll(float delta);
-		static void LateUpdateAll(float delta);
-		static void DisposeAll();
+		static void Destroy(Object* object);
 
 	};
 
 }
+
+#endif

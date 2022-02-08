@@ -1,38 +1,41 @@
-#include "Core.h"
 #include "Sprite.h"
+#include "Types.h"
 #include "Texture.h"
-#include "Window.h"
 #include "Object.h"
+#include "internal/Window.h"
 
-using namespace S2DE;
+namespace S2DE {
 
-void Sprite::Init() {
-
-}
-
-void Sprite::Start() {
-
-}
-
-void Sprite::LateUpdate(float delta) {
-	if(texture != NULL) {
-		vect position = GetObject()->GetPosition();
-		if(Centered) {
-			position.x -= texture->GetWidth()/2;
-			position.y -= texture->GetHeight()/2;
+	Sprite::~Sprite() {
+		//CHANGE (IMPLEMENT TEXTURE MANAGER)
+		if (m_texture != NULL) {
+			m_texture->Free();
+			m_texture = NULL;
 		}
-
-		Window::ApplyTexture(texture, (int)position.x, (int)position.y);
 	}
-}
 
-void Sprite::Dispose() {
-	if (texture != NULL) {
-		texture->Free();
-		texture = NULL;
+	void Sprite::Init() {
+
 	}
-}
 
-void Sprite::SetTexture(Texture* texture) {
-	this->texture = texture;
+	void Sprite::Start() {
+
+	}
+
+	void Sprite::LateUpdate(float delta) {
+		if (m_texture != NULL) {
+			vec2f position = GetObject()->GetPosition();
+			if (Centered) {
+				position.x -= m_texture->GetWidth() / 2;
+				position.y -= m_texture->GetHeight() / 2;
+			}
+
+			Window::ApplyTexture(m_texture, (int)position.x, (int)position.y);
+		}
+	}
+
+	void Sprite::SetTexture(Texture* texture) {
+		m_texture = texture;
+	}
+
 }

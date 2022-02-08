@@ -1,12 +1,22 @@
-#pragma once
+#ifndef S2DE_H
+#define S2DE_H
+
 //this is where applications can integrate S2DE with
 
-#include "Core.h"
-#include "Component.h"
-#include "Input.h"
+namespace S2DE {
+
+	int Init();
+	void Start();
+	void Close();
+	bool IsRunning();
+	void Loop();
+
+}
+
+#include "Types.h"
 #include "Object.h"
+#include "Component.h"
 #include "Sprite.h"
 #include "Texture.h"
-#include "Window.h"
-#include "Physics.h"
-#include "StaticBody.h"
+
+#endif

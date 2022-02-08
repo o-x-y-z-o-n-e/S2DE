@@ -1,41 +1,11 @@
 #define SDL_MAIN_HANDLED
-#include <S2DE.h>
-#include "Player.h"
 
-using namespace S2DE;
-
-Object* gridObj;
-Sprite* grid;
-
-Object* playerObj;
-Player* player;
+#include "S2DE.h"
 
 int main(int argc, char** args) {
+	if(!S2DE::Init()) return 1;
 
-	if(Core::Init() < 0) return -1;
-
-	Input::AddBinding("up", SDLK_UP);
-	Input::AddBinding("down", SDLK_DOWN);
-	Input::AddBinding("left", SDLK_LEFT);
-	Input::AddBinding("right", SDLK_RIGHT);
-	Input::AddBinding("jump", SDLK_SPACE);
-
-	/*
-	gridObj = Object::Create("Grid");
-	grid = new Sprite();
-	gridObj->AddComponent(grid);
-	Texture* gridTex = new Texture();
-	gridTex->Load("/home/jeremy/Desktop/S2DE/bin/res/grid.png");
-	grid->SetTexture(gridTex);
-	gridObj->SetPosition(*new vect(0, 0));
-	grid->Centered = true;*/
-
-	playerObj = Object::Create("Player");
-	player = new Player();
-	playerObj->AddComponent(player);
-	playerObj->SetPosition(*new vect(0, 0));
-
-	Core::Start();
+	S2DE::Start();
 
 	return 0;
 }

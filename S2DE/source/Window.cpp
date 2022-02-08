@@ -1,104 +1,118 @@
-#include "Window.h"
-#include "Core.h"
+#include "S2DE.h"
+#include "internal/Window.h"
 #include "Texture.h"
+#include "Types.h"
 
 #include <iostream>
 #include <SDL.h>
 #include <SDL_image.h>
 
-using namespace S2DE;
+namespace S2DE {
 
-const char* TITLE = "S2DE";
+	namespace Window {
 
-const int CAMERA_WIDTH = 320;
-const int CAMERA_HEIGHT = 200;
-const int CAMERA_X_OFFSET = CAMERA_WIDTH/2;
-const int CAMERA_Y_OFFSET = CAMERA_HEIGHT/2;
+		const char* TITLE = "S2DE";
 
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 400;
+		const int CAMERA_WIDTH = 320;
+		const int CAMERA_HEIGHT = 200;
+		const int CAMERA_X_OFFSET = CAMERA_WIDTH / 2;
+		const int CAMERA_Y_OFFSET = CAMERA_HEIGHT / 2;
 
-static vect cameraPosition;
+		const int SCREEN_WIDTH = 640;
+		const int SCREEN_HEIGHT = 400;
 
-static bool hasInit;
-static SDL_Window* window;
-static SDL_Renderer* renderer;
+		vec2f cameraPosition;
 
-SDL_Renderer* Window::GetRenderer() {return renderer;}
+		bool hasInit;
+		SDL_Window* window;
+		SDL_Renderer* renderer;
 
 
-int Window::Init() {
-	if (hasInit) return -1;
+		SDL_Renderer* GetRenderer() {
+			return renderer;
+		}
 
-	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-		printf("[S2DE] SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
-		return -1;
+
+		int Init() {
+			if (hasInit) return 0;
+
+			if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+				printf("[S2DE] SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
+				return 0;
+			}
+
+			window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+			if (window == NULL) {
+				printf("[S2DE] Window could not be created! SDL_Error: %s\n", SDL_GetError());
+				return 0;
+			}
+
+			int imgFlags = IMG_INIT_PNG;
+			if (!(IMG_Init(imgFlags) & imgFlags)) {
+				printf("[S2DE] Failed to initialize texture loader! SDL_Error: %s\n", SDL_GetError());
+				return 0;
+			}
+
+			renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+			if (renderer == NULL) {
+				printf("[S2DE] Renderer could not be created! SDL Error: %s\n", SDL_GetError());
+				return 0;
+			}
+			SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0xFF, 0xFF);
+
+
+
+			SDL_RenderSetLogicalSize(renderer, CAMERA_WIDTH, CAMERA_HEIGHT);
+
+
+			cameraPosition = *new vec2f(0, 0);
+
+			hasInit = true;
+
+			return 1;
+		}
+
+
+		void Clear() {
+			SDL_RenderClear(renderer);
+		}
+
+
+		void Update() {
+			SDL_RenderPresent(renderer);
+			SDL_Delay(0);
+		}
+
+
+		void Close() {
+			if (S2DE::IsRunning()) {
+				S2DE::Close();
+				return;
+			}
+
+			SDL_DestroyRenderer(renderer);
+			SDL_DestroyWindow(window);
+
+			window = NULL;
+			renderer = NULL;
+
+			IMG_Quit();
+			SDL_Quit();
+		}
+
+
+		void ApplyTexture(Texture* texture, int x, int y) {
+			SDL_Rect rect = { (CAMERA_X_OFFSET - (int)cameraPosition.x) + x, (CAMERA_Y_OFFSET + (int)cameraPosition.y) + y, texture->GetWidth(), texture->GetHeight() };
+			SDL_RenderCopy(renderer, texture->GetSDL(), NULL, &rect);
+		}
+
+
+		Texture* LoadTexture(std::string path) {
+			Texture* texture = new Texture();
+			texture->Load(path);
+
+			return texture;
+		}
+
 	}
-
-	window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-	if (window == NULL) {
-		printf("[S2DE] Window could not be created! SDL_Error: %s\n", SDL_GetError());
-		return -1;
-	}
-
-	int imgFlags = IMG_INIT_PNG;
-	if (!(IMG_Init(imgFlags) & imgFlags)) {
-		printf("[S2DE] Failed to initialize texture loader! SDL_Error: %s\n", SDL_GetError());
-		return -1;
-	}
-
-	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-	if(renderer == NULL) {
-		printf("[S2DE] Renderer could not be created! SDL Error: %s\n", SDL_GetError());
-		return -1;
-	}
-	SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0xFF, 0xFF);
-
-	
-
-	SDL_RenderSetLogicalSize(renderer, CAMERA_WIDTH, CAMERA_HEIGHT);
-
-
-	cameraPosition = *new vect(0, 0);
-
-	hasInit = true;
-
-	return 0;
-}
-
-void Window::Clear() {
-	SDL_RenderClear(renderer);
-}
-
-void Window::Update() {
-	SDL_RenderPresent(renderer);
-	SDL_Delay(0);
-}
-
-void Window::Close() {
-	if (Core::IsRunning()) {
-		Core::Close();
-		return;
-	}
-
-	SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(window);
-
-	window = NULL;
-	renderer = NULL;
-
-	IMG_Quit();
-	SDL_Quit();
-}
-
-void Window::ApplyTexture(Texture* texture, int x, int y) {
-	SDL_Rect rect = { (CAMERA_X_OFFSET - (int)cameraPosition.x) + x, (CAMERA_Y_OFFSET + (int)cameraPosition.y) + y, texture->GetWidth(), texture->GetHeight() };
-	SDL_RenderCopy(renderer, texture->GetSDL(), NULL, &rect);
-}
-
-Texture* Window::LoadTexture(std::string path) {
-	Texture* texture = new Texture();
-	texture->Load(path);
-
-	return texture;
 }

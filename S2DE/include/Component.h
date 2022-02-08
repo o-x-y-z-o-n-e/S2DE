@@ -1,4 +1,5 @@
-#pragma once
+#ifndef S2DE_COMPONENT_H
+#define S2DE_COMPONENT_H
 
 namespace S2DE {
 
@@ -14,10 +15,11 @@ namespace S2DE {
 		virtual void DynamicUpdate(float delta);
 		virtual void LateUpdate(float delta);
 		virtual void FixedUpdate(float delta);
-		virtual void Dispose();
 
 	private:
-		Object* object;
+		Object* m_object = nullptr;
 
 	};
 }
+
+#endif

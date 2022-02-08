@@ -1,124 +1,40 @@
+#include "S2DE.h"
 #include "Object.h"
 #include "Component.h"
-#include "Core.h"
 
 #include <iterator>
 
-using namespace S2DE;
+namespace S2DE {
 
-
-static std::list<Object*> objects;
-
-
-void Object::SetPosition(vect position) {
-	this->position = position;
-}
-
-vect Object::GetPosition() {
-	return this->position;
-}
-
-void Object::AddComponent(Component* component) {
-	if (component->GetObject() == NULL) {
-		component->AddToObject(this);
-		return;
+	void Object::SetPosition(vec2f position) {
+		this->m_position = position;
 	}
 
-	//components.insert(components.end(), component);
-	components.push_back(component);
-	component->Init();
-
-	if (Core::IsRunning()) component->Start();
-}
-
-
-Object* Object::Create(std::string name) {
-	Object* object = new Object();
-	object->Name = name;
-	objects.insert(objects.end(), object);
-	return object;
-}
-
-
-void Object::StartAll() {
-	std::list<Object*>::iterator it = objects.begin();
-	for (it = objects.begin(); it != objects.end(); it++) {
-		Object* object = *it;
-		object->StartComponents();
+	vec2f Object::GetPosition() {
+		return this->m_position;
 	}
-}
 
+	void Object::AddComponent(Component* component) {
+		if (component->GetObject() == NULL) {
+			component->AddToObject(this);
+			return;
+		}
 
-void Object::DynamicUpdateAll(float delta) {
-	std::list<Object*>::iterator it = objects.begin();
-	for (it = objects.begin(); it != objects.end(); it++) {
-		Object* object = *it;
-		object->DynamicUpdateComponents(delta);
+		m_components[m_componentCount] = component;
+		m_componentCount++;
+		
+		component->Init();
+
+		if (S2DE::IsRunning()) component->Start();
 	}
-}
 
-void Object::LateUpdateAll(float delta) {
-	std::list<Object*>::iterator it = objects.begin();
-	for (it = objects.begin(); it != objects.end(); it++) {
-		Object* object = *it;
-		object->LateUpdateComponents(delta);
+
+	Component* Object::GetComponent(int i) {
+		return m_components[i];
 	}
-}
 
-void Object::FixedUpdateAll(float delta) {
-	std::list<Object*>::iterator it = objects.begin();
-	for (it = objects.begin(); it != objects.end(); it++) {
-		Object* object = *it;
-		object->FixedUpdateComponents(delta);
+
+	int Object::GetComponentCount() {
+		return m_componentCount;
 	}
-}
-
-void Object::DisposeAll() {
-	std::list<Object*>::iterator it = objects.begin();
-	for (it = objects.begin(); it != objects.end(); it++) {
-		Object* object = *it;
-		object->Dispose();
-	}
-}
-
-
-void Object::StartComponents() {
-	std::list<Component*>::iterator it;
-	for (it = components.begin(); it != components.end(); it++) {
-		Component* component = *it;
-		component->Start();
-  }
-}
-
-void Object::DynamicUpdateComponents(float delta) {
-	std::list<Component*>::iterator it;
-	for (it = components.begin(); it != components.end(); it++) {
-		Component* component = *it;
-		component->DynamicUpdate(delta);
-	}
-}
-
-void Object::LateUpdateComponents(float delta) {
-	std::list<Component*>::iterator it;
-	for (it = components.begin(); it != components.end(); it++) {
-		Component* component = *it;
-		component->LateUpdate(delta);
-	}
-}
-
-void Object::FixedUpdateComponents(float delta) {
-	std::list<Component*>::iterator it;
-	for (it = components.begin(); it != components.end(); it++) {
-		Component* component = *it;
-		component->FixedUpdate(delta);
-	}
-}
-
-void Object::Dispose() {
-	std::list<Component*>::iterator it;
-	for (it = components.begin(); it != components.end(); it++) {
-		Component* component = *it;
-		component->Dispose();
-	}
-	components.clear();
 }
