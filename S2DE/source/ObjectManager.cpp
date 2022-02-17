@@ -9,6 +9,9 @@ namespace S2DE {
 
 	std::list<Object*> objects;
 
+	Object* objectsToRemove[MAX_OBJECTS];
+	int removeObjectCounter = 0;
+
 
 	Object* Object::Create(std::string name) {
 		Object* object = new Object();
@@ -26,9 +29,24 @@ namespace S2DE {
 		for (int i = 0; object->GetComponentCount(); i++)
 			delete object->m_components[i];
 
-		objects.remove(object);
 		free(object->m_components);
-		delete object;
+
+		objectsToRemove[removeObjectCounter] = object;
+		removeObjectCounter++;
+	}
+
+
+
+	void DestroyMarkedObjects() {
+		for (int i = 0; i < removeObjectCounter; i++) {
+			Object* object = objectsToRemove[i];
+
+			objects.remove(object);
+			delete object;
+
+			objectsToRemove[i] = nullptr;
+		}
+		removeObjectCounter = 0;
 	}
 
 

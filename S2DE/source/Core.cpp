@@ -61,6 +61,8 @@ namespace S2DE {
 
 
 	void Loop() {
+		DestroyMarkedObjects();
+
 		//Input::Flush();
 		// 
 		//SDL events

@@ -13,10 +13,10 @@ namespace S2DE {
 
 }
 
-#include "Types.h"
-#include "Object.h"
 #include "Component.h"
+#include "Object.h"
 #include "Sprite.h"
 #include "Texture.h"
+#include "Types.h"
 
 #endif

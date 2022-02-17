@@ -1,6 +1,7 @@
 #ifndef OBJECT_MANAGER_H
 #define OBJECT_MANAGER_H
 
+#define MAX_OBJECTS 10000
 #define MAX_COMPONENTS 100
 
 #include "Object.h"
@@ -17,6 +18,8 @@ namespace S2DE {
 	void DynamicUpdateComponents(Object* object, float delta);
 	void FixedUpdateComponents(Object* object, float delta);
 	void LateUpdateComponents(Object* object, float delta);
+
+	void DestroyMarkedObjects();
 
 }
 

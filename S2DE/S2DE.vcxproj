@@ -185,12 +185,14 @@
     <ClCompile Include="source\ObjectManager.cpp" />
     <ClCompile Include="source\Sprite.cpp" />
     <ClCompile Include="source\Texture.cpp" />
+    <ClCompile Include="source\Util.cpp" />
     <ClCompile Include="source\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\Component.h" />
     <ClInclude Include="include\internal\ObjectManager.h" />
     <ClInclude Include="include\internal\TextureManager.h" />
+    <ClInclude Include="include\internal\Util.h" />
     <ClInclude Include="include\Object.h" />
     <ClInclude Include="include\S2DE.h" />
     <ClInclude Include="include\Sprite.h" />
