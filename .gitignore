@@ -1,6 +1,6 @@
 # Compilied binaries
-[Bb]in/
-[Tt]mp/
+bin/
+tmp/
 
 # Build system files
 [Mm]akefile
