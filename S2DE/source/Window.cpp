@@ -1,11 +1,14 @@
 #include "S2DE.h"
-#include "internal/Window.h"
+#include "Window.h"
 #include "Texture.h"
+#include "TextureManager.h"
 #include "Types.h"
 
 #include <iostream>
-#include <SDL.h>
-#include <SDL_image.h>
+#include <stddef.h>
+
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 
 namespace S2DE {
 
@@ -103,15 +106,7 @@ namespace S2DE {
 
 		void ApplyTexture(Texture* texture, int x, int y) {
 			SDL_Rect rect = { (CAMERA_X_OFFSET - (int)cameraPosition.x) + x, (CAMERA_Y_OFFSET + (int)cameraPosition.y) + y, texture->GetWidth(), texture->GetHeight() };
-			SDL_RenderCopy(renderer, texture->GetSDL(), NULL, &rect);
-		}
-
-
-		Texture* LoadTexture(std::string path) {
-			Texture* texture = new Texture();
-			texture->Load(path);
-
-			return texture;
+			SDL_RenderCopy(renderer, GetTextureData(texture->GetID()), NULL, &rect);
 		}
 
 	}

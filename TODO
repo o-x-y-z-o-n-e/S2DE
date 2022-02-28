@@ -1,5 +1,7 @@
+Texture Manager
+Setup Windows Build System
+
 Local exec path
 Physics collision system
-Texture Manager
 Redo sprite rendering system
 Window setting functions (resolution, mode, title, etc..)

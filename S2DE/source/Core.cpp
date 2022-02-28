@@ -1,9 +1,9 @@
 #include "S2DE.h"
-#include "internal/Window.h"
-#include "internal/ObjectManager.h"
+#include "Window.h"
+#include "ObjectManager.h"
+#include "TextureManager.h"
 
 #include <iostream>
-#include <SDL.h>
 
 #define FIXED_TIME_STEP 0.01666666f
 
@@ -29,7 +29,7 @@ namespace S2DE {
 
 		//Init components here
 		if (!Window::Init()) return 0;
-		
+		InitTextureManager();
 
 		hasInit = true;
 		return 1;
@@ -74,7 +74,7 @@ namespace S2DE {
 				//		Input::SetPress(e.key.keysym.sym);
 			}
 		}
-
+		
 		int currentTick = SDL_GetTicks();
 		int tickDelta = currentTick - tickCounter;
 		float timeDelta = tickDelta / 1000.0f;

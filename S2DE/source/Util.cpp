@@ -1,5 +1,7 @@
-#include "internal/Util.h"
+#include "Util.h"
+#include <string>
 #include <stdlib.h>
+#include <stddef.h>
 
 namespace S2DE {
 
@@ -10,7 +12,7 @@ namespace S2DE {
 
 	void List::Add(void* data) {
 		list_node* node = (list_node*)malloc(sizeof(list_node));
-		if (node == nullptr) return;
+		if (node == NULL) return;
 
 		node->data = data;
 
@@ -31,14 +33,14 @@ namespace S2DE {
 
 	void* List::Get(int i) {
 		list_node* node = GetNode(i);
-		if (node == nullptr) return;
+		if (node == NULL) return NULL;
 		return node->data;
 	}
 
 
 	list_node* List::GetNode(int i) {
 		if (m_count == 0)
-			return nullptr;
+			return NULL;
 		
 		int start = i;
 		int cur = abs(m_index - i);
@@ -59,12 +61,12 @@ namespace S2DE {
 		}
 
 		if (inc) {
-			while (m_index != i && m_current != nullptr) {
+			while (m_index != i && m_current != NULL) {
 				m_index++;
 				m_current = m_current->next;
 			}
 		} else {
-			while (m_index != i && m_current != nullptr) {
+			while (m_index != i && m_current != NULL) {
 				m_index--;
 				m_current = m_current->prev;
 			}
@@ -74,16 +76,30 @@ namespace S2DE {
 	}
 
 
+	bool List::Contains(void* data) {
+		if(m_count == 0)
+			return false;
+		
+		list_node* current = m_head;
+		while(current != NULL) {
+			if(current->data == data)
+				return true;
+		}
+
+		return false;
+	}
+
+
 	void* List::Remove(int i) {
 		list_node* node = GetNode(i);
-		if (node == nullptr) return;
+		if (node == NULL) return NULL;
 
 		if (i == 0)
 			m_head = node->next;
 		else if (i == m_count - 1)
 			m_tail = node->prev;
 
-		if (node->prev != nullptr) {
+		if (node->prev != NULL) {
 			node->prev->next = node->next;
 
 			if (i == m_index) {
@@ -92,7 +108,7 @@ namespace S2DE {
 			}
 		}
 
-		if (node->next != nullptr) {
+		if (node->next != NULL) {
 			node->next->prev = node->prev;
 
 			if (i == m_index) {
@@ -108,5 +124,13 @@ namespace S2DE {
 		free(node);
 
 		return data;
+	}
+
+
+	//=====
+
+
+	int GetStringHash(std::string s) {
+		return 0;
 	}
 }

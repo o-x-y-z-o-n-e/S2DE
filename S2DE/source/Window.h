@@ -1,8 +1,7 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-#include <SDL.h>
-#include <string>
+#include <SDL2/SDL.h>
 #include "Texture.h"
 
 namespace S2DE {
@@ -14,7 +13,6 @@ namespace S2DE {
 		void Update();
 		void Close();
 		void ApplyTexture(Texture* texture, int x, int y);
-		Texture* LoadTexture(std::string path);
 		SDL_Renderer* GetRenderer();
 
 	}

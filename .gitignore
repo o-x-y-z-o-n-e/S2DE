@@ -2,7 +2,17 @@
 [Bb]in/
 [Tt]mp/
 
+# Build system files
+[Mm]akefile
+**/[Mm]akefile
+
 # Visual Studio files
+.vscode/
 .vs/
+*.sln
+*.vcxproj
 *.filters
 *.user
+
+# Apple Nonsense
+*.DS_Store

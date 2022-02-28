@@ -1,6 +1,7 @@
-#include "internal/ObjectManager.h"
+#include "ObjectManager.h"
 #include "Component.h"
 
+#include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
 #include <list>
@@ -44,7 +45,7 @@ namespace S2DE {
 			objects.remove(object);
 			delete object;
 
-			objectsToRemove[i] = nullptr;
+			objectsToRemove[i] = NULL;
 		}
 		removeObjectCounter = 0;
 	}

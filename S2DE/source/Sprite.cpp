@@ -2,16 +2,20 @@
 #include "Types.h"
 #include "Texture.h"
 #include "Object.h"
-#include "internal/Window.h"
+#include "Window.h"
+
+#include <stddef.h>
 
 namespace S2DE {
 
 	Sprite::~Sprite() {
 		//CHANGE (IMPLEMENT TEXTURE MANAGER)
+		/*
 		if (m_texture != NULL) {
 			m_texture->Free();
 			m_texture = NULL;
 		}
+		*/
 	}
 
 	void Sprite::Init() {

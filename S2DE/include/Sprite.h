@@ -19,7 +19,7 @@ namespace S2DE {
         void SetTexture(Texture* texture);
 
 	private:
-		Texture* m_texture = nullptr;
+		Texture* m_texture;
 
 	};
 }

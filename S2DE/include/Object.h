@@ -22,8 +22,8 @@ namespace S2DE {
 
 	private:
 		vec2f m_position;
-		Component** m_components = nullptr;
-		int m_componentCount = 0;
+		Component** m_components;
+		int m_componentCount;
 
 	public:
 		static Object* Create(std::string name);

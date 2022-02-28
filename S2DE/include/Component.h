@@ -17,7 +17,7 @@ namespace S2DE {
 		virtual void FixedUpdate(float delta);
 
 	private:
-		Object* m_object = nullptr;
+		Object* m_object;
 
 	};
 }

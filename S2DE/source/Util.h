@@ -1,6 +1,9 @@
 #ifndef UTIL_H
 #define UTIL_H
 
+#include <string>
+#include <stdbool.h>
+
 namespace S2DE {
 
 	struct list_node;
@@ -21,6 +24,7 @@ namespace S2DE {
 		void Add(void* data);
 		void* Get(int i);
 		void* Remove(int i);
+		bool Contains(void* data);
 
 	private:
 		list_node* GetNode(int i);
@@ -31,6 +35,9 @@ namespace S2DE {
 		int m_count;
 
 	};
+
+
+	int GetStringHash(std::string s);
 
 }
 
