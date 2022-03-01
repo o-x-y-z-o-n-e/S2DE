@@ -44,11 +44,11 @@ project "S2DE"
 			("{COPY} ../vendor/SDL2_image/lib/%{cfg.system}-%{cfg.architecture} ../bin/" .. outputdir .. "/Example")
 		}
 
-    filter "configurations:Debug"
+    filter "configurations:debug"
         defines "S2DE_DEBUG"
         symbols "On"
     
-    filter "configurations:Release"
+    filter "configurations:release"
         defines "S2DE_RELEASE"
         optimize "On"
 	
@@ -79,20 +79,29 @@ project "Example"
         "vendor/SDL2_image/lib/%{cfg.system}-%{cfg.architecture}"
     }
 
-    links {
-        "SDL2main",
-        "SDL2",
-        "SDL2_image",
-        "S2DE"
-    }
-	
+    filter "system:macosx"
+        libdirs {"bin/" .. outputdir .. "/S2DE"}
+
+        buildoptions {"-F ../vendor/SDL2/lib/%{cfg.system}-%{cfg.architecture}/"}
+        linkoptions {"-F ../vendor/SDL2/lib/%{cfg.system}-%{cfg.architecture}/"}
+
+        links { "SDL2.framework" }
+    
+    
 	filter "system:windows"
 		cppdialect "C++17"
 		staticruntime "On"
 		systemversion "latest"
 
-    filter "configurations:Debug"
+        links { "SDL2" }
+    
+    links {
+        "SDL2_image",
+        "S2DE"
+    }
+
+    filter "configurations:debug"
         symbols "On"
     
-    filter "configurations:Release"
+    filter "configurations:release"
         optimize "On"

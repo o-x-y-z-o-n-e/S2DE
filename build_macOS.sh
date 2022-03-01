@@ -1,5 +1,5 @@
 #!/bin/bash
 
-"vendor/premake/bin/macOS/premake5" gmake2
+"vendor/premake/bin/macosx-ARM64/premake5" gmake2
 
 make
