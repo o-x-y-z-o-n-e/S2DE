@@ -50,6 +50,7 @@ namespace S2DE {
 				return 0;
 			}
 
+			
 			int imgFlags = IMG_INIT_PNG;
 			if (!(IMG_Init(imgFlags) & imgFlags)) {
 				printf("[S2DE] Failed to initialize texture loader! SDL_Error: %s\n", SDL_GetError());

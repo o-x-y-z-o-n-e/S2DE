@@ -1,12 +1,18 @@
 workspace "S2DE"
-    architecture "arm64"
-
     configurations {
-        "Debug",
-        "Release"
+        "debug",
+        "release"
     }
+	
+	filter "system:windows"
+		architecture "x86_64"
+	
+	filter "system:macosx"
+		architecture "arm64"
+
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+
 
 project "S2DE"
     location "S2DE"
@@ -27,6 +33,16 @@ project "S2DE"
         "vendor/SDL2/include",
         "vendor/SDL2_image/include"
     }
+	
+	filter "system:windows"
+		cppdialect "C++17"
+		staticruntime "On"
+		systemversion "latest"
+		
+		postbuildcommands {
+			("{COPY} ../vendor/SDL2/lib/windows-x86_64 ../bin/" .. outputdir .. "/Example"),
+			("{COPY} ../vendor/SDL2_image/lib/%{cfg.system}-%{cfg.architecture} ../bin/" .. outputdir .. "/Example")
+		}
 
     filter "configurations:Debug"
         defines "S2DE_DEBUG"
@@ -35,6 +51,8 @@ project "S2DE"
     filter "configurations:Release"
         defines "S2DE_RELEASE"
         optimize "On"
+	
+	
 
 
 project "Example"
@@ -67,6 +85,11 @@ project "Example"
         "SDL2_image",
         "S2DE"
     }
+	
+	filter "system:windows"
+		cppdialect "C++17"
+		staticruntime "On"
+		systemversion "latest"
 
     filter "configurations:Debug"
         symbols "On"
