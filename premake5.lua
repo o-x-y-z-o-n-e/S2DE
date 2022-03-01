@@ -38,11 +38,6 @@ project "S2DE"
 		cppdialect "C++17"
 		staticruntime "On"
 		systemversion "latest"
-		
-		postbuildcommands {
-			("{COPY} ../vendor/SDL2/lib/windows-x86_64 ../bin/" .. outputdir .. "/Example"),
-			("{COPY} ../vendor/SDL2_image/lib/%{cfg.system}-%{cfg.architecture} ../bin/" .. outputdir .. "/Example")
-		}
 
     filter "configurations:debug"
         defines "S2DE_DEBUG"
@@ -62,6 +57,16 @@ project "Example"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("tmp/" .. outputdir .. "/%{prj.name}")
+    
+    filter "system:macosx"
+        files {
+            "S2DE/source/**.h",
+            "S2DE/source/**.cpp"
+        }
+
+        includedirs {
+            "S2DE/source"
+        }
 
     files {
         "%{prj.name}/source/**.h",
@@ -82,10 +87,19 @@ project "Example"
     filter "system:macosx"
         libdirs {"bin/" .. outputdir .. "/S2DE"}
 
-        buildoptions {"-F ../vendor/SDL2/lib/%{cfg.system}-%{cfg.architecture}/"}
-        linkoptions {"-F ../vendor/SDL2/lib/%{cfg.system}-%{cfg.architecture}/"}
+        buildoptions {
+            "-F ../vendor/SDL2/lib/%{cfg.system}-%{cfg.architecture}/",
+            "-F ../vendor/SDL2_image/lib/%{cfg.system}-%{cfg.architecture}/"
+        }
+        linkoptions {
+            "-F ../vendor/SDL2/lib/%{cfg.system}-%{cfg.architecture}/",
+            "-F ../vendor/SDL2_image/lib/%{cfg.system}-%{cfg.architecture}/"
+        }
 
-        links { "SDL2.framework" }
+        links {
+            "SDL2.framework",
+            "SDL2_image.framework"
+        }
     
     
 	filter "system:windows"
@@ -93,12 +107,16 @@ project "Example"
 		staticruntime "On"
 		systemversion "latest"
 
-        links { "SDL2" }
-    
-    links {
-        "SDL2_image",
-        "S2DE"
-    }
+        links {
+            "SDL2",
+            "SDL2_image",
+            "S2DE"
+        }
+
+        postbuildcommands {
+			("{COPY} ../vendor/SDL2/lib/windows-x86_64 ../bin/" .. outputdir .. "/%{prj.name}"),
+			("{COPY} ../vendor/SDL2_image/lib/%{cfg.system}-%{cfg.architecture} ../bin/" .. outputdir .. "/%{prj.name}")
+		}
 
     filter "configurations:debug"
         symbols "On"
