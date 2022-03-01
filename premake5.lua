@@ -12,7 +12,12 @@ workspace "S2DE"
 
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
-
+externaldir = {}
+externalinc = {}
+externaldir["SDL2"] = "vendor/SDL2/lib/%{cfg.system}-%{cfg.architecture}"
+externalinc["SDL2"] = "vendor/SDL2/include"
+externaldir["SDL2_image"] = "vendor/SDL2_image/lib/%{cfg.system}-%{cfg.architecture}"
+externalinc["SDL2_image"] = "vendor/SDL2_image/include"
 
 project "S2DE"
     location "S2DE"
@@ -30,8 +35,8 @@ project "S2DE"
 
     includedirs {
         "%{prj.name}/include",
-        "vendor/SDL2/include",
-        "vendor/SDL2_image/include"
+        externalinc["SDL2"],
+        externalinc["SDL2_image"]
     }
 	
 	filter "system:windows"
@@ -57,16 +62,6 @@ project "Example"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("tmp/" .. outputdir .. "/%{prj.name}")
-    
-    filter "system:macosx"
-        files {
-            "S2DE/source/**.h",
-            "S2DE/source/**.cpp"
-        }
-
-        includedirs {
-            "S2DE/source"
-        }
 
     files {
         "%{prj.name}/source/**.h",
@@ -74,31 +69,25 @@ project "Example"
     }
 
     includedirs {
-        "vendor/SDL2/include",
-        "vendor/SDL2_image/include",
+        externalinc["SDL2"],
+        externalinc["SDL2_image"],
         "S2DE/include"
     }
 
-    libdirs {
-        "vendor/SDL2/lib/%{cfg.system}-%{cfg.architecture}",
-        "vendor/SDL2_image/lib/%{cfg.system}-%{cfg.architecture}"
-    }
-
     filter "system:macosx"
-        libdirs {"bin/" .. outputdir .. "/S2DE"}
-
         buildoptions {
-            "-F ../vendor/SDL2/lib/%{cfg.system}-%{cfg.architecture}/",
-            "-F ../vendor/SDL2_image/lib/%{cfg.system}-%{cfg.architecture}/"
+            "-F ../" .. externaldir["SDL2"],
+            "-F ../" .. externaldir["SDL2_image"],
         }
         linkoptions {
-            "-F ../vendor/SDL2/lib/%{cfg.system}-%{cfg.architecture}/",
-            "-F ../vendor/SDL2_image/lib/%{cfg.system}-%{cfg.architecture}/"
+            "-F ../" .. externaldir["SDL2"],
+            "-F ../" .. externaldir["SDL2_image"],
         }
 
         links {
             "SDL2.framework",
-            "SDL2_image.framework"
+            "SDL2_image.framework",
+            "S2DE"
         }
     
     
@@ -107,6 +96,11 @@ project "Example"
 		staticruntime "On"
 		systemversion "latest"
 
+        libdirs {
+            externaldir["SDL2"],
+            externaldir["SDL2_image"]
+        }
+
         links {
             "SDL2",
             "SDL2_image",
@@ -114,8 +108,8 @@ project "Example"
         }
 
         postbuildcommands {
-			("{COPY} ../vendor/SDL2/lib/windows-x86_64 ../bin/" .. outputdir .. "/%{prj.name}"),
-			("{COPY} ../vendor/SDL2_image/lib/%{cfg.system}-%{cfg.architecture} ../bin/" .. outputdir .. "/%{prj.name}")
+			("{COPY} ../" .. externaldir["SDL2"] .. "../bin/" .. outputdir .. "/%{prj.name}"),
+			("{COPY} ../" .. externaldir["SDL2_image"] .. "../bin/" .. outputdir .. "/%{prj.name}"),
 		}
 
     filter "configurations:debug"
