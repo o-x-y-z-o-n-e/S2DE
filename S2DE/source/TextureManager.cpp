@@ -31,7 +31,8 @@ namespace S2DE {
 		int LoadTextureData(const char* path) {
 			if (texture_table_count >= TEXTURE_TABLE_SIZE) {
 				printf("[S2DE] ERROR: Run out of texture table memory!");
-				goto failed;
+				printf("[S2DE] ERROR: Could not load file '%s'\n", path);
+				return -1;
 			}
 
 			int hash = GetStringHash(path);
@@ -47,8 +48,10 @@ namespace S2DE {
 			int wantedFormat = STBI_rgb_alpha;
 			int width, height, originFormat;
 			unsigned char* data = stbi_load(path, &width, &height, &originFormat, wantedFormat);
-			if (data == NULL)
-				goto failed;
+			if (data == NULL) {
+				printf("[S2DE] ERROR: Could not load file '%s'\n", path);
+				return -1;
+			}
 
 			int depth, pitch;
 			Uint32 pixelFormat;
@@ -66,7 +69,8 @@ namespace S2DE {
 
 			if (surface == NULL) {
 				stbi_image_free(data);
-				goto failed;
+				printf("[S2DE] ERROR: Could not load file '%s'\n", path);
+				return -1;
 			}
 
 			SDL_Texture* texture = SDL_CreateTextureFromSurface(Window::GetRenderer(), surface);
@@ -74,16 +78,14 @@ namespace S2DE {
 			SDL_FreeSurface(surface);
 			stbi_image_free(data);
 
-			if (texture == NULL)
-				goto failed;
+			if (texture == NULL) {
+				printf("[S2DE] ERROR: Could not load file '%s'\n", path);
+				return -1;
+			}
 
 			texture_table[index] = texture;
 			texture_table_count++;
 			return index;
-
-		failed:
-			printf("[S2DE] ERROR: Could not load file '%s'\n", path);
-			return -1;
 		}
 
 

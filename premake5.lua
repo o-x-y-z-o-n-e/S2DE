@@ -114,8 +114,8 @@ project "Example"
 	
 	
 	filter "system:macosx"
-        buildoptions {"-F ../" .. externaldir["SDL2"]}
-        linkoptions {"-F ../" .. externaldir["SDL2"]}
+        buildoptions {"-F /Library/Frameworks"}
+        linkoptions {"-F /Library/Frameworks"}
 
         links {
             "SDL2.framework",
