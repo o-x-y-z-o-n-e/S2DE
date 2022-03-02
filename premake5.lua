@@ -89,7 +89,6 @@ project "Example"
 
 
     includedirs {
-        externalinc["SDL2"],
         "S2DE/include"
     }
 	
