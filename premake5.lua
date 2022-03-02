@@ -108,7 +108,7 @@ project "Example"
         }
 
         postbuildcommands {
-			("{COPY} ../" .. externaldir["SDL2"] .. " ../bin/" .. outputdir .. "/%{prj.name}")
+			("{COPY} ../" .. externaldir["SDL2"] .. "/SDL2.dll" .. " ../bin/" .. outputdir .. "/%{prj.name}")
 		}
 	
 	
