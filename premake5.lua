@@ -14,10 +14,12 @@ workspace "S2DE"
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 externaldir = {}
 externalinc = {}
+
 externaldir["SDL2"] = "vendor/SDL2/lib/%{cfg.system}-%{cfg.architecture}"
 externalinc["SDL2"] = "vendor/SDL2/include"
-externaldir["SDL2_image"] = "vendor/SDL2_image/lib/%{cfg.system}-%{cfg.architecture}"
-externalinc["SDL2_image"] = "vendor/SDL2_image/include"
+
+externalinc["stb_image"] = "vendor/stb_image/include"
+
 
 project "S2DE"
     location "S2DE"
@@ -39,7 +41,7 @@ project "S2DE"
     includedirs {
         "%{prj.name}/include",
         externalinc["SDL2"],
-        externalinc["SDL2_image"]
+		externalinc["stb_image"]
     }
 	
 	
@@ -88,7 +90,6 @@ project "Example"
 
     includedirs {
         externalinc["SDL2"],
-        externalinc["SDL2_image"],
         "S2DE/include"
     }
 	
@@ -99,35 +100,25 @@ project "Example"
 		systemversion "latest"
 
         libdirs {
-            externaldir["SDL2"],
-            externaldir["SDL2_image"]
+            externaldir["SDL2"]
         }
 
         links {
             "SDL2",
-            "SDL2_image",
             "S2DE"
         }
 
         postbuildcommands {
-			("{COPY} ../" .. externaldir["SDL2"] .. " ../bin/" .. outputdir .. "/%{prj.name}"),
-			("{COPY} ../" .. externaldir["SDL2_image"] .. " ../bin/" .. outputdir .. "/%{prj.name}"),
+			("{COPY} ../" .. externaldir["SDL2"] .. " ../bin/" .. outputdir .. "/%{prj.name}")
 		}
 	
 	
 	filter "system:macosx"
-        buildoptions {
-            "-F ../" .. externaldir["SDL2"],
-            "-F ../" .. externaldir["SDL2_image"],
-        }
-        linkoptions {
-            "-F ../" .. externaldir["SDL2"],
-            "-F ../" .. externaldir["SDL2_image"],
-        }
+        buildoptions {"-F ../" .. externaldir["SDL2"]}
+        linkoptions {"-F ../" .. externaldir["SDL2"]}
 
         links {
             "SDL2.framework",
-            "SDL2_image.framework",
             "S2DE"
         }
 	
@@ -135,7 +126,6 @@ project "Example"
 	filter "system:linux"
 		links {
             "SDL2",
-            "SDL2_image",
             "S2DE"
         }
 	

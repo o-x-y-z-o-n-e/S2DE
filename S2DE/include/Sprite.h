@@ -10,7 +10,7 @@ namespace S2DE {
     class Sprite : public Component {
 
 	public:
-		Sprite() {}
+		//Sprite() {}
 
         bool Centered;
 		void Init();

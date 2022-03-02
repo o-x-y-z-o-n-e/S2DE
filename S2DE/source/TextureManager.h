@@ -15,7 +15,6 @@ namespace S2DE {
 		int LoadTextureData(const char* path);
 		void FreeTextureData(int id);
 		SDL_Texture* GetTextureData(int id);
-		SDL_Texture* LoadBMP(const char* path);
 
 	}
 }

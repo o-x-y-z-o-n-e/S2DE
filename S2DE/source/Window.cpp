@@ -8,7 +8,6 @@
 #include <stddef.h>
 
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 
 namespace S2DE {
 
@@ -50,22 +49,21 @@ namespace S2DE {
 				return 0;
 			}
 
-			
+			/*
 			int imgFlags = IMG_INIT_PNG;
 			if (!(IMG_Init(imgFlags) & imgFlags)) {
 				printf("[S2DE] Failed to initialize texture loader! SDL_Error: %s\n", SDL_GetError());
 				return 0;
 			}
+			*/
 
 			renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 			if (renderer == NULL) {
 				printf("[S2DE] Renderer could not be created! SDL Error: %s\n", SDL_GetError());
 				return 0;
 			}
+
 			SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0x00);
-
-
-
 			SDL_RenderSetLogicalSize(renderer, CAMERA_WIDTH, CAMERA_HEIGHT);
 
 
@@ -85,7 +83,6 @@ namespace S2DE {
 
 		void Update() {
 			SDL_RenderPresent(renderer);
-			//SDL_Delay(0);
 		}
 
 
@@ -101,14 +98,13 @@ namespace S2DE {
 			window = NULL;
 			renderer = NULL;
 
-			IMG_Quit();
+			//IMG_Quit();
 			SDL_Quit();
 		}
 
 
 		void ApplyTexture(Texture* texture, int x, int y) {
 			SDL_Rect rect = { (CAMERA_X_OFFSET - (int)cameraPosition.x) + x, (CAMERA_Y_OFFSET + (int)cameraPosition.y) + y, texture->GetWidth(), texture->GetHeight() };
-			//SDL_Rect rect = { x, y, texture->GetWidth(), texture->GetHeight() };
 			SDL_Texture* tex = TextureManager::GetTextureData(texture->GetID());
 
 			SDL_RenderCopy(renderer, tex, NULL, &rect);

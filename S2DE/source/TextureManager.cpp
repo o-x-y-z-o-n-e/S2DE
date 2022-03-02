@@ -1,8 +1,11 @@
 #include "TextureManager.h"
 #include "Window.h"
 #include "Util.h"
+
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
 #include "SDL2/SDL.h"
-#include "SDL2/SDL_image.h"
 
 #include <stdlib.h>
 #include <iostream>
@@ -26,8 +29,10 @@ namespace S2DE {
 
 
 		int LoadTextureData(const char* path) {
-			if (texture_table_count >= TEXTURE_TABLE_SIZE)
-				return -1;
+			if (texture_table_count >= TEXTURE_TABLE_SIZE) {
+				printf("[S2DE] ERROR: Run out of texture table memory!");
+				goto failed;
+			}
 
 			int hash = GetStringHash(path);
 			int start = hash % TEXTURE_TABLE_SIZE;
@@ -38,21 +43,47 @@ namespace S2DE {
 				index = start + (i * i);
 			}
 
-			
-			SDL_Surface* surface = IMG_Load(path);
-			if(surface == NULL)
-				return 0;
-			texture_table[index] = SDL_CreateTextureFromSurface(Window::GetRenderer(), surface);
-			texture_table_count++;
+
+			int wantedFormat = STBI_rgb_alpha;
+			int width, height, originFormat;
+			unsigned char* data = stbi_load(path, &width, &height, &originFormat, wantedFormat);
+			if (data == NULL)
+				goto failed;
+
+			int depth, pitch;
+			Uint32 pixelFormat;
+			if (wantedFormat == STBI_rgb) {
+				depth = 24;
+				pitch = 3 * width;
+				pixelFormat = SDL_PIXELFORMAT_RGB24;
+			} else {
+				depth = 32;
+				pitch = 4 * width;
+				pixelFormat = SDL_PIXELFORMAT_RGBA32;
+			}
+
+			SDL_Surface* surface = SDL_CreateRGBSurfaceWithFormatFrom((void*)data, width, height, depth, pitch, pixelFormat);
+
+			if (surface == NULL) {
+				stbi_image_free(data);
+				goto failed;
+			}
+
+			SDL_Texture* texture = SDL_CreateTextureFromSurface(Window::GetRenderer(), surface);
+
 			SDL_FreeSurface(surface);
-			
+			stbi_image_free(data);
 
-			//texture_table[index] = LoadBMP(path);
-			if (texture_table[index] == NULL)
-				return -1;
+			if (texture == NULL)
+				goto failed;
 
+			texture_table[index] = texture;
 			texture_table_count++;
 			return index;
+
+		failed:
+			printf("[S2DE] ERROR: Could not load file '%s'\n", path);
+			return -1;
 		}
 
 
@@ -83,6 +114,7 @@ namespace S2DE {
 		//-------------------------------------------------------------------------------------------------
 
 
+		/*  My attempt at loading .bmp files. It worked, although the textures came out upside down. And I couldn't fix it :(
 		SDL_Texture* LoadBMP(const char* path) {
 			std::ifstream file;
 			file.open(path, std::ios::binary);
@@ -153,42 +185,44 @@ namespace S2DE {
 			int pitch = ((colorDepth * width) / 32) * 4;
 			u_int32_t format;
 
-			if (colorDepth == 24)
+			if (colorDepth == 24) {
+				//pitch = width * 3;
 				format = SDL_PIXELFORMAT_RGB24;
-			else if (colorDepth == 32)
+			} else if (colorDepth == 32) {
+				//pitch = width * 4;
 				format = SDL_PIXELFORMAT_RGBA32;
+			}
 
 			u_int8_t* pixels = (u_int8_t*)malloc(sizeof(u_int8_t) * pitch * height);
 			if (pixels == NULL) goto fail2;
 
-			/*
-			u_int8_t sample[4];
-			u_int8_t a, r, g, b = 255;
+			
+			u_int8_t sample[3];
 			for (int h = 0; h < height; h++) {
+				int rowOffset = pitch * h;
+				file.seekg(dataOffset + rowOffset, std::ios::beg);
+
 				for (int w = 0; w < width; w++) {
 					if (colorDepth == 24) {
 						file.read((char*)sample, 3);
+						
+						pixels[(h * pitch) + w] = sample[0];
+						pixels[(h * pitch) + w+1] = sample[1];
+						pixels[(h * pitch) + w+2] = sample[2];
 
-						b = sample[0];
-						g = sample[1];
-						r = sample[2];
-						a = 255;
 					} else if (colorDepth == 32) {
-						file.read((char*)sample, 4);
+						//file.read((char*)sample, 4);
 
-						a = sample[0];
+						//pixels[(h * pitch) + w] = sample[3];
+						//pixels[(h * pitch) + w + 1] = sample[2];
+						//pixels[(h * pitch) + w + 2] = sample[1];
+						//pixels[(h * pitch) + w + 2] = sample[0];
 					}
 				}
+			}
 
-				//read padding
-				if (colorDepth == 24) {
-					int left = (width * 3) % 4;
-					file.read((char*)sample, left);
-				}
-			}*/
-
-			file.seekg(file._Seekbeg);
-			file.read((char*)pixels, sizeof(u_int8_t) * pitch * height);
+			//file.seekg(dataOffset, std::ios::beg);
+			//file.read((char*)pixels, pitch * height);
 
 			SDL_Surface* surface = SDL_CreateRGBSurfaceWithFormatFrom(pixels, width, height, colorDepth, pitch, format);
 			SDL_Texture* texture = SDL_CreateTextureFromSurface(Window::GetRenderer(), surface);
@@ -208,6 +242,8 @@ namespace S2DE {
 			file.close();
 			return NULL;
 		}
+
+		*/
 
 	}
 
