@@ -5,8 +5,6 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-#include "SDL2/SDL.h"
-
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>

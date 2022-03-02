@@ -1,11 +1,12 @@
 #ifndef TEXTURE_MANAGER_H
 #define TEXTURE_MANAGER_H
 
+#include "Core.h"
+#include "Texture.h"
+#include <string.h>
+
 #define TEXTURE_TABLE_SIZE 1000
 
-#include <string.h>
-#include "Texture.h"
-#include "SDL2/SDL.h"
 
 namespace S2DE {
 

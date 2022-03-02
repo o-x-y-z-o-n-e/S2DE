@@ -1,3 +1,4 @@
+#inlcude "Core.h"
 #include "S2DE.h"
 #include "Window.h"
 #include "ObjectManager.h"

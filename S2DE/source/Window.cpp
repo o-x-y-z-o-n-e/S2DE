@@ -1,13 +1,10 @@
 #include "S2DE.h"
 #include "Window.h"
-#include "Texture.h"
 #include "TextureManager.h"
 #include "Types.h"
 
 #include <iostream>
 #include <stddef.h>
-
-#include <SDL2/SDL.h>
 
 namespace S2DE {
 
