@@ -133,4 +133,53 @@ namespace S2DE {
 	int GetStringHash(std::string s) {
 		return 0;
 	}
+
+
+
+	int16_t BytesToInt16(u_int8_t* buffer) {
+		int16_t value = 0;
+
+		value = (value << 8) + buffer[1];
+		value = (value << 8) + buffer[0];
+
+		return value;
+	}
+
+
+	u_int16_t BytesToUInt16(u_int8_t* buffer) {
+		u_int16_t value = 0;
+
+		value = (value << 8) + buffer[1];
+		value = (value << 8) + buffer[0];
+
+		return value;
+	}
+
+
+
+	int32_t BytesToInt32(u_int8_t* buffer) {
+		int32_t value = 0;
+
+		value = (value << 8) + buffer[3];
+		value = (value << 8) + buffer[2];
+		value = (value << 8) + buffer[1];
+		value = (value << 8) + buffer[0];
+
+		return value;
+	}
+
+
+	u_int32_t BytesToUInt32(u_int8_t* buffer) {
+		u_int32_t value = 0;
+
+		value = (value << 8) + buffer[3];
+		value = (value << 8) + buffer[2];
+		value = (value << 8) + buffer[1];
+		value = (value << 8) + buffer[0];
+
+		return value;
+	}
+
+
+
 }

@@ -8,16 +8,6 @@
 
 namespace S2DE {
 
-	Sprite::~Sprite() {
-		//CHANGE (IMPLEMENT TEXTURE MANAGER)
-		/*
-		if (m_texture != NULL) {
-			m_texture->Free();
-			m_texture = NULL;
-		}
-		*/
-	}
-
 	void Sprite::Init() {
 
 	}

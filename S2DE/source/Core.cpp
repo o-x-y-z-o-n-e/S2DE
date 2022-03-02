@@ -29,7 +29,7 @@ namespace S2DE {
 
 		//Init components here
 		if (!Window::Init()) return 0;
-		InitTextureManager();
+		TextureManager::InitTextureManager();
 
 		hasInit = true;
 		return 1;
@@ -77,7 +77,7 @@ namespace S2DE {
 		
 		int currentTick = SDL_GetTicks();
 		int tickDelta = currentTick - tickCounter;
-		float timeDelta = tickDelta / 1000.0f;
+		float timeDelta = tickDelta / 1000.0F;
 		tickCounter = currentTick;
 		fixedDeltaCounter += timeDelta;
 

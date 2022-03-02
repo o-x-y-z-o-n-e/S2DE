@@ -1,7 +1,5 @@
-Texture Manager
-Setup Windows Build System
-
-Local exec path
+Improve texture loading.
 Physics collision system
-Redo sprite rendering system
+Z-buffering system for sprites.
+Transform inheritance system.
 Window setting functions (resolution, mode, title, etc..)

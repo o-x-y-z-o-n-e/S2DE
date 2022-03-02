@@ -21,8 +21,8 @@ namespace S2DE {
 		const int CAMERA_X_OFFSET = CAMERA_WIDTH / 2;
 		const int CAMERA_Y_OFFSET = CAMERA_HEIGHT / 2;
 
-		const int SCREEN_WIDTH = 640;
-		const int SCREEN_HEIGHT = 400;
+		const int SCREEN_WIDTH = CAMERA_WIDTH*4;
+		const int SCREEN_HEIGHT = CAMERA_HEIGHT*4;
 
 		vec2f cameraPosition;
 
@@ -62,7 +62,7 @@ namespace S2DE {
 				printf("[S2DE] Renderer could not be created! SDL Error: %s\n", SDL_GetError());
 				return 0;
 			}
-			SDL_SetRenderDrawColor(renderer, 0x00, 0xFF, 0xFF, 0xFF);
+			SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0x00);
 
 
 
@@ -78,13 +78,14 @@ namespace S2DE {
 
 
 		void Clear() {
+			SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
 			SDL_RenderClear(renderer);
 		}
 
 
 		void Update() {
 			SDL_RenderPresent(renderer);
-			SDL_Delay(0);
+			//SDL_Delay(0);
 		}
 
 
@@ -107,7 +108,10 @@ namespace S2DE {
 
 		void ApplyTexture(Texture* texture, int x, int y) {
 			SDL_Rect rect = { (CAMERA_X_OFFSET - (int)cameraPosition.x) + x, (CAMERA_Y_OFFSET + (int)cameraPosition.y) + y, texture->GetWidth(), texture->GetHeight() };
-			SDL_RenderCopy(renderer, GetTextureData(texture->GetID()), NULL, &rect);
+			//SDL_Rect rect = { x, y, texture->GetWidth(), texture->GetHeight() };
+			SDL_Texture* tex = TextureManager::GetTextureData(texture->GetID());
+
+			SDL_RenderCopy(renderer, tex, NULL, &rect);
 		}
 
 	}

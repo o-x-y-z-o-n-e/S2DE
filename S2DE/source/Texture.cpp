@@ -7,17 +7,17 @@
 namespace S2DE {
 
 	Texture::Texture() {
-		m_id = 0;
+		m_id = -1;
 		m_width = 0;
 		m_height = 0;
 	}
 
-	Texture::~Texture() {
-		
-	}
-
 	bool Texture::Load(std::string path) {
-		m_id = LoadTextureData(path.c_str());
+		m_id = TextureManager::LoadTextureData(path.c_str());
+		SDL_Texture* texData = TextureManager::GetTextureData(m_id);
+
+		SDL_QueryTexture(texData, NULL, NULL, &m_width, &m_height);
+
 		return true;
 	}
 

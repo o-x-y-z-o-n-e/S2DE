@@ -24,8 +24,10 @@ project "S2DE"
     kind "StaticLib"
     language "C++"
 
+
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("tmp/" .. outputdir .. "/%{prj.name}")
+
 
     files {
         "%{prj.name}/include/**.h",
@@ -33,16 +35,29 @@ project "S2DE"
         "%{prj.name}/source/**.cpp"
     }
 
+
     includedirs {
         "%{prj.name}/include",
         externalinc["SDL2"],
         externalinc["SDL2_image"]
     }
 	
+	
 	filter "system:windows"
 		cppdialect "C++17"
 		staticruntime "On"
 		systemversion "latest"
+		
+		defines "S2DE_WINDOWS"
+	
+	
+	filter "system:macosx"
+		defines "S2DE_MACOSX"
+	
+	
+	filter "system:linux"
+		defines "S2DE_LINUX"
+		
 
     filter "configurations:debug"
         defines "S2DE_DEBUG"
@@ -60,37 +75,24 @@ project "Example"
     kind "ConsoleApp"
     language "C++"
 
+
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("tmp/" .. outputdir .. "/%{prj.name}")
+
 
     files {
         "%{prj.name}/source/**.h",
         "%{prj.name}/source/**.cpp"
     }
 
+
     includedirs {
         externalinc["SDL2"],
         externalinc["SDL2_image"],
         "S2DE/include"
     }
-
-    filter "system:macosx"
-        buildoptions {
-            "-F ../" .. externaldir["SDL2"],
-            "-F ../" .. externaldir["SDL2_image"],
-        }
-        linkoptions {
-            "-F ../" .. externaldir["SDL2"],
-            "-F ../" .. externaldir["SDL2_image"],
-        }
-
-        links {
-            "SDL2.framework",
-            "SDL2_image.framework",
-            "S2DE"
-        }
-    
-    
+	
+	
 	filter "system:windows"
 		cppdialect "C++17"
 		staticruntime "On"
@@ -108,9 +110,35 @@ project "Example"
         }
 
         postbuildcommands {
-			("{COPY} ../" .. externaldir["SDL2"] .. "../bin/" .. outputdir .. "/%{prj.name}"),
-			("{COPY} ../" .. externaldir["SDL2_image"] .. "../bin/" .. outputdir .. "/%{prj.name}"),
+			("{COPY} ../" .. externaldir["SDL2"] .. " ../bin/" .. outputdir .. "/%{prj.name}"),
+			("{COPY} ../" .. externaldir["SDL2_image"] .. " ../bin/" .. outputdir .. "/%{prj.name}"),
 		}
+	
+	
+	filter "system:macosx"
+        buildoptions {
+            "-F ../" .. externaldir["SDL2"],
+            "-F ../" .. externaldir["SDL2_image"],
+        }
+        linkoptions {
+            "-F ../" .. externaldir["SDL2"],
+            "-F ../" .. externaldir["SDL2_image"],
+        }
+
+        links {
+            "SDL2.framework",
+            "SDL2_image.framework",
+            "S2DE"
+        }
+	
+	
+	filter "system:linux"
+		links {
+            "SDL2",
+            "SDL2_image",
+            "S2DE"
+        }
+	
 
     filter "configurations:debug"
         symbols "On"

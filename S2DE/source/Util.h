@@ -3,8 +3,15 @@
 
 #include <string>
 #include <stdbool.h>
+#include <stdint.h>
 
 namespace S2DE {
+
+	#ifdef S2DE_WINDOWS
+	typedef uint8_t u_int8_t;
+	typedef uint16_t u_int16_t;
+	typedef uint32_t u_int32_t;
+	#endif
 
 	struct list_node;
 	typedef struct list_node {
@@ -38,6 +45,12 @@ namespace S2DE {
 
 
 	int GetStringHash(std::string s);
+
+
+	int16_t BytesToInt16(u_int8_t* buffer);
+	u_int16_t BytesToUInt16(u_int8_t* buffer);
+	int32_t BytesToInt32(u_int8_t* buffer);
+	u_int32_t BytesToUInt32(u_int8_t* buffer);
 
 }
 

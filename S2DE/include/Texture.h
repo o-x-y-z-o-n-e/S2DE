@@ -8,7 +8,6 @@ namespace S2DE {
     class Texture {
 	public:
 		Texture();
-		~Texture();
 		bool Load(std::string path);
 		int GetID();
 		int GetWidth();
