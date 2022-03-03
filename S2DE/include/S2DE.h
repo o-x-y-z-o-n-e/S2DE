@@ -1,18 +1,8 @@
 #ifndef S2DE_H
 #define S2DE_H
 
-//this is where applications can integrate S2DE with
-
-namespace S2DE {
-
-	int Init();
-	void Start();
-	void Close();
-	bool IsRunning();
-	void Loop();
-
-}
-
+//this is where applications can interface with S2DE
+#include "Application.h"
 #include "Component.h"
 #include "Object.h"
 #include "Sprite.h"

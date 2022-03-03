@@ -5,21 +5,37 @@
 #define MAX_COMPONENTS 100
 
 #include "Object.h"
-
+#include <list>
 
 namespace S2DE {
 
-	void StartAllObjects();
-	void DynamicUpdateAllObjects(float delta);
-	void FixedUpdateAllObjects(float delta);
-	void LateUpdateAllObjects(float delta);
-	
-	void StartComponents(Object* object);
-	void DynamicUpdateComponents(Object* object, float delta);
-	void FixedUpdateComponents(Object* object, float delta);
-	void LateUpdateComponents(Object* object, float delta);
 
-	void DestroyMarkedObjects();
+	class ObjectManager {
+
+	public:
+		static void AddObject(Object* object);
+		static void RemoveObject(Object* object);
+		
+		static void StartAllObjects();
+		static void DynamicUpdateAllObjects(float delta);
+		static void FixedUpdateAllObjects(float delta);
+		static void LateUpdateAllObjects(float delta);
+		
+		static void StartComponents(Object* object);
+		static void DynamicUpdateComponents(Object* object, float delta);
+		static void FixedUpdateComponents(Object* object, float delta);
+		static void LateUpdateComponents(Object* object, float delta);
+		
+		static void DestroyMarkedObjects();
+
+	public:
+		static std::list<Object*> m_objects;
+
+		static Object* m_objectsToRemove[MAX_OBJECTS];
+		static int m_removeObjectCounter;
+	};
+
+	
 
 }
 

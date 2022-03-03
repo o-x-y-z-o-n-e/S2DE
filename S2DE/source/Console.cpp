@@ -1,9 +1,19 @@
+#include "Application.h"
 #include "Console.h"
-#include "Core.h"
 
 #include <stdio.h>
+#include <stdbool.h>
 
-namespace S2DE::Console {
+namespace S2DE {
+
+
+	void Console::Init() {
+		if (m_hasInit)
+			return;
+
+		m_hasInit = true;
+	}
+
 
     void Log(const char* message) {
         printf("%s\n", message);

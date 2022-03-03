@@ -1,5 +1,5 @@
+#include "Application.h"
 #include "Core.h"
-#include "S2DE.h"
 #include "Window.h"
 #include "Console.h"
 #include "ObjectManager.h"
@@ -11,63 +11,65 @@
 
 namespace S2DE {
 
-	bool hasInit;
-	bool isRunning;
-	SDL_Event e;
-	int tickCounter;
-	float fixedDeltaCounter;
+	int Init() { return Core::Init(); }
+	void Start() { Core::Start(); }
+	void Close() { Core::Close(); }
+	bool IsRunning() { return Core::IsRunning(); }
 
 
-	bool IsRunning() { return isRunning; };
+	bool Core::IsRunning() { return m_isRunning; };
 
+	int Core::Init() {
+		Console::Init();
 
-	int Init() {
-		if (hasInit) {
-			Console::LogCoreWarning("Already Initialized!");
+		if (m_hasInit) {
+			LogCoreWarning("Already Initialized!");
 			return 0;
 		}
 
-		Console::LogCore("Initializing...");
+		LogCore("Initializing...");
 
 		//Init components here
 		if (!Window::Init()) return 0;
-		TextureManager::InitTextureManager();
+		TextureManager::Init();
 
-		hasInit = true;
+		m_hasInit = true;
 		return 1;
 	}
 
 
-	void Start() {
-		if (!hasInit) return;
+	void Core::Start() {
+		if (!m_hasInit) return;
 
-		Console::LogCore("Starting...");
+		LogCore("Starting...");
 
-		isRunning = true;
+		m_isRunning = true;
 
-		StartAllObjects();
+		ObjectManager::StartAllObjects();
 
-		while (isRunning)
+		while (m_isRunning)
 			Loop();
 	}
 
-	void Close() {
-		if (!isRunning) return;
 
-		Console::LogCore("Closing...");
+	void Core::Close() {
+		if (!m_isRunning) return;
 
-		isRunning = false;
+		LogCore("Closing...");
+
+		m_isRunning = false;
 
 		Window::Close();
 	}
 
 
-	void Loop() {
-		DestroyMarkedObjects();
+	void Core::Loop() {
+		ObjectManager::DestroyMarkedObjects();
 
 		//Input::Flush();
 		// 
 		//SDL events
+		SDL_Event e;
 		while (SDL_PollEvent(&e) != 0) {
 			if (e.type == SDL_QUIT) {
 				Close();
@@ -78,23 +80,23 @@ namespace S2DE {
 		}
 		
 		int currentTick = SDL_GetTicks();
-		int tickDelta = currentTick - tickCounter;
+		int tickDelta = currentTick - m_tickCounter;
 		float timeDelta = tickDelta / 1000.0F;
-		tickCounter = currentTick;
-		fixedDeltaCounter += timeDelta;
+		m_tickCounter = currentTick;
+		m_fixedDeltaCounter += timeDelta;
 
-		if (fixedDeltaCounter > FIXED_TIME_STEP) {
-			FixedUpdateAllObjects(fixedDeltaCounter);
+		if (m_fixedDeltaCounter > FIXED_TIME_STEP) {
+			ObjectManager::FixedUpdateAllObjects(m_fixedDeltaCounter);
 
-			fixedDeltaCounter -= FIXED_TIME_STEP;
+			m_fixedDeltaCounter -= FIXED_TIME_STEP;
 		}
 
 		//clears all graphics
 		Window::Clear();
 
 		//update gameplay
-		DynamicUpdateAllObjects(timeDelta);
-		LateUpdateAllObjects(timeDelta);
+		ObjectManager::DynamicUpdateAllObjects(timeDelta);
+		ObjectManager::LateUpdateAllObjects(timeDelta);
 
 		//update graphics
 		Window::Update();

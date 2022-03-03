@@ -1,16 +1,26 @@
 #ifndef S2DE_CORE_H
 #define S2DE_CORE_H
 
-#ifndef SDL_MAIN_HANDLED
-#define SDL_MAIN_HANDLED
-#include "SDL2/SDL.h"
-#endif
+namespace S2DE {
 
-namespace S2DE::Console {
 
-    void LogCore(const char* message);
-    void LogCoreWarning(const char* message);
-    void LogCoreError(const char* message);
+	class Core {
+		
+	public:
+		static int Init();
+		static void Start();
+		static void Close();
+		static bool IsRunning();
+
+	private:
+		static void Loop();
+		
+		static bool m_hasInit;
+		static bool m_isRunning;
+		static int m_tickCounter;
+		static float m_fixedDeltaCounter;
+
+	};
 
 }
 

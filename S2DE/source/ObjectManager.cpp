@@ -4,14 +4,8 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
-#include <list>
 
 namespace S2DE {
-
-	std::list<Object*> objects;
-
-	Object* objectsToRemove[MAX_OBJECTS];
-	int removeObjectCounter = 0;
 
 
 	Object* Object::Create(std::string name) {
@@ -21,7 +15,8 @@ namespace S2DE {
 		object->m_components = (Component**)malloc(sizeof(Component**) * MAX_COMPONENTS);
 		object->m_componentCount = 0;
 
-		objects.insert(objects.end(), object);
+		ObjectManager::AddObject(object);
+
 		return object;
 	}
 
@@ -32,54 +27,62 @@ namespace S2DE {
 
 		free(object->m_components);
 
-		objectsToRemove[removeObjectCounter] = object;
-		removeObjectCounter++;
+		ObjectManager::RemoveObject(object);
 	}
 
 
+	void ObjectManager::AddObject(Object* object) {
+		m_objects.insert(m_objects.end(), object);
+	}
 
-	void DestroyMarkedObjects() {
-		for (int i = 0; i < removeObjectCounter; i++) {
-			Object* object = objectsToRemove[i];
 
-			objects.remove(object);
+	void ObjectManager::RemoveObject(Object* object) {
+		m_objectsToRemove[m_removeObjectCounter] = object;
+		m_removeObjectCounter++;
+	}
+
+
+	void ObjectManager::DestroyMarkedObjects() {
+		for (int i = 0; i < m_removeObjectCounter; i++) {
+			Object* object = m_objectsToRemove[i];
+
+			m_objects.remove(object);
 			delete object;
 
-			objectsToRemove[i] = NULL;
+			m_objectsToRemove[i] = NULL;
 		}
-		removeObjectCounter = 0;
+		m_removeObjectCounter = 0;
 	}
 
 
-
-	void StartAllObjects() {
-		std::list<Object*>::iterator it = objects.begin();
-		for (it = objects.begin(); it != objects.end(); it++) {
+	void ObjectManager::StartAllObjects() {
+		std::list<Object*>::iterator it = m_objects.begin();
+		for (it = m_objects.begin(); it != m_objects.end(); it++) {
 			Object* object = *it;
 			StartComponents(object);
 		}
 	}
 
 
-	void DynamicUpdateAllObjects(float delta) {
-		std::list<Object*>::iterator it = objects.begin();
-		for (it = objects.begin(); it != objects.end(); it++) {
+	void ObjectManager::DynamicUpdateAllObjects(float delta) {
+		std::list<Object*>::iterator it = m_objects.begin();
+		for (it = m_objects.begin(); it != m_objects.end(); it++) {
 			Object* object = *it;
 			DynamicUpdateComponents(object, delta);
 		}
 	}
 
-	void LateUpdateAllObjects(float delta) {
-		std::list<Object*>::iterator it = objects.begin();
-		for (it = objects.begin(); it != objects.end(); it++) {
+	void ObjectManager::LateUpdateAllObjects(float delta) {
+		std::list<Object*>::iterator it = m_objects.begin();
+		for (it = m_objects.begin(); it != m_objects.end(); it++) {
 			Object* object = *it;
 			LateUpdateComponents(object, delta);
 		}
 	}
 
-	void FixedUpdateAllObjects(float delta) {
-		std::list<Object*>::iterator it = objects.begin();
-		for (it = objects.begin(); it != objects.end(); it++) {
+	void ObjectManager::FixedUpdateAllObjects(float delta) {
+		std::list<Object*>::iterator it = m_objects.begin();
+		for (it = m_objects.begin(); it != m_objects.end(); it++) {
 			Object* object = *it;
 			FixedUpdateComponents(object, delta);
 		}
@@ -89,22 +92,22 @@ namespace S2DE {
 	//
 
 
-	void StartComponents(Object* object) {
+	void ObjectManager::StartComponents(Object* object) {
 		for (int i = 0; i < object->GetComponentCount(); i++)
 			object->GetComponent(i)->Start();
 	}
 
-	void DynamicUpdateComponents(Object* object, float delta) {
+	void ObjectManager::DynamicUpdateComponents(Object* object, float delta) {
 		for (int i = 0; i < object->GetComponentCount(); i++)
 			object->GetComponent(i)->DynamicUpdate(delta);
 	}
 
-	void LateUpdateComponents(Object* object, float delta) {
+	void ObjectManager::LateUpdateComponents(Object* object, float delta) {
 		for (int i = 0; i < object->GetComponentCount(); i++)
 			object->GetComponent(i)->LateUpdate(delta);
 	}
 
-	void FixedUpdateComponents(Object* object, float delta) {
+	void ObjectManager::FixedUpdateComponents(Object* object, float delta) {
 		for (int i = 0; i < object->GetComponentCount(); i++)
 			object->GetComponent(i)->FixedUpdate(delta);
 	}

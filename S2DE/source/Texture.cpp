@@ -1,5 +1,6 @@
 #include "Texture.h"
 #include "TextureManager.h"
+#include "Window.h"
 
 #include <stddef.h>
 #include <string>
@@ -14,7 +15,7 @@ namespace S2DE {
 
 	bool Texture::Load(std::string path) {
 		m_id = TextureManager::LoadTextureData(path.c_str());
-		SDL_Texture* texData = TextureManager::GetTextureData(m_id);
+		SDL_Texture* texData = (SDL_Texture*)TextureManager::GetTextureData(m_id);
 
 		SDL_QueryTexture(texData, NULL, NULL, &m_width, &m_height);
 
