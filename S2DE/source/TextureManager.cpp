@@ -10,6 +10,7 @@
 #include <iostream>
 #include <fstream>
 #include <cmath>
+#include <unordered_set>
 
 namespace S2DE {
 
@@ -27,14 +28,14 @@ namespace S2DE {
 		//-------------------------------------------------------------------------------------------------
 
 
-		int LoadTextureData(const char* path) {
+		int LoadTextureData(std::string path) {
 			if (texture_table_count >= TEXTURE_TABLE_SIZE) {
 				Console::LogCoreError("Run out of texture table memory!");
-				printf("[S2DE] ERROR: Could not load file '%s'\n", path);
+				//("[S2DE] ERROR: Could not load file '%s'\n", path);
 				return -1;
 			}
 
-			int hash = GetStringHash(path);
+			int hash = std::hash<std::string>{}(path);
 			int start = hash % TEXTURE_TABLE_SIZE;
 			int index = start;
 
@@ -46,9 +47,9 @@ namespace S2DE {
 
 			int wantedFormat = STBI_rgb_alpha;
 			int width, height, originFormat;
-			unsigned char* data = stbi_load(path, &width, &height, &originFormat, wantedFormat);
+			unsigned char* data = stbi_load(path.c_str(), &width, &height, &originFormat, wantedFormat);
 			if (data == NULL) {
-				printf("[S2DE] ERROR: Could not load file '%s'\n", path);
+				//printf("[S2DE] ERROR: Could not load file '%s'\n", path);
 				return -1;
 			}
 
@@ -68,7 +69,7 @@ namespace S2DE {
 
 			if (surface == NULL) {
 				stbi_image_free(data);
-				printf("[S2DE] ERROR: Could not load file '%s'\n", path);
+				//printf("[S2DE] ERROR: Could not load file '%s'\n", path);
 				return -1;
 			}
 
@@ -78,7 +79,7 @@ namespace S2DE {
 			stbi_image_free(data);
 
 			if (texture == NULL) {
-				printf("[S2DE] ERROR: Could not load file '%s'\n", path);
+				//printf("[S2DE] ERROR: Could not load file '%s'\n", path);
 				return -1;
 			}
 
@@ -122,15 +123,15 @@ namespace S2DE {
 			if (!file.is_open())
 				return NULL;
 
-			u_int8_t header[18];
+			uint8_t header[18];
 			file.read((char*)header, 18);
 
 			if (header[0] != 0x42 || header[1] != 0x4D)
 				goto fail2;
 
-			u_int32_t fileSize = BytesToUInt32(&header[2]);
-			u_int32_t dataOffset = BytesToUInt32(&header[10]);
-			u_int32_t dibSize = BytesToUInt32(&header[14]);
+			uint32_t fileSize = BytesToUInt32(&header[2]);
+			uint32_t dataOffset = BytesToUInt32(&header[10]);
+			uint32_t dibSize = BytesToUInt32(&header[14]);
 
 			int dibMode = 0;
 			switch (dibSize) {
@@ -155,20 +156,20 @@ namespace S2DE {
 			}
 
 			const int dibOffset = 18;
-			u_int8_t* dib = (u_int8_t*)malloc(sizeof(u_int8_t) * (dibSize - 4));
+			uint8_t* dib = (uint8_t*)malloc(sizeof(uint8_t) * (dibSize - 4));
 			if (dib == NULL) goto fail2;
 
 			file.read((char*)dib, dibSize - 4);
 
-			u_int32_t width = abs(BytesToInt32(&dib[18 - dibOffset]));
-			u_int32_t height = abs(BytesToInt32(&dib[22 - dibOffset]));
-			u_int16_t planes = BytesToUInt16(&dib[26 - dibOffset]);
-			u_int16_t colorDepth = BytesToUInt16(&dib[28 - dibOffset]);
-			u_int32_t compression = BytesToUInt32(&dib[30 - dibOffset]);
-			u_int32_t rawSize = BytesToUInt32(&dib[34 - dibOffset]);
+			uint32_t width = abs(BytesToInt32(&dib[18 - dibOffset]));
+			uint32_t height = abs(BytesToInt32(&dib[22 - dibOffset]));
+			uint16_t planes = BytesToUInt16(&dib[26 - dibOffset]);
+			uint16_t colorDepth = BytesToUInt16(&dib[28 - dibOffset]);
+			uint32_t compression = BytesToUInt32(&dib[30 - dibOffset]);
+			uint32_t rawSize = BytesToUInt32(&dib[34 - dibOffset]);
 			int32_t hres = BytesToInt32(&dib[38 - dibOffset]);
 			int32_t vres = BytesToInt32(&dib[42 - dibOffset]);
-			u_int32_t colors = BytesToUInt32(&dib[46 - dibOffset]);
+			uint32_t colors = BytesToUInt32(&dib[46 - dibOffset]);
 			
 			if (compression != 0) {
 				printf("[S2DE] ERROR: Could not load '%s' compression mode %d is not supported.\n", path, compression);
@@ -184,7 +185,7 @@ namespace S2DE {
 			
 
 			int pitch = ((colorDepth * width) / 32) * 4;
-			u_int32_t format;
+			uint32_t format;
 
 			if (colorDepth == 24) {
 				//pitch = width * 3;
@@ -194,11 +195,11 @@ namespace S2DE {
 				format = SDL_PIXELFORMAT_RGBA32;
 			}
 
-			u_int8_t* pixels = (u_int8_t*)malloc(sizeof(u_int8_t) * pitch * height);
+			uint8_t* pixels = (uint8_t*)malloc(sizeof(uint8_t) * pitch * height);
 			if (pixels == NULL) goto fail2;
 
 			
-			u_int8_t sample[3];
+			uint8_t sample[3];
 			for (int h = 0; h < height; h++) {
 				int rowOffset = pitch * h;
 				file.seekg(dataOffset + rowOffset, std::ios::beg);

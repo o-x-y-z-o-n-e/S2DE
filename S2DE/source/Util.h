@@ -7,10 +7,11 @@
 
 namespace S2DE {
 
-	#ifdef S2DE_WINDOWS
-	typedef uint8_t u_int8_t;
-	typedef uint16_t u_int16_t;
-	typedef uint32_t u_int32_t;
+	#ifdef S2DE_UNIX
+	typedef u_int8_t uint8_t;
+	typedef u_int16_t uint16_t;
+	typedef u_int32_t uint32_t;
+	typedef u_int64_t uint64_t;
 	#endif
 
 	struct list_node;
@@ -44,13 +45,10 @@ namespace S2DE {
 	};
 
 
-	int GetStringHash(std::string s);
-
-
-	int16_t BytesToInt16(u_int8_t* buffer);
-	u_int16_t BytesToUInt16(u_int8_t* buffer);
-	int32_t BytesToInt32(u_int8_t* buffer);
-	u_int32_t BytesToUInt32(u_int8_t* buffer);
+	int16_t BytesToInt16(uint8_t* buffer);
+	uint16_t BytesToUInt16(uint8_t* buffer);
+	int32_t BytesToInt32(uint8_t* buffer);
+	uint32_t BytesToUInt32(uint8_t* buffer);
 
 }
 
