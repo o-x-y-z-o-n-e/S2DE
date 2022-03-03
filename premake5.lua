@@ -16,9 +16,10 @@ externaldir = {}
 externalinc = {}
 
 externaldir["SDL2"] = "vendor/SDL2/lib/%{cfg.system}-%{cfg.architecture}"
-externalinc["SDL2"] = "vendor/SDL2/include"
 
-externalinc["stb_image"] = "vendor/stb_image/include"
+externalinc["SDL2"] = "vendor/SDL2/include"
+externalinc["stb_image"] = "S2DE/vendor/stb_image/include"
+externalinc["spdlog"] = "S2DE/vendor/spdlog/include"
 
 
 project "S2DE"
@@ -41,7 +42,8 @@ project "S2DE"
     includedirs {
         "%{prj.name}/include",
         externalinc["SDL2"],
-		externalinc["stb_image"]
+		externalinc["stb_image"],
+		externalinc["spdlog"]
     }
 	
 	
