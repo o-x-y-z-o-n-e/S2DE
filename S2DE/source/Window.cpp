@@ -16,6 +16,12 @@ namespace S2DE {
 	const int CAMERA_X_OFFSET = CAMERA_WIDTH / 2;
 	const int CAMERA_Y_OFFSET = CAMERA_HEIGHT / 2;
 
+	bool Window::m_hasInit;
+	SDL_Window* Window::m_window;
+	SDL_Renderer* Window::m_renderer;
+	int Window::m_width;
+	int Window::m_height;
+	vec2f Window::m_position;
 
 
 	SDL_Renderer* Window::GetRenderer() {

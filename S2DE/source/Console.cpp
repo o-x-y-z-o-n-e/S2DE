@@ -6,6 +6,7 @@
 
 namespace S2DE {
 
+	bool Console::m_hasInit;
 
 	void Console::Init() {
 		if (m_hasInit)

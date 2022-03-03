@@ -7,6 +7,9 @@
 
 namespace S2DE {
 
+	std::list<Object*> ObjectManager::m_objects;
+	Object* ObjectManager::m_objectsToRemove[MAX_OBJECTS];
+	int ObjectManager::m_removeObjectCounter;
 
 	Object* Object::Create(std::string name) {
 		Object* object = new Object();

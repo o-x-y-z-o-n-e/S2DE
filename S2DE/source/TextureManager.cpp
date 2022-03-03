@@ -15,6 +15,10 @@
 namespace S2DE {
 
 
+	void* TextureManager::m_textureTable[TEXTURE_TABLE_SIZE];
+	int TextureManager::m_textureTableCount;
+
+
 	void TextureManager::Init() {
 
 	}

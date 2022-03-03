@@ -17,6 +17,12 @@ namespace S2DE {
 	bool IsRunning() { return Core::IsRunning(); }
 
 
+
+	bool Core::m_hasInit;
+	bool Core::m_isRunning;
+	int Core::m_tickCounter;
+	float Core::m_fixedDeltaCounter;
+
 	bool Core::IsRunning() { return m_isRunning; };
 
 	int Core::Init() {
