@@ -1,7 +1,7 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-#inlcude "Core.h"
+#include "Core.h"
 #include "Texture.h"
 
 namespace S2DE {

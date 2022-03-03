@@ -3,3 +3,11 @@ Physics collision system
 Z-buffering system for sprites.
 Transform inheritance system.
 Window setting functions (resolution, mode, title, etc..)
+
+Systems:
+    Logging
+    Input
+    Audio
+    Physics
+    Windowing
+    Resource Manager (Textures, Audio)
