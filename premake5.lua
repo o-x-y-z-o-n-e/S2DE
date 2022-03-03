@@ -54,6 +54,7 @@ project "S2DE"
 	
 	
 	filter "system:macosx"
+        buildoptions "-std=c++17"
 		defines "S2DE_MACOSX"
 	
 	
@@ -113,7 +114,10 @@ project "Example"
 	
 	
 	filter "system:macosx"
-        buildoptions {"-F /Library/Frameworks"}
+        buildoptions {
+            "-std=c++17",
+            "-F /Library/Frameworks"
+        }
         linkoptions {"-F /Library/Frameworks"}
 
         links {

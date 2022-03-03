@@ -1,6 +1,7 @@
 #include "TextureManager.h"
 #include "Window.h"
 #include "Util.h"
+#include "Core.h"
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -28,7 +29,7 @@ namespace S2DE {
 
 		int LoadTextureData(const char* path) {
 			if (texture_table_count >= TEXTURE_TABLE_SIZE) {
-				printf("[S2DE] ERROR: Run out of texture table memory!");
+				Console::LogCoreError("Run out of texture table memory!");
 				printf("[S2DE] ERROR: Could not load file '%s'\n", path);
 				return -1;
 			}

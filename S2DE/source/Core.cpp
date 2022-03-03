@@ -1,6 +1,7 @@
 #include "Core.h"
 #include "S2DE.h"
 #include "Window.h"
+#include "Console.h"
 #include "ObjectManager.h"
 #include "TextureManager.h"
 
@@ -22,11 +23,11 @@ namespace S2DE {
 
 	int Init() {
 		if (hasInit) {
-			printf("[S2DE] Already Initialized!\n");
+			Console::LogCoreWarning("Already Initialized!");
 			return 0;
 		}
 
-		printf("[S2DE] Initializing...\n");
+		Console::LogCore("Initializing...");
 
 		//Init components here
 		if (!Window::Init()) return 0;
@@ -40,7 +41,7 @@ namespace S2DE {
 	void Start() {
 		if (!hasInit) return;
 
-		printf("[S2DE] Starting...\n");
+		Console::LogCore("Starting...");
 
 		isRunning = true;
 
@@ -53,7 +54,7 @@ namespace S2DE {
 	void Close() {
 		if (!isRunning) return;
 
-		printf("[S2DE] Closing...\n");
+		Console::LogCore("Closing...");
 
 		isRunning = false;
 

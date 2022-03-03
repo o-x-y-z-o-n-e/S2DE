@@ -6,4 +6,12 @@
 #include "SDL2/SDL.h"
 #endif
 
+namespace S2DE::Console {
+
+    void LogCore(const char* message);
+    void LogCoreWarning(const char* message);
+    void LogCoreError(const char* message);
+
+}
+
 #endif
