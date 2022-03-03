@@ -3,7 +3,6 @@
 
 namespace S2DE {
 
-
 	class Core {
 		
 	public:
@@ -21,6 +20,7 @@ namespace S2DE {
 		static float m_fixedDeltaCounter;
 
 	};
+
 
 }
 

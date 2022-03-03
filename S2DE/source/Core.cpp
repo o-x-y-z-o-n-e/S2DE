@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "Global.h"
 #include "Core.h"
 #include "Window.h"
 #include "Console.h"

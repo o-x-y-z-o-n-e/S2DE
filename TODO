@@ -1,5 +1,6 @@
+Get Logger to take variables.
 Improve texture loading.
-Physics collision system
+Physics collision system.
 Z-buffering system for sprites.
 Transform inheritance system.
 Window setting functions (resolution, mode, title, etc..)

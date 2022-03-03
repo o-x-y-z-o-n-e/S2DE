@@ -15,6 +15,8 @@ int main(int argc, char** args) {
 
 	testObj->SetPosition(S2DE::vec2f(50, 50));
 
+	S2DE::Log("Hello There!");
+
 	S2DE::Start();
 
 	return 0;

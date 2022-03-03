@@ -6,13 +6,6 @@
 
 namespace S2DE {
 
-	#ifdef S2DE_UNIX
-	typedef u_int8_t uint8_t;
-	typedef u_int16_t uint16_t;
-	typedef u_int32_t uint32_t;
-	typedef u_int64_t uint64_t;
-	#endif
-
 	struct list_node;
 	typedef struct list_node {
 		struct list_node* prev;

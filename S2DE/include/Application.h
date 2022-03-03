@@ -8,9 +8,9 @@ namespace S2DE {
 	void Close();
 	bool IsRunning();
 
-	void Log(const char* message);
-	void LogWarning(const char* message);
-	void LogError(const char* message);
+	void Log(const char* format, ...);
+	void LogWarning(const char* format, ...);
+	void LogError(const char* format, ...);
 
 }
 

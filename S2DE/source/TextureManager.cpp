@@ -1,5 +1,5 @@
 #include "TextureManager.h"
-#include "Console.h"
+#include "Global.h"
 #include "Window.h"
 #include "Util.h"
 
@@ -30,7 +30,7 @@ namespace S2DE {
 	int TextureManager::LoadTextureData(std::string path) {
 		if (m_textureTableCount >= TEXTURE_TABLE_SIZE) {
 			LogCoreError("Run out of texture table memory!");
-			//("[S2DE] ERROR: Could not load file '%s'\n", path);
+			LogCoreError("Could not load file '%s'", path);
 			return -1;
 		}
 
@@ -48,7 +48,7 @@ namespace S2DE {
 		int width, height, originFormat;
 		unsigned char* data = stbi_load(path.c_str(), &width, &height, &originFormat, wantedFormat);
 		if (data == NULL) {
-			//printf("[S2DE] ERROR: Could not load file '%s'\n", path);
+			LogCoreError("Could not load file '%s'", path);
 			return -1;
 		}
 
@@ -68,7 +68,7 @@ namespace S2DE {
 
 		if (surface == NULL) {
 			stbi_image_free(data);
-			//printf("[S2DE] ERROR: Could not load file '%s'\n", path);
+			LogCoreError("Could not load file '%s'", path);
 			return -1;
 		}
 
@@ -78,7 +78,7 @@ namespace S2DE {
 		stbi_image_free(data);
 
 		if (texture == NULL) {
-			//printf("[S2DE] ERROR: Could not load file '%s'\n", path);
+			LogCoreError("Could not load file '%s'", path);
 			return -1;
 		}
 

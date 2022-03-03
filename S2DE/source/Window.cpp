@@ -55,10 +55,7 @@ namespace S2DE {
 		SDL_SetRenderDrawColor(m_renderer, 0xFF, 0xFF, 0xFF, 0x00);
 		SDL_RenderSetLogicalSize(m_renderer, CAMERA_WIDTH, CAMERA_HEIGHT);
 
-		m_position = { 0, 0 };
-
 		m_hasInit = true;
-
 		return 1;
 	}
 
