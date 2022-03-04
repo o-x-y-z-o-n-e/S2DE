@@ -1,14 +1,14 @@
-Get Logger to take variables.
-Improve texture loading.
-Physics collision system.
-Z-buffering system for sprites.
 Transform inheritance system.
 Window setting functions (resolution, mode, title, etc..)
 
+S2DE Version System.
+Physics collision system.
+Z-buffering system for sprites.
+Texture Runtime Manipulation.
+
 Systems:
-    Logging
     Input
-    Audio
+    Audio Playback
     Physics
-    Windowing
+    GUI
     Resource Manager (Textures, Audio)

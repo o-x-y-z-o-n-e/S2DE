@@ -1,6 +1,8 @@
 #ifndef S2DE_GLOBAL_H
 #define S2DE_GLOBAL_H
 
+#define S2DE_VERSION "0.1.0"
+
 namespace S2DE {
 
 #ifdef S2DE_UNIX

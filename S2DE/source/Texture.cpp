@@ -1,6 +1,5 @@
 #include "Texture.h"
 #include "TextureManager.h"
-#include "Window.h"
 
 #include <stddef.h>
 #include <string>
@@ -13,14 +12,27 @@ namespace S2DE {
 		m_height = 0;
 	}
 
-	bool Texture::Load(std::string path) {
-		m_id = TextureManager::LoadTextureData(path.c_str());
-		SDL_Texture* texData = (SDL_Texture*)TextureManager::GetTextureData(m_id);
+	Texture* Texture::Load(std::string path) {
+		Texture* texture = new Texture();
 
-		SDL_QueryTexture(texData, NULL, NULL, &m_width, &m_height);
+		texture->m_id = TextureManager::LoadTextureData(path);
+		TextureManager::QueryTextureData(texture->m_id, NULL, &(texture->m_width), &(texture->m_height));
 
-		return true;
+		return texture;
 	}
+
+
+
+	Texture* Texture::Create(std::string name, int w, int h) {
+		Texture* texture = new Texture();
+
+		texture->m_id = TextureManager::CreateTextureData(name, w, h);
+		TextureManager::QueryTextureData(texture->m_id, NULL, &(texture->m_width), &(texture->m_height));
+
+		return texture;
+	}
+
+
 
 	int Texture::GetID() { return m_id; }
 	int Texture::GetWidth() { return m_width; }

@@ -61,7 +61,7 @@ namespace S2DE {
 
 
 	void Window::Clear() {
-		SDL_SetRenderDrawColor(m_renderer, 0x00, 0xFF, 0x00, 0x00);
+		SDL_SetRenderDrawColor(m_renderer, 0x00, 0x00, 0x00, 0x00);
 		SDL_RenderClear(m_renderer);
 	}
 

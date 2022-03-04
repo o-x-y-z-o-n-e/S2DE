@@ -27,14 +27,8 @@ namespace S2DE {
 	//-------------------------------------------------------------------------------------------------
 
 
-	int TextureManager::LoadTextureData(std::string path) {
-		if (m_textureTableCount >= TEXTURE_TABLE_SIZE) {
-			LogCoreError("Run out of texture table memory!");
-			LogCoreError("Could not load file '%s'", path);
-			return -1;
-		}
-
-		size_t hash = std::hash<std::string>{}(path);
+	int TextureManager::GetEmptyIndex(std::string key) {
+		size_t hash = std::hash<std::string>{}(key);
 		int start = hash % TEXTURE_TABLE_SIZE;
 		int index = start;
 
@@ -43,6 +37,21 @@ namespace S2DE {
 			index = start + (i * i);
 		}
 
+		return index;
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+
+
+	int TextureManager::LoadTextureData(std::string path) {
+		if (m_textureTableCount >= TEXTURE_TABLE_SIZE) {
+			LogCoreError("Run out of texture table memory!");
+			LogCoreError("Could not load file '%s'", path);
+			return -1;
+		}
+
+		int index = GetEmptyIndex(path);
 
 		int wantedFormat = STBI_rgb_alpha;
 		int width, height, originFormat;
@@ -91,6 +100,31 @@ namespace S2DE {
 	//-------------------------------------------------------------------------------------------------
 
 
+	int TextureManager::CreateTextureData(std::string name, int w, int h) {
+		if (m_textureTableCount >= TEXTURE_TABLE_SIZE) {
+			LogCoreError("Run out of texture table memory!");
+			LogCoreError("Could create texture '%s'", name);
+			return -1;
+		}
+
+		int index = GetEmptyIndex(name);
+
+		SDL_Texture* texture = SDL_CreateTexture(Window::GetRenderer(), SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STATIC, w, h);
+
+		if (texture == NULL) {
+			LogCoreError("Could create texture '%s'", name);
+			return -1;
+		}
+
+		m_textureTable[index] = texture;
+		m_textureTableCount++;
+		return index;
+	}
+
+
+	//-------------------------------------------------------------------------------------------------
+
+
 	void TextureManager::FreeTextureData(int id) {
 		if (m_textureTable[id] == NULL)
 			return;
@@ -113,6 +147,16 @@ namespace S2DE {
 
 
 	//-------------------------------------------------------------------------------------------------
+
+
+	int TextureManager::QueryTextureData(int id, int* access, int* w, int* h) {
+		if (id < 0)
+			return 0;
+
+		if (SDL_QueryTexture((SDL_Texture*)m_textureTable[id], NULL, access, w, h))
+			return 1;
+		else return 0;
+	}
 
 
 	/*  My attempt at loading .bmp files. It worked, although the textures came out upside down. And I couldn't fix it :(
