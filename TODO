@@ -1,3 +1,5 @@
+Replace pointers with references.
+
 SpriteRenderer (Layer)
     Sprite hash table + linked list for references.
     Subscribe/Unsubscribe functions.
