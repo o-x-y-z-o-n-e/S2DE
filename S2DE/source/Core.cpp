@@ -78,11 +78,17 @@ namespace S2DE {
 		//SDL events
 		SDL_Event e;
 		while (SDL_PollEvent(&e) != 0) {
-			if (e.type == SDL_QUIT) {
-				Close();
-				return;
-			} else if (e.type == SDL_KEYDOWN) {
-				//		Input::SetPress(e.key.keysym.sym);
+
+			switch (e.type) {
+				case SDL_WINDOWEVENT: {
+					Window::HandleWindowEvent(&e.window);
+					break;
+				}
+
+				case SDL_QUIT: {
+					Close();
+					break;
+				}
 			}
 		}
 		

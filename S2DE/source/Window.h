@@ -21,6 +21,7 @@ namespace S2DE {
 		static void Close();
 		static void ApplyTexture(Texture* texture, int x, int y);
 		static SDL_Renderer* GetRenderer();
+		static void HandleWindowEvent(SDL_WindowEvent* e);
 
 		static void SetPosition(float x, float y);
 		static void SetPosition(vec2f position);

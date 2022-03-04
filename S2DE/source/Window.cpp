@@ -1,4 +1,4 @@
-#include "S2DE.h"
+#include "Global.h"
 #include "Window.h"
 #include "TextureManager.h"
 #include "Types.h"
@@ -40,7 +40,7 @@ namespace S2DE {
 		m_width = CAMERA_WIDTH * 4;
 		m_height = CAMERA_HEIGHT * 4;
 
-		m_window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_width, m_height, SDL_WINDOW_SHOWN);
+		m_window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_width, m_height, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 		if (m_window == NULL) {
 			printf("[S2DE] Window could not be created! SDL_Error: %s\n", SDL_GetError());
 			return 0;
@@ -61,7 +61,7 @@ namespace S2DE {
 
 
 	void Window::Clear() {
-		SDL_SetRenderDrawColor(m_renderer, 0x00, 0x00, 0x00, 0x00);
+		SDL_SetRenderDrawColor(m_renderer, 0x00, 0xFF, 0x00, 0x00);
 		SDL_RenderClear(m_renderer);
 	}
 
@@ -92,6 +92,16 @@ namespace S2DE {
 		SDL_Texture* tex = (SDL_Texture*)TextureManager::GetTextureData(texture->GetID());
 
 		SDL_RenderCopy(m_renderer, tex, NULL, &rect);
+	}
+
+
+	void Window::HandleWindowEvent(SDL_WindowEvent* e) {
+		switch (e->event) {
+			case SDL_WINDOWEVENT_RESIZED: {
+				LogCore("Resized Window to %dx%d", e->data1, e->data2);
+				break;
+			}
+		}
 	}
 
 
