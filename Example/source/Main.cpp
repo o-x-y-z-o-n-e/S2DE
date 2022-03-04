@@ -1,9 +1,9 @@
-#define SDL_MAIN_HANDLED
-
 #include "S2DE.h"
 
 int main(int argc, char** args) {
 	if(!S2DE::Init()) return 1;
+	
+	S2DE::SetTitle("Test App");
 
 	S2DE::Object* testObj = S2DE::Object::Create("Test");
 	S2DE::Texture* texture = S2DE::Texture::Load("resources/smile.bmp");

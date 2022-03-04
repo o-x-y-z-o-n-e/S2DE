@@ -12,6 +12,9 @@ namespace S2DE {
 	void LogWarning(const char* format, ...);
 	void LogError(const char* format, ...);
 
+	void SetTitle(const char* title);
+	void SetTargetFrameRate(int fps);
+
 }
 
 #endif

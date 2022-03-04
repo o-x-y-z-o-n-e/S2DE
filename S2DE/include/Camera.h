@@ -15,6 +15,11 @@ namespace S2DE::Camera {
 	vec2f GetPosition();
 	//void GetPosition(vec2i* position);
 
+
+	void SetSize(int w, int h);
+	void SetSize(vec2i d);
+	void GetSize(int* w, int* h);
+	vec2i GetSize();
 }
 
 #endif

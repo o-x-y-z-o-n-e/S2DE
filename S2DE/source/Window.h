@@ -23,18 +23,22 @@ namespace S2DE {
 		static SDL_Renderer* GetRenderer();
 		static void HandleWindowEvent(SDL_WindowEvent* e);
 
-		static void SetPosition(float x, float y);
-		static void SetPosition(vec2f position);
-		static void GetPosition(float* x, float* y);
-		static vec2f GetPosition();
+		static void SetViewPosition(float x, float y);
+		static void GetViewPosition(float* x, float* y);
+		static void SetViewSize(int w, int h);
+		static void GetViewSize(int* w, int* h);
+
+		static void SetTitle(const char* title);
 
 	private:
 		static bool m_hasInit;
 		static SDL_Window* m_window;
 		static SDL_Renderer* m_renderer;
-		static int m_width;
-		static int m_height;
-		static vec2f m_position;
+		static vec2i m_windowSize;
+		static vec2i m_viewSize;
+		static vec2i m_viewOffset;
+		static vec2f m_viewPosition;
+		
 
 	};
 

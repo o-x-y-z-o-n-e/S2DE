@@ -6,27 +6,23 @@
 #include <iostream>
 #include <stddef.h>
 
+#define DEFAULT_VIEW {320,200}
+#define DEFAULT_SCALE 4
+
 namespace S2DE {
 
-
 	const char* TITLE = "S2DE";
-
-	const int CAMERA_WIDTH = 320;
-	const int CAMERA_HEIGHT = 200;
-	const int CAMERA_X_OFFSET = CAMERA_WIDTH / 2;
-	const int CAMERA_Y_OFFSET = CAMERA_HEIGHT / 2;
 
 	bool Window::m_hasInit;
 	SDL_Window* Window::m_window;
 	SDL_Renderer* Window::m_renderer;
-	int Window::m_width;
-	int Window::m_height;
-	vec2f Window::m_position;
+	vec2i Window::m_windowSize;
+	vec2i Window::m_viewSize;
+	vec2i Window::m_viewOffset;
+	vec2f Window::m_viewPosition;
 
 
-	SDL_Renderer* Window::GetRenderer() {
-		return m_renderer;
-	}
+	SDL_Renderer* Window::GetRenderer() { return m_renderer; }
 
 
 	int Window::Init() {
@@ -37,10 +33,13 @@ namespace S2DE {
 			return 0;
 		}
 
-		m_width = CAMERA_WIDTH * 4;
-		m_height = CAMERA_HEIGHT * 4;
+		m_viewSize = DEFAULT_VIEW;
+		m_viewOffset.x = m_viewSize.x / 2;
+		m_viewOffset.y = m_viewSize.y / 2;
+		m_windowSize.x = m_viewSize.x * DEFAULT_SCALE;
+		m_windowSize.y = m_viewSize.y * DEFAULT_SCALE;
 
-		m_window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_width, m_height, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+		m_window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_windowSize.x, m_windowSize.y, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 		if (m_window == NULL) {
 			printf("[S2DE] Window could not be created! SDL_Error: %s\n", SDL_GetError());
 			return 0;
@@ -53,7 +52,7 @@ namespace S2DE {
 		}
 
 		SDL_SetRenderDrawColor(m_renderer, 0xFF, 0xFF, 0xFF, 0x00);
-		SDL_RenderSetLogicalSize(m_renderer, CAMERA_WIDTH, CAMERA_HEIGHT);
+		SDL_RenderSetLogicalSize(m_renderer, m_viewSize.x, m_viewSize.y);
 
 		m_hasInit = true;
 		return 1;
@@ -88,11 +87,14 @@ namespace S2DE {
 
 
 	void Window::ApplyTexture(Texture* texture, int x, int y) {
-		SDL_Rect rect = { (CAMERA_X_OFFSET - (int)m_position.x) + x, (CAMERA_Y_OFFSET + (int)m_position.y) + y, texture->GetWidth(), texture->GetHeight() };
+		SDL_Rect rect = { (m_viewOffset.x - (int)m_viewPosition.x) + x, (m_viewOffset.y + (int)m_viewPosition.y) + y, texture->GetWidth(), texture->GetHeight() };
 		SDL_Texture* tex = (SDL_Texture*)TextureManager::GetTextureData(texture->GetID());
 
 		SDL_RenderCopy(m_renderer, tex, NULL, &rect);
 	}
+
+
+	void Window::SetTitle(const char* title) { SDL_SetWindowTitle(m_window, title); }
 
 
 	void Window::HandleWindowEvent(SDL_WindowEvent* e) {
@@ -105,26 +107,60 @@ namespace S2DE {
 	}
 
 
-	void Window::SetPosition(float x, float y) {
-		m_position.x = x;
-		m_position.y = y;
-	}
-	void Window::GetPosition(float* x, float* y) {
-		if(x != NULL) *x = m_position.x;
-		if(y != NULL) *y = m_position.y;
+	void Window::SetViewPosition(float x, float y) {
+		m_viewPosition.x = x;
+		m_viewPosition.y = y;
 	}
 
-	void Window::SetPosition(vec2f position) { m_position = position; }
-	vec2f Window::GetPosition() { return m_position; }
+	void Window::GetViewPosition(float* x, float* y) {
+		if(x != NULL) *x = m_viewPosition.x;
+		if(y != NULL) *y = m_viewPosition.y;
+	}
 
+	void Window::SetViewSize(int w, int h) {
+		if (w < 0) w *= -1;
+		if (h < 0) h *= -1;
+
+		m_viewSize.x = w;
+		m_viewSize.y = h;
+		m_viewOffset.x = m_viewSize.x / 2;
+		m_viewOffset.y = m_viewSize.y / 2;
+
+		SDL_RenderSetLogicalSize(m_renderer, m_viewSize.x, m_viewSize.y);
+	}
+
+	void Window::GetViewSize(int* w, int* h) {
+		if (w != NULL) *w = m_viewSize.x;
+		if (h != NULL) *h = m_viewSize.y;
+	}
+
+
+	//--------------------------------
+
+
+	void SetTitle(const char* title) { Window::SetTitle(title); }
 
 
 	namespace Camera {
 
-		void SetPosition(float x, float y) { Window::SetPosition(x, y); }
-		void SetPosition(vec2f position) { Window::SetPosition(position); }
-		void GetPosition(float* x, float* y) { Window::GetPosition(x, y); }
-		vec2f GetPosition() { return Window::GetPosition(); }
+		void SetPosition(float x, float y) { Window::SetViewPosition(x, y); }
+		void SetPosition(vec2f position) { Window::SetViewPosition(position.x, position.y); }
+		void GetPosition(float* x, float* y) { Window::GetViewPosition(x, y); }
+		vec2f GetPosition() {
+			float x, y = 0;
+			Window::GetViewPosition(&x, &y);
+			return { x, y };
+		}
+
+
+		void SetSize(int w, int h) { Window::SetViewSize(w, h); }
+		void SetSize(vec2i d) { Window::SetViewSize(d.x, d.y); }
+		void GetSize(int* w, int* h) { Window::GetViewSize(w, h); }
+		vec2i GetSize() {
+			int w, h = 0;
+			Window::GetViewSize(&w, &h);
+			return { w, h };
+		}
 
 	}
 

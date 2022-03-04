@@ -10,6 +10,7 @@ namespace S2DE {
 		static void Start();
 		static void Close();
 		static bool IsRunning();
+		static void SetTargetFrameRate(int fps);
 
 	private:
 		static void Loop();
@@ -17,7 +18,11 @@ namespace S2DE {
 		static bool m_hasInit;
 		static bool m_isRunning;
 		static int m_tickCounter;
+
 		static float m_fixedDeltaCounter;
+
+		static float m_renderTimeStep;
+		static float m_renderTickCounter;
 
 	};
 

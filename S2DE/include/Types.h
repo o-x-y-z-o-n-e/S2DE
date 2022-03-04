@@ -8,16 +8,16 @@ namespace S2DE {
 		float x;
 		float y;
 
-		vec2f() { this->x = 0; this->y = 0; };
+		vec2f() { this->x = 0.0F; this->y = 0.0F; };
 		vec2f(float x, float y) {
 			this->x = x;
 			this->y = y;
 		};
 
-		static vec2f zero() { return *new vec2f(0, 0); };
+		static inline vec2f zero() { return { 0.0F, 0.0F }; }
 
 		vec2f operator +(const vec2f& a) {
-			vec2f v = *new vec2f();
+			vec2f v = { 0.0F, 0.0F };
 			v.x = x + a.x;
 			v.y = y + a.y;
 
@@ -25,7 +25,14 @@ namespace S2DE {
 		}
 
 		vec2f operator *(const float a) {
-			vec2f v = *new vec2f();
+			vec2f v = { 0.0F, 0.0F };
+			v.x = x * a;
+			v.y = y * a;
+			return v;
+		}
+
+		vec2f operator *(const int a) {
+			vec2f v = { 0.0F, 0.0F };
 			v.x = x * a;
 			v.y = y * a;
 			return v;
@@ -47,10 +54,10 @@ namespace S2DE {
 			this->y = y;
 		};
 
-		static vec2i zero() { return *new vec2i(0, 0); };
+		static inline vec2i zero() { return { 0, 0 }; }
 
 		vec2i operator +(const vec2i& a) {
-			vec2i v = *new vec2i();
+			vec2i v = { 0, 0 };
 			v.x = x + a.x;
 			v.y = y + a.y;
 
@@ -58,7 +65,7 @@ namespace S2DE {
 		}
 
 		vec2i operator *(const int a) {
-			vec2i v = *new vec2i();
+			vec2i v = { 0, 0 };
 			v.x = x * a;
 			v.y = y * a;
 			return v;
@@ -78,10 +85,10 @@ namespace S2DE {
 
 	public:
 		rec2f() {
-			this->x = 0;
-			this->y = 0;
-			this->w = 0;
-			this->h = 0;
+			this->x = 0.0F;
+			this->y = 0.0F;
+			this->w = 0.0F;
+			this->h = 0.0F;
 		}
 
 		rec2f(float x, float y, float w, float h) {
