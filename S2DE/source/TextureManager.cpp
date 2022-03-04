@@ -47,7 +47,7 @@ namespace S2DE {
 	int TextureManager::LoadTextureData(std::string path) {
 		if (m_textureTableCount >= TEXTURE_TABLE_SIZE) {
 			LogCoreError("Run out of texture table memory!");
-			LogCoreError("Could not load file '%s'", path);
+			LogCoreError("Could not load file '%s'", path.c_str());
 			return -1;
 		}
 
@@ -103,7 +103,7 @@ namespace S2DE {
 	int TextureManager::CreateTextureData(std::string name, int w, int h) {
 		if (m_textureTableCount >= TEXTURE_TABLE_SIZE) {
 			LogCoreError("Run out of texture table memory!");
-			LogCoreError("Could create texture '%s'", name);
+			LogCoreError("Could create texture '%s'", name.c_str());
 			return -1;
 		}
 
@@ -112,7 +112,7 @@ namespace S2DE {
 		SDL_Texture* texture = SDL_CreateTexture(Window::GetRenderer(), SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_STATIC, w, h);
 
 		if (texture == NULL) {
-			LogCoreError("Could create texture '%s'", name);
+			LogCoreError("Could create texture '%s'", name.c_str());
 			return -1;
 		}
 
