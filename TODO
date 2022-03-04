@@ -1,8 +1,12 @@
-Transform inheritance system.
+SpriteRenderer (Layer)
+    Sprite hash table + linked list for references.
+    Subscribe/Unsubscribe functions.
 
+Layer System
+
+Transform inheritance system.
 S2DE Version System.
 Physics collision system.
-Z-buffering system for sprites.
 Texture Runtime Manipulation.
 
 Systems:
