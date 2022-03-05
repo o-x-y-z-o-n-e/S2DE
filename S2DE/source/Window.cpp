@@ -86,9 +86,9 @@ namespace S2DE {
 	}
 
 
-	void Window::ApplyTexture(Texture* texture, int x, int y) {
-		SDL_Rect rect = { (m_viewOffset.x - (int)m_viewPosition.x) + x, (m_viewOffset.y + (int)m_viewPosition.y) + y, texture->GetWidth(), texture->GetHeight() };
-		SDL_Texture* tex = (SDL_Texture*)TextureManager::GetTextureData(texture->GetID());
+	void Window::ApplyTexture(Texture& texture, int x, int y) {
+		SDL_Rect rect = { (m_viewOffset.x - (int)m_viewPosition.x) + x, (m_viewOffset.y + (int)m_viewPosition.y) + y, texture.GetWidth(), texture.GetHeight() };
+		SDL_Texture* tex = (SDL_Texture*)TextureManager::GetTextureData(texture.GetID());
 
 		SDL_RenderCopy(m_renderer, tex, NULL, &rect);
 	}
@@ -97,10 +97,10 @@ namespace S2DE {
 	void Window::SetTitle(const char* title) { SDL_SetWindowTitle(m_window, title); }
 
 
-	void Window::HandleWindowEvent(SDL_WindowEvent* e) {
-		switch (e->event) {
+	void Window::HandleWindowEvent(SDL_WindowEvent& e) {
+		switch (e.event) {
 			case SDL_WINDOWEVENT_RESIZED: {
-				LogCore("Resized Window to %dx%d", e->data1, e->data2);
+				LogCore("Resized Window to %dx%d", e.data1, e.data2);
 				break;
 			}
 		}

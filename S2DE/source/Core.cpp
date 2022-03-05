@@ -85,7 +85,7 @@ namespace S2DE {
 
 			switch (e.type) {
 				case SDL_WINDOWEVENT: {
-					Window::HandleWindowEvent(&e.window);
+					Window::HandleWindowEvent(e.window);
 					break;
 				}
 

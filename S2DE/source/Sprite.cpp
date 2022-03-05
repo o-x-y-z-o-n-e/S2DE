@@ -24,7 +24,7 @@ namespace S2DE {
 				position.y -= m_texture->GetHeight() / 2;
 			}
 
-			Window::ApplyTexture(m_texture, (int)position.x, (int)position.y);
+			Window::ApplyTexture(*m_texture, (int)position.x, (int)position.y);
 		}
 	}
 
