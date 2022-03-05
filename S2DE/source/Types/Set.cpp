@@ -1,4 +1,5 @@
-#include "Set.h"
+#include "Global.h"
+#include "Types.h"
 #include "Util.h"
 
 namespace S2DE {

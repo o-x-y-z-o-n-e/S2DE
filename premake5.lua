@@ -33,14 +33,16 @@ project "S2DE"
 
 
     files {
-        "%{prj.name}/include/**.h",
-        "%{prj.name}/source/**.h",
         "%{prj.name}/source/**.cpp"
     }
 
 
     includedirs {
         "%{prj.name}/include",
+        "%{prj.name}/include/**",
+        "%{prj.name}/source",
+        "%{prj.name}/source/**",
+        
         externalinc["SDL2"],
 		externalinc["stb_image"],
 		externalinc["spdlog"]
