@@ -58,7 +58,7 @@ namespace S2DE {
 	}
 
 	int Set::IndexOf(void* data) {
-		int start = GetPointerHash(data) % m_max;
+		int start = Hash(data) % m_max;
 		int index = start;
 
 		int i = 0;
@@ -73,7 +73,7 @@ namespace S2DE {
 	}
 
 	int Set::FindEmptyIndex(void* data) {
-		int start = GetPointerHash(data) % m_max;
+		int start = Hash(data) % m_max;
 		int index = start;
 
 		int i = 0;

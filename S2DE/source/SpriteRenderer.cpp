@@ -8,7 +8,7 @@ namespace S2DE {
 
 
 	int SpriteRenderer::FindEmptyIndex(Sprite* sprite) {
-		int start = GetPointerHash(sprite) % SPRITE_TABLE_SIZE;
+		int start = Hash(sprite) % SPRITE_TABLE_SIZE;
 		int index = start;
 
 		int i = 0;
@@ -20,7 +20,7 @@ namespace S2DE {
 
 
 	int SpriteRenderer::FindSpriteIndex(Sprite* sprite) {
-		int start = GetPointerHash(sprite) % SPRITE_TABLE_SIZE;
+		int start = Hash(sprite) % SPRITE_TABLE_SIZE;
 		int index = start;
 
 		int i = 0;

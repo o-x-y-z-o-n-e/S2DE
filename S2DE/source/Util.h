@@ -38,7 +38,7 @@ namespace S2DE {
 
 
 
-	size_t GetPointerHash(void* ptr);
+	uint64_t Hash(void* ptr);
 
 
 	int16_t BytesToInt16(uint8_t* buffer);
