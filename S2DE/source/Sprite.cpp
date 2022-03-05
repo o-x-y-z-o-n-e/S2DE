@@ -32,4 +32,9 @@ namespace S2DE {
 		m_texture = texture;
 	}
 
+
+	Texture* Sprite::GetTexture() {
+		return m_texture;
+	}
+
 }

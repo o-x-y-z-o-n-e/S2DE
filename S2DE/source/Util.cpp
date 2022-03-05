@@ -175,5 +175,18 @@ namespace S2DE {
 	}
 
 
+	size_t GetPointerHash(void* ptr) {
+		size_t a = (size_t)ptr;
+
+		a -= (a << 6);
+		a ^= (a >> 17);
+		a -= (a << 9);
+		a ^= (a << 4);
+		a -= (a << 3);
+		a ^= (a << 10);
+		a ^= (a >> 15);
+
+		return (int)a;
+	}
 
 }

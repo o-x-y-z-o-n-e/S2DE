@@ -1,9 +1,9 @@
 #ifndef S2DE_COMPONENT_H
 #define S2DE_COMPONENT_H
 
-namespace S2DE {
+#include "Object.h"
 
-    class Object;
+namespace S2DE {
 
     class Component {
 

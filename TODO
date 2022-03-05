@@ -1,10 +1,6 @@
-Replace pointers with references.
-
-SpriteRenderer (Layer)
-    Sprite hash table + linked list for references.
-    Subscribe/Unsubscribe functions.
-
 Layer System
+
+Unified Hash/List ADT classes.
 
 Transform inheritance system.
 S2DE Version System.
