@@ -1,8 +1,9 @@
-#include "Application.h"
 #include "Global.h"
 #include "Core.h"
+#include "Application.h"
 #include "Window.h"
 #include "Console.h"
+#include "Layer.h"
 #include "ObjectManager.h"
 #include "TextureManager.h"
 
@@ -31,12 +32,12 @@ namespace S2DE {
 	bool Core::IsRunning() { return m_isRunning; };
 
 	int Core::Init() {
-		Console::Init();
-
 		if (m_hasInit) {
 			LogCoreWarning("Already Initialized!");
 			return 0;
 		}
+
+		Console::Init();
 
 		LogCore("Initializing...");
 
@@ -64,6 +65,7 @@ namespace S2DE {
 
 
 	void Core::Close() {
+		if (!m_hasInit) return;
 		if (!m_isRunning) return;
 
 		LogCore("Closing...");

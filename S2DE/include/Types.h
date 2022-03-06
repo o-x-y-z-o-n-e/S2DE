@@ -153,12 +153,14 @@ namespace S2DE {
 
 
 	class Chain {
+	private:
 		typedef struct Node {
 			void* data;
 			Node* next;
 			Node* prev;
 		} Node;
 
+	public:
 		typedef struct Iterator {
 			Node* current;
 			int direction;

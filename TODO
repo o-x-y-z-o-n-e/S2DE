@@ -1,7 +1,6 @@
 Layer System
 
-Unified Hash/List ADT classes.
-
+Object hierarchy system.
 Transform inheritance system.
 S2DE Version System.
 Physics collision system.
