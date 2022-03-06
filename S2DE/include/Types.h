@@ -130,8 +130,8 @@ namespace S2DE {
 	//Abstract Data Containers
 
 
-	class Set {
 
+	class Set {
 	public:
 		Set(int max);
 		~Set();
@@ -149,19 +149,35 @@ namespace S2DE {
 		void** m_data;
 		int m_max;
 		int m_count;
-
 	};
 
 
 	class Chain {
+		typedef struct Node {
+			void* data;
+			Node* next;
+			Node* prev;
+		} Node;
+
+		typedef struct Iterator {
+			Node* current;
+			int direction;
+			void* Next();
+		} Iterator;
+
+	public:
 		void Append(void* data);
+		void Insert(int index, void* data);
 		void* Get(int index);
-		void Remove(int index);
+		void* Remove(int index);
+		Iterator Begin(bool reverse = false);
+
 	private:
 		int m_count;
-
+		Node* m_head;
+		Node* m_tail;
+		Node* GetNode(int index);
 	};
-
 
 }
 
