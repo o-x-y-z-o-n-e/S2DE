@@ -152,6 +152,19 @@ namespace S2DE {
 	};
 
 
+	class Dictionary {
+	public:
+		//Dictionary(int max);
+		//~Dictionary();
+
+	private:
+		int FindEmptyIndex(void* data);
+		void** m_data;
+		int m_max;
+		int m_count;
+	};
+
+
 	class Chain {
 	private:
 		typedef struct Node {
