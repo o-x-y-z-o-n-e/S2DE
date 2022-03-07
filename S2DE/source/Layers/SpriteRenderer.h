@@ -18,9 +18,10 @@ namespace S2DE {
 	};
 
 
-	class SpriteRenderer : Layer {
+	class SpriteRenderer : public Layer {
 
 	public:
+		SpriteRenderer(int level);
 		~SpriteRenderer();
 
 		void Update(); //Render

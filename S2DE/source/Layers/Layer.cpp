@@ -9,6 +9,7 @@ namespace S2DE {
 	int Layer::GetLevel() { return m_level; }
 
 	void Layer::Update() {}
+	void Layer::ProcessEvents() {}
 
 	Layer::~Layer() {}
 

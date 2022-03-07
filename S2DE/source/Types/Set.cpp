@@ -1,6 +1,6 @@
-#include "Global.h"
+#include "Core/Global.h"
+#include "Core/Util.h"
 #include "Types.h"
-#include "Util.h"
 
 namespace S2DE {
 

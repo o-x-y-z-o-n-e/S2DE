@@ -9,7 +9,7 @@ namespace S2DE {
 		Layer(int level);
 		virtual ~Layer();
 		virtual void Update();
-		//virtual void ProcessEvents();
+		virtual void ProcessEvents();
 		int GetLevel();
 
 	private:

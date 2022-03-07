@@ -6,6 +6,7 @@
 #include "Layer.h"
 #include "ObjectManager.h"
 #include "TextureManager.h"
+#include "LayerManager.h"
 
 #include <iostream>
 
@@ -117,17 +118,16 @@ namespace S2DE {
 			m_fixedDeltaCounter -= FIXED_TIME_STEP;
 		}
 
-		//clears all graphics
-		if(render)
-			Window::Clear();
-
 		//update gameplay
 		ObjectManager::DynamicUpdateAllObjects(timeDelta);
 		ObjectManager::LateUpdateAllObjects(timeDelta);
 
 		//update graphics
-		if(render)
+		if(render) {
+			Window::Clear();
+			LayerManager::Process();
 			Window::Update();
+		}
 
 		//input press switch
 		//Input::CheckRelease();

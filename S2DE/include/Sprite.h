@@ -17,9 +17,12 @@ namespace S2DE {
 		void LateUpdate(float delta);
         void SetTexture(Texture* texture);
 		Texture* GetTexture();
+		void SetLayer(int layer);
+		int GetLayer();
 
 	private:
 		Texture* m_texture;
+		int m_layer;
 
 	};
 }

@@ -1,10 +1,15 @@
-#include "Global.h"
 #include "SpriteRenderer.h"
-#include "Util.h"
+#include "Core/Global.h"
+#include "Core/Util.h"
+#include "Core/Window.h"
 #include "Types.h"
-#include "Window.h"
 
 namespace S2DE {
+
+
+	SpriteRenderer::SpriteRenderer(int level) : Layer(level) {
+		
+	}
 
 
 	int SpriteRenderer::FindEmptyIndex(Sprite* sprite) {
