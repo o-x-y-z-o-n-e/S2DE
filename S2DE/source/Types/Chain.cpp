@@ -5,6 +5,18 @@
 
 namespace S2DE {
 
+	Chain::Chain() {
+		m_head = nullptr;
+		m_tail = nullptr;
+		m_count = 0;
+	}
+
+
+	Chain::~Chain() {
+		while (m_head != nullptr)
+			Remove(0);
+	}
+
     void Chain::Append(void* data) {
 		Node* node = new Node();
 		node->data = data;
@@ -75,6 +87,21 @@ namespace S2DE {
 
 		return data;
     }
+
+
+	void Chain::Remove(void* data) {
+		Node* current = m_head;
+		int i = 0;
+
+		while (current != nullptr) {
+			if (current->data == data) {
+				Remove(i);
+				return;
+			}
+
+			current = current->next;
+		}
+	}
 
 
 	Chain::Node* Chain::GetNode(int index) {

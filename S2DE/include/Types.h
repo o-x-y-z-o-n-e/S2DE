@@ -1,8 +1,9 @@
 #ifndef S2DE_TYPES_H
 #define S2DE_TYPES_H
 
-namespace S2DE {
+#include <stdint.h>
 
+namespace S2DE {
 
 	typedef struct vec2f {
 		float x;
@@ -135,6 +136,7 @@ namespace S2DE {
 	public:
 		Set(int max);
 		~Set();
+
 		int Max();
 		int Count();
 		void Add(void* data);
@@ -153,13 +155,34 @@ namespace S2DE {
 
 
 	class Dictionary {
+	private:
+		typedef struct Node {
+			uint64_t hash;
+			void* data;
+		} Node;
+
 	public:
-		//Dictionary(int max);
-		//~Dictionary();
+		Dictionary();
+		Dictionary(int max);
+		~Dictionary();
+
+		int Max();
+		int Count();
+
+		void Add(void* key, void* data);
+		void Add(int key, void* data);
+		void Add(const char* key, void* data);
+		bool Contains(void* key);
+		void* Get(void* key);
+		void* Remove(void* key);
 
 	private:
-		int FindEmptyIndex(void* data);
-		void** m_data;
+		void Add(uint64_t hash, void* data);
+		bool Contains(uint64_t hash);
+		void* Get(uint64_t hash);
+		void* Remove(uint64_t hash);
+		int FindEmptyIndex(uint64_t hash);
+		Node* m_data;
 		int m_max;
 		int m_count;
 	};
@@ -181,10 +204,14 @@ namespace S2DE {
 		} Iterator;
 
 	public:
+		Chain();
+		~Chain();
+
 		void Append(void* data);
 		void Insert(int index, void* data);
 		void* Get(int index);
 		void* Remove(int index);
+		void Remove(void* data);
 		Iterator Begin(bool reverse = false);
 
 	private:

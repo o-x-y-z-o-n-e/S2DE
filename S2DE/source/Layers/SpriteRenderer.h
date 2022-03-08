@@ -3,22 +3,13 @@
 
 #include "Layer.h"
 #include "Sprite.h"
-
-#define SPRITE_TABLE_SIZE 10000
+#include "Types.h"
 
 namespace S2DE {
 
-	class SpriteNode;
-	class SpriteNode {
-	public:
-		Sprite* sprite;
-		SpriteNode* next;
-		SpriteNode* prev;
-
-	};
-
 
 	class SpriteRenderer : public Layer {
+
 
 	public:
 		SpriteRenderer(int level);
@@ -29,15 +20,9 @@ namespace S2DE {
 		void DettachSprite(Sprite* sprite);
 
 	private:
-		int FindEmptyIndex(Sprite* sprite);
-		int FindSpriteIndex(Sprite* sprite);
 		void DrawSprite(Sprite& sprite);
-
-		int m_spriteCount;
-		SpriteNode* m_table[SPRITE_TABLE_SIZE];
-		SpriteNode* m_head;
-		SpriteNode* m_tail;
-
+		Chain m_list;
+		Dictionary m_table;
 	};
 
 }

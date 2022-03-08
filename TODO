@@ -1,11 +1,9 @@
-Add Dictionary ADT
-
 Object hierarchy system.
 Transform inheritance system.
 S2DE Version System.
 Physics collision system.
 Texture Runtime Manipulation.
-Texture Alias (Spritesheets)
+Texture Alias (Spritesheets).
 
 Systems:
     Input

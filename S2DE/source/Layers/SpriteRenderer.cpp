@@ -4,80 +4,47 @@
 #include "Core/Window.h"
 #include "Types.h"
 
+// #define USE_HASH_TABLE
+#define HASH_TABLE_SIZE 10000
+
 namespace S2DE {
 
 
 	SpriteRenderer::SpriteRenderer(int level) : Layer(level) {
-		
-	}
-
-
-	int SpriteRenderer::FindEmptyIndex(Sprite* sprite) {
-		int start = Hash(sprite) % SPRITE_TABLE_SIZE;
-		int index = start;
-
-		int i = 0;
-		while (m_table[index] != nullptr)
-			index = start + (i * i);
-
-		return index;
-	}
-
-
-	int SpriteRenderer::FindSpriteIndex(Sprite* sprite) {
-		int start = Hash(sprite) % SPRITE_TABLE_SIZE;
-		int index = start;
-
-		int i = 0;
-		while (m_table[index] != nullptr) {
-			if (m_table[index]->sprite == sprite)
-				return index;
-
-			index = start + (i * i);
-		}
-
-		return -1;
+#ifdef USE_HASH_TABLE
+		m_table = Dictionary(HASH_TABLE_SIZE);
+#endif
 	}
 
 
 	SpriteRenderer::~SpriteRenderer() {
-		while (m_head != nullptr)
-			DettachSprite(m_head->sprite);
+		m_list.~Chain();
+		m_table.~Dictionary();
 	}
 
 
 	void SpriteRenderer::Update() {
-		SpriteNode* current = m_head;
-		while (current != nullptr) {
-			DrawSprite(*(current->sprite));
-
-			current = current->next;
-		}
+		Chain::Iterator it = m_list.Begin();
+		Sprite* current = nullptr;
+		while ((current = (Sprite*)it.Next()) != nullptr)
+			DrawSprite(*current);
 	}
 
 
 	void SpriteRenderer::AttachSprite(Sprite* sprite) {
-		if (m_spriteCount >= SPRITE_TABLE_SIZE) {
-			LogCoreError("Could not add new sprite (%s) to layer (%d)!", sprite->GetObject()->Name.c_str(), 0);
+#ifdef USE_HASH_TABLE
+		if (m_table.Count() >= m_table.Max()) {
+			LogCoreError("Could not add sprite (%s) to layer (%d)", sprite->GetObject()->Name, GetLevel());
 			return;
 		}
+#endif
 
-		int index = FindEmptyIndex(sprite);
+		m_list.Append(sprite);
 
-		SpriteNode* node = new SpriteNode();
-		node->sprite = sprite;
-
-		if (m_spriteCount == 0) {
-			m_head = node;
-			m_tail = node;
-		} else {
-			m_tail->next = node;
-			node->prev = m_tail;
-			m_tail = node;
-		}
-
-		m_table[index] = node;
-		m_spriteCount++;
+		// EDIT: We want to get the Chain::Node and input that into the hash table (with sprite* as the key).
+#ifdef USE_HASH_TABLE
+		m_table.Add(sprite, nullptr);
+#endif
 	}
 
 
@@ -96,27 +63,12 @@ namespace S2DE {
 
 
 	void SpriteRenderer::DettachSprite(Sprite* sprite) {
-		int index = FindSpriteIndex(sprite);
-		if (index < 0) return;
-
-		SpriteNode* node = m_table[index];
-
-		if (node->prev != nullptr)
-			node->prev->next = node->next;
-		
-		if (node->next != nullptr)
-			node->next->prev = node->prev;
-
-		if (m_head == node)
-			m_head = node->next;
-
-		if (m_tail == node)
-			m_tail = node->prev;
-
-		m_table[index] = nullptr;
-		m_spriteCount--;
-
-		delete(node);
+#ifdef USE_HASH_TABLE
+		m_list.Remove(m_table.Get(sprite));
+		m_table.Remove(sprite);
+#else
+		m_list.Remove(sprite);
+#endif
 	}
 
 }
