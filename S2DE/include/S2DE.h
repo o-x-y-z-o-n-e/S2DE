@@ -3,6 +3,7 @@
 
 //this is where applications can interface with S2DE
 #include "Application.h"
+#include "Camera.h"
 #include "Component.h"
 #include "Object.h"
 #include "Sprite.h"

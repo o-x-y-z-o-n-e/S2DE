@@ -10,8 +10,11 @@ int main(int argc, char** args) {
 	S2DE::Sprite* testSprite = new S2DE::Sprite();
 	testObj->AddComponent(testSprite);
 	testSprite->SetTexture(texture);
+	testSprite->Centered = true;
 
-	testObj->SetPosition(S2DE::vec2f(50, 50));
+	testObj->SetPosition(S2DE::vec2f(0, 0));
+
+	S2DE::Camera::SetPosition(0, 0);
 
 	S2DE::Log("Hello There!");
 
