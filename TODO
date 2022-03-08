@@ -1,4 +1,5 @@
 Refactor all static variables to use 's_' prefix.
+Make Object::~Object(); private and only accessible from ObjectManager
 
 Object hierarchy system.
 Transform inheritance system.

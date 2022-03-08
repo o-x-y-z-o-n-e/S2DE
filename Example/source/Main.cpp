@@ -1,4 +1,5 @@
 #include "S2DE.h"
+#include "Circle.h""
 
 int main(int argc, char** args) {
 	if(!S2DE::Init()) return 1;
@@ -11,6 +12,9 @@ int main(int argc, char** args) {
 	testObj->AddComponent(testSprite);
 	testSprite->SetTexture(texture);
 	testSprite->Centered = true;
+
+	Circle* testCircle = new Circle();
+	testObj->AddComponent(testCircle);
 
 	testObj->SetPosition(S2DE::vec2f(0, 0));
 

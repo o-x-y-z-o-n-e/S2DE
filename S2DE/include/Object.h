@@ -11,6 +11,8 @@ namespace S2DE {
     class Object {
 
 	public:
+		~Object(); // make private somehow
+
 		std::string Name;
 		void SetPosition(vec2f position);
 		vec2f GetPosition();
@@ -21,8 +23,18 @@ namespace S2DE {
 		Object* GetParent();
 		void AddChild(Object* child);
 
+		void Start();
+		void DynamicUpdate(float delta);
+		void FixedUpdate(float delta);
+		void LateUpdate(float delta);
+
+
 	private:
 		Object() {}
+		
+
+		void RemoveChild(Object* child);
+
 		vec2f m_position;
 		Component** m_components;
 		int m_componentCount;

@@ -215,6 +215,7 @@ namespace S2DE {
 		void Clear();
 		Iterator Begin(bool reverse = false);
 
+
 	private:
 		int m_count;
 		Node* m_head;
