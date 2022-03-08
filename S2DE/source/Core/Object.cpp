@@ -37,4 +37,23 @@ namespace S2DE {
 	int Object::GetComponentCount() {
 		return m_componentCount;
 	}
+
+
+	void Object::SetParent(Object* parent) {
+		m_parent = parent;
+		m_parent->AddChild(this);
+	}
+
+
+	Object* GetParent() { return m_parent; }
+
+
+	void Object::AddChild(Object* child) {
+		if (child->GetParent() != this) {
+			child->SetParent(this);
+			return;
+		}
+
+		//add child
+	}
 }

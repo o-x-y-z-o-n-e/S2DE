@@ -11,11 +11,22 @@ namespace S2DE {
 	Object* ObjectManager::m_objectsToRemove[MAX_OBJECTS];
 	int ObjectManager::m_removeObjectCounter;
 
-	Object* Object::Create(std::string name) {
+
+	void ObjectManager::Init() {
+		if (s_hasInit)
+			return;
+
+		s_root = Object::Create("Root");
+
+		s_hasInit = true;
+	}
+
+
+	Object* Object::Create(std::string name, Object* parent = nullptr) {
 		Object* object = new Object();
 		object->Name = name;
 
-		object->m_components = (Component**)malloc(sizeof(Component**) * MAX_COMPONENTS);
+		object->m_components = new Component*[MAX_COMPONENTS];
 		object->m_componentCount = 0;
 
 		ObjectManager::AddObject(object);
@@ -26,15 +37,21 @@ namespace S2DE {
 
 	void Object::Destroy(Object* object) {
 		for (int i = 0; object->GetComponentCount(); i++)
-			delete object->m_components[i];
+			delete(object->m_components[i]);
 
-		free(object->m_components);
+		delete(object->m_components);
+
+		m_children.~Chain();
 
 		ObjectManager::RemoveObject(object);
 	}
 
 
 	void ObjectManager::AddObject(Object* object) {
+		if (s_root == nullptr) {
+			s_root = object;
+		}
+
 		m_objects.insert(m_objects.end(), object);
 	}
 

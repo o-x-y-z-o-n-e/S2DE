@@ -13,6 +13,8 @@ namespace S2DE {
 	class ObjectManager {
 
 	public:
+		static void Init();
+
 		static void AddObject(Object* object);
 		static void RemoveObject(Object* object);
 		
@@ -29,6 +31,9 @@ namespace S2DE {
 		static void DestroyMarkedObjects();
 
 	public:
+		static bool s_hasInit;
+		static Object* s_root;
+
 		static std::list<Object*> m_objects;
 
 		static Object* m_objectsToRemove[MAX_OBJECTS];

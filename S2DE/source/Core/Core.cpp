@@ -45,6 +45,7 @@ namespace S2DE {
 		//Init components here
 		if (!Window::Init()) return 0;
 		TextureManager::Init();
+		ObjectManager::Init();
 
 		m_hasInit = true;
 		return 1;
