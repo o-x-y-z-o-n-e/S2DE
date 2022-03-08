@@ -212,6 +212,7 @@ namespace S2DE {
 		void* Get(int index);
 		void* Remove(int index);
 		void Remove(void* data);
+		void Clear();
 		Iterator Begin(bool reverse = false);
 
 	private:

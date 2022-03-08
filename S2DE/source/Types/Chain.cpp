@@ -13,8 +13,7 @@ namespace S2DE {
 
 
 	Chain::~Chain() {
-		while (m_head != nullptr)
-			Remove(0);
+		Clear();
 	}
 
     void Chain::Append(void* data) {
@@ -144,6 +143,12 @@ namespace S2DE {
 		}
 
 		return it;
+	}
+
+
+	void Chain::Clear() {
+		while (m_head != nullptr)
+			Remove(0);
 	}
 
 
