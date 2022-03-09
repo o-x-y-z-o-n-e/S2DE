@@ -23,15 +23,6 @@ namespace S2DE {
 		}
 	}
 
-
-	void Object::SetPosition(vec2f position) {
-		this->m_position = position;
-	}
-
-	vec2f Object::GetPosition() {
-		return this->m_position;
-	}
-
 	void Object::AddComponent(Component* component) {
 		if (component->GetObject() == NULL) {
 			component->AddToObject(this);
@@ -121,5 +112,38 @@ namespace S2DE {
 		Object* child = nullptr;
 		while ((child = (Object*)it.Next()) != nullptr)
 			child->LateUpdate(delta);
+	}
+
+
+	vec2f Object::GetLocalPosition() { return m_localPosition; }
+	vec2f Object::GetWorldPosition() { return m_worldPosition; }
+
+	void Object::SetLocalPosition(vec2f position) {
+		m_localPosition = position;
+
+		UpdateWorldPosition();
+	}
+
+
+	void Object::SetWorldPosition(vec2f position) {
+		if(m_parent != nullptr)
+			m_localPosition = position - m_parent->GetWorldPosition();
+		else
+			m_localPosition = position;
+
+		UpdateWorldPosition();
+	}
+
+
+	void Object::UpdateWorldPosition() {
+		if(m_parent == nullptr)
+			m_worldPosition = m_localPosition;
+		else
+			m_worldPosition = m_parent->GetWorldPosition() + m_localPosition;
+
+		Chain::Iterator it = m_children.Begin();
+		Object* child = nullptr;
+		while ((child = (Object*)it.Next()) != nullptr)
+			child->UpdateWorldPosition();
 	}
 }

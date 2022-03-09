@@ -14,8 +14,6 @@ namespace S2DE {
 		~Object(); // make private somehow
 
 		std::string Name;
-		void SetPosition(vec2f position);
-		vec2f GetPosition();
 		void AddComponent(Component* component);
 		Component* GetComponent(int i);
 		int GetComponentCount();
@@ -28,19 +26,25 @@ namespace S2DE {
 		void FixedUpdate(float delta);
 		void LateUpdate(float delta);
 
+		vec2f GetLocalPosition();
+		vec2f GetWorldPosition();
+		void SetLocalPosition(vec2f position);
+		void SetWorldPosition(vec2f position);
 
 	private:
 		Object() {}
 		
-
 		void RemoveChild(Object* child);
+		void UpdateWorldPosition();
 
-		vec2f m_position;
-		Component** m_components;
-		int m_componentCount;
+		vec2f m_localPosition;
+		vec2f m_worldPosition;
 
 		Object* m_parent;
 		Chain m_children;
+
+		Component** m_components;
+		int m_componentCount;
 
 	public:
 		static Object* Create(std::string name, Object* parent = nullptr);

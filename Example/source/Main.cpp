@@ -16,7 +16,7 @@ int main(int argc, char** args) {
 	Circle* testCircle = new Circle();
 	testObj->AddComponent(testCircle);
 
-	testObj->SetPosition(S2DE::vec2f(0, 0));
+	testObj->SetLocalPosition(S2DE::vec2f(0, 0));
 
 	S2DE::Camera::SetPosition(0, 0);
 

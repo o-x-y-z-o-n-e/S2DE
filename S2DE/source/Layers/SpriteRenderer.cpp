@@ -52,7 +52,7 @@ namespace S2DE {
 		Texture* tex = sprite.GetTexture();
 
 		if (tex != nullptr) {
-			vec2f position = sprite.GetObject()->GetPosition();
+			vec2f position = sprite.GetObject()->GetWorldPosition();
 			if (sprite.Centered) {
 				position.x -= tex->GetWidth() / 2;
 				position.y += tex->GetHeight() / 2;

@@ -1,7 +1,6 @@
 Refactor all static variables to use 's_' prefix.
 Make Object::~Object(); private and only accessible from ObjectManager
 
-Transform inheritance system.
 S2DE Version System.
 Physics collision system.
 Texture Runtime Manipulation.

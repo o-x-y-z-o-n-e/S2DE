@@ -25,6 +25,14 @@ namespace S2DE {
 			return v;
 		}
 
+		vec2f operator -(const vec2f& a) {
+			vec2f v = { 0.0F, 0.0F };
+			v.x = x - a.x;
+			v.y = y - a.y;
+
+			return v;
+		}
+
 		vec2f operator *(const float a) {
 			vec2f v = { 0.0F, 0.0F };
 			v.x = x * a;
@@ -61,6 +69,14 @@ namespace S2DE {
 			vec2i v = { 0, 0 };
 			v.x = x + a.x;
 			v.y = y + a.y;
+
+			return v;
+		}
+
+		vec2i operator -(const vec2i& a) {
+			vec2i v = { 0, 0 };
+			v.x = x - a.x;
+			v.y = y - a.y;
 
 			return v;
 		}
