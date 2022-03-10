@@ -204,10 +204,14 @@ namespace S2DE {
 	};
 
 
+	//----
+
+
+	template <typename T>
 	class Chain {
-	private:
+	public:
 		typedef struct Node {
-			void* data;
+			T data;
 			Node* next;
 			Node* prev;
 		} Node;
@@ -216,20 +220,22 @@ namespace S2DE {
 		typedef struct Iterator {
 			Node* current;
 			int direction;
-			void* Next();
+			T Next();
 		} Iterator;
 
 	public:
 		Chain();
 		~Chain();
 
-		void Append(void* data);
-		void Insert(int index, void* data);
-		void* Get(int index);
-		void* Remove(int index);
-		void Remove(void* data);
+		void Append(const T& data);
+		void Insert(int index, const T& data);
+		T Get(int index);
+		T Pop(int index);
+		void Remove(const T& data);
 		void Clear();
 		Iterator Begin(bool reverse = false);
+		int Count();
+		bool IsEmpty();
 
 
 	private:

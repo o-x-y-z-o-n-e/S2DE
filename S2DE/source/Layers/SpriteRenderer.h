@@ -21,7 +21,7 @@ namespace S2DE {
 
 	private:
 		void DrawSprite(Sprite& sprite);
-		Chain m_list;
+		Chain<Sprite*> m_list;
 		Dictionary m_table;
 	};
 

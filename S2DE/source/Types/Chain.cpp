@@ -5,18 +5,20 @@
 
 namespace S2DE {
 
-	Chain::Chain() {
+	template<typename T>
+	Chain<T>::Chain() {
 		m_head = nullptr;
 		m_tail = nullptr;
 		m_count = 0;
 	}
 
-
-	Chain::~Chain() {
+	template<typename T>
+	Chain<T>::~Chain() {
 		Clear();
 	}
 
-    void Chain::Append(void* data) {
+	template<typename T>
+    void Chain<T>::Append(const T& data) {
 		Node* node = new Node();
 		node->data = data;
 		
@@ -32,7 +34,8 @@ namespace S2DE {
 		m_count++;
     }
 
-	void Chain::Insert(int index, void* data) {
+	template<typename T>
+	void Chain<T>::Insert(int index, const T& data) {
 		if (index == m_count) {
 			Append(data);
 			return;
@@ -58,7 +61,8 @@ namespace S2DE {
 		m_count++;
 	}
 
-    void* Chain::Get(int index) {
+	template<typename T>
+    T Chain<T>::Get(int index) {
 		Node* node = GetNode(index);
 		if (node == nullptr)
 			return nullptr;
@@ -66,7 +70,8 @@ namespace S2DE {
 		return node->data;
     }
 
-    void* Chain::Remove(int index) {
+	template<typename T>
+    T Chain<T>::Pop(int index) {
 		Node* node = GetNode(index);
 		if (node == nullptr)
 			return nullptr;
@@ -80,7 +85,7 @@ namespace S2DE {
 		if (node == m_head) m_head = node->next;
 		if (node == m_tail) m_tail = node->prev;
 
-		void* data = node->data;
+		T data = node->data;
 		delete(node);
 		m_count--;
 
@@ -88,7 +93,8 @@ namespace S2DE {
     }
 
 
-	void Chain::Remove(void* data) {
+	template<typename T>
+	void Chain<T>::Remove(const T& data) {
 		Node* current = m_head;
 		int i = 0;
 
@@ -103,7 +109,8 @@ namespace S2DE {
 	}
 
 
-	Chain::Node* Chain::GetNode(int index) {
+	template<typename T>
+	typename Chain<T>::Node* Chain<T>::GetNode(int index) {
 		if (index < 0 || index >= m_count)
 			return nullptr;
 
@@ -131,7 +138,8 @@ namespace S2DE {
 	}
 
 
-	Chain::Iterator Chain::Begin(bool reverse) {
+	template<typename T>
+	typename Chain<T>::Iterator Chain<T>::Begin(bool reverse) {
 		Iterator it;
 
 		if (reverse) {
@@ -146,13 +154,15 @@ namespace S2DE {
 	}
 
 
-	void Chain::Clear() {
+	template<typename T>
+	void Chain<T>::Clear() {
 		while (m_head != nullptr)
 			Remove(0);
 	}
 
 
-	void* Chain::Iterator::Next() {
+	template<typename T>
+	T Chain<T>::Iterator::Next() {
 		if (current == nullptr)
 			return nullptr;
 
@@ -165,5 +175,12 @@ namespace S2DE {
 
 		return node->data;
 	}
+
+
+	template<typename T>
+	int Chain<T>::Count() { return m_count; }
+
+	template<typename T>
+	bool Chain<T>::IsEmpty() { return m_count == 0; }
 
 }

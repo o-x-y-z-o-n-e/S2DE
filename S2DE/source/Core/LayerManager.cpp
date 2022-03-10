@@ -3,13 +3,13 @@
 
 namespace S2DE {
 
-	Chain LayerManager::s_layers;
+	Chain<Layer*> LayerManager::s_layers;
 
 	bool LayerManager::AttachLayer(Layer* layer) {
 		int level = layer->GetLevel();
 
-		Chain::Iterator it = s_layers.Begin();
-		Layer* current = (Layer*)it.Next();
+		Chain<Layer*>::Iterator it = s_layers.Begin();
+		Layer* current = it.Next();
 		int index = 0;
 
 		while (true) {
@@ -29,7 +29,7 @@ namespace S2DE {
 				return true;
 			}
 
-			current = (Layer*)it.Next();
+			current = it.Next();
 			index++;
 		}
 
@@ -37,15 +37,15 @@ namespace S2DE {
 	}
 
 	Layer* LayerManager::GetLayer(int layer) {
-		Chain::Iterator it = s_layers.Begin();
-		Layer* current = (Layer*)it.Next();
+		Chain<Layer*>::Iterator it = s_layers.Begin();
+		Layer* current = it.Next();
 		int index = 0;
 
 		while (current != nullptr) {
 			if (layer == current->GetLevel())
 				return current;
 
-			current = (Layer*)it.Next();
+			current = it.Next();
 			index++;
 		}
 
@@ -54,14 +54,14 @@ namespace S2DE {
 
 
 	void LayerManager::Process() {
-		Chain::Iterator it = s_layers.Begin();
+		Chain<Layer*>::Iterator it = s_layers.Begin();
 		Layer* current;
 
-		while((current = (Layer*)it.Next()) != nullptr) {
+		while((current = it.Next()) != nullptr) {
 			current->Update();
 		}
 
-		while((current = (Layer*)it.Next()) != nullptr) {
+		while((current = it.Next()) != nullptr) {
 			current->ProcessEvents();
 		}
 	}

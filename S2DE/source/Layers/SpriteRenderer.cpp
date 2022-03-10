@@ -24,9 +24,9 @@ namespace S2DE {
 
 
 	void SpriteRenderer::Update() {
-		Chain::Iterator it = m_list.Begin();
+		Chain<Sprite*>::Iterator it = m_list.Begin();
 		Sprite* current = nullptr;
-		while ((current = (Sprite*)it.Next()) != nullptr)
+		while ((current = it.Next()) != nullptr)
 			DrawSprite(*current);
 	}
 

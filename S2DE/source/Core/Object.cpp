@@ -78,9 +78,9 @@ namespace S2DE {
 		for (int i = 0; i < m_componentCount; i++)
 			m_components[i]->Start();
 
-		Chain::Iterator it = m_children.Begin();
+		Chain<Object*>::Iterator it = m_children.Begin();
 		Object* child = nullptr;
-		while ((child = (Object*)it.Next()) != nullptr)
+		while ((child = it.Next()) != nullptr)
 			child->Start();
 	}
 
@@ -88,9 +88,9 @@ namespace S2DE {
 		for (int i = 0; i < m_componentCount; i++)
 			m_components[i]->DynamicUpdate(delta);
 
-		Chain::Iterator it = m_children.Begin();
+		Chain<Object*>::Iterator it = m_children.Begin();
 		Object* child = nullptr;
-		while ((child = (Object*)it.Next()) != nullptr)
+		while ((child = it.Next()) != nullptr)
 			child->DynamicUpdate(delta);
 	}
 
@@ -98,9 +98,9 @@ namespace S2DE {
 		for (int i = 0; i < m_componentCount; i++)
 			m_components[i]->FixedUpdate(delta);
 
-		Chain::Iterator it = m_children.Begin();
+		Chain<Object*>::Iterator it = m_children.Begin();
 		Object* child = nullptr;
-		while ((child = (Object*)it.Next()) != nullptr)
+		while ((child = it.Next()) != nullptr)
 			child->FixedUpdate(delta);
 	}
 
@@ -108,9 +108,9 @@ namespace S2DE {
 		for (int i = 0; i < m_componentCount; i++)
 			m_components[i]->LateUpdate(delta);
 
-		Chain::Iterator it = m_children.Begin();
+		Chain<Object*>::Iterator it = m_children.Begin();
 		Object* child = nullptr;
-		while ((child = (Object*)it.Next()) != nullptr)
+		while ((child = it.Next()) != nullptr)
 			child->LateUpdate(delta);
 	}
 
@@ -141,9 +141,9 @@ namespace S2DE {
 		else
 			m_worldPosition = m_parent->GetWorldPosition() + m_localPosition;
 
-		Chain::Iterator it = m_children.Begin();
+		Chain<Object*>::Iterator it = m_children.Begin();
 		Object* child = nullptr;
-		while ((child = (Object*)it.Next()) != nullptr)
+		while ((child = it.Next()) != nullptr)
 			child->UpdateWorldPosition();
 	}
 }

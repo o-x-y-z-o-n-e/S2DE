@@ -17,7 +17,7 @@ namespace S2DE {
 		static void Process();
 
 	private:
-		static Chain s_layers;
+		static Chain<Layer*> s_layers;
 	};
 
 }

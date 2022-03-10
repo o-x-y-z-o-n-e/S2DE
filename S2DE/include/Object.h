@@ -41,7 +41,7 @@ namespace S2DE {
 		vec2f m_worldPosition;
 
 		Object* m_parent;
-		Chain m_children;
+		Chain<Object*> m_children;
 
 		Component** m_components;
 		int m_componentCount;
