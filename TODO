@@ -1,5 +1,5 @@
 Refactor all static variables to use 's_' prefix.
-Make Object::~Object(); private and only accessible from ObjectManager
+Replace raw pointers with std::shared_ptr
 
 S2DE Version System.
 Physics collision system.
