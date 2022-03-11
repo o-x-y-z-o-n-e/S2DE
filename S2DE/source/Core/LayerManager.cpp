@@ -3,50 +3,38 @@
 
 namespace S2DE {
 
-	Chain<Layer*> LayerManager::s_layers;
+	std::list<Layer*> LayerManager::s_layers;
 
 	bool LayerManager::AttachLayer(Layer* layer) {
 		int level = layer->GetLevel();
 
-		Chain<Layer*>::Iterator it = s_layers.Begin();
-		Layer* current = it.Next();
-		int index = 0;
 
-		while (true) {
-			if (current == nullptr) {
-				//reached the end.
-				s_layers.Append(layer);
-				return true;
-			}
+		std::list<Layer*>::iterator it;
+		for (it = s_layers.begin(); it != s_layers.end(); it++) {
+			int clvl = (*it)->GetLevel();
 
-			int clvl = current->GetLevel();
 			if (clvl == level) {
 				LogCoreError("Could not add layer (%d). A layer already exists with that Level!", layer->GetLevel());
 				return false;
 			} else if (level > clvl) {
 				//insert
-				s_layers.Insert(index + 1, layer);
+				//s_layers.Insert(index + 1, layer);
+				s_layers.insert(it, layer);
 				return true;
 			}
-
-			current = it.Next();
-			index++;
 		}
 
-		return false;
+		// reached end
+		s_layers.push_back(layer);
+		return true;
 	}
 
+
 	Layer* LayerManager::GetLayer(int layer) {
-		Chain<Layer*>::Iterator it = s_layers.Begin();
-		Layer* current = it.Next();
-		int index = 0;
-
-		while (current != nullptr) {
-			if (layer == current->GetLevel())
-				return current;
-
-			current = it.Next();
-			index++;
+		std::list<Layer*>::iterator it;
+		for (it = s_layers.begin(); it != s_layers.end(); it++) {
+			if (layer == (*it)->GetLevel())
+				return (*it);
 		}
 
 		return nullptr;
@@ -54,16 +42,12 @@ namespace S2DE {
 
 
 	void LayerManager::Process() {
-		Chain<Layer*>::Iterator it = s_layers.Begin();
-		Layer* current;
-
-		while((current = it.Next()) != nullptr) {
-			current->Update();
+		std::list<Layer*>::iterator it;
+		for (it = s_layers.begin(); it != s_layers.end(); it++) {
+			(*it)->Update();
 		}
 
-		while((current = it.Next()) != nullptr) {
-			current->ProcessEvents();
-		}
+		//process events
 	}
 
 

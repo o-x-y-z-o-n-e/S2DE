@@ -5,6 +5,8 @@
 #include "Sprite.h"
 #include "Types.h"
 
+#include <list>
+
 namespace S2DE {
 
 
@@ -21,7 +23,7 @@ namespace S2DE {
 
 	private:
 		void DrawSprite(Sprite& sprite);
-		Chain<Sprite*> m_list;
+		std::list<Sprite*> m_list;
 		Dictionary m_table;
 	};
 

@@ -16,10 +16,9 @@ namespace S2DE {
 			delete(m_components[i]);
 		delete(m_components);
 
-
-		Object* child = nullptr;
-		while ((child = (Object*)m_children.Get(0)) != nullptr) {
-			child->~Object();
+		while (m_children.size() > 0) {
+			m_children.front()->~Object();
+			//m_children.pop_back();
 		}
 	}
 
@@ -67,51 +66,47 @@ namespace S2DE {
 			return;
 		}
 
-		m_children.Append(child);
+		m_children.push_back(child);
 	}
 
 
-	void Object::RemoveChild(Object* child) { m_children.Remove(child); }
+	void Object::RemoveChild(Object* child) { m_children.remove(child); }
 
 
 	void Object::Start() {
 		for (int i = 0; i < m_componentCount; i++)
 			m_components[i]->Start();
 
-		Chain<Object*>::Iterator it = m_children.Begin();
-		Object* child = nullptr;
-		while ((child = it.Next()) != nullptr)
-			child->Start();
+		std::list<Object*>::iterator it;
+		for (it = m_children.begin(); it != m_children.end(); it++)
+			(*it)->Start();
 	}
 
 	void Object::DynamicUpdate(float delta) {
 		for (int i = 0; i < m_componentCount; i++)
 			m_components[i]->DynamicUpdate(delta);
 
-		Chain<Object*>::Iterator it = m_children.Begin();
-		Object* child = nullptr;
-		while ((child = it.Next()) != nullptr)
-			child->DynamicUpdate(delta);
+		std::list<Object*>::iterator it;
+		for (it = m_children.begin(); it != m_children.end(); it++)
+			(*it)->DynamicUpdate(delta);
 	}
 
 	void Object::FixedUpdate(float delta) {
 		for (int i = 0; i < m_componentCount; i++)
 			m_components[i]->FixedUpdate(delta);
 
-		Chain<Object*>::Iterator it = m_children.Begin();
-		Object* child = nullptr;
-		while ((child = it.Next()) != nullptr)
-			child->FixedUpdate(delta);
+		std::list<Object*>::iterator it;
+		for (it = m_children.begin(); it != m_children.end(); it++)
+			(*it)->FixedUpdate(delta);
 	}
 
 	void Object::LateUpdate(float delta) {
 		for (int i = 0; i < m_componentCount; i++)
 			m_components[i]->LateUpdate(delta);
 
-		Chain<Object*>::Iterator it = m_children.Begin();
-		Object* child = nullptr;
-		while ((child = it.Next()) != nullptr)
-			child->LateUpdate(delta);
+		std::list<Object*>::iterator it;
+		for (it = m_children.begin(); it != m_children.end(); it++)
+			(*it)->LateUpdate(delta);
 	}
 
 
@@ -141,9 +136,8 @@ namespace S2DE {
 		else
 			m_worldPosition = m_parent->GetWorldPosition() + m_localPosition;
 
-		Chain<Object*>::Iterator it = m_children.Begin();
-		Object* child = nullptr;
-		while ((child = it.Next()) != nullptr)
-			child->UpdateWorldPosition();
+		std::list<Object*>::iterator it;
+		for (it = m_children.begin(); it != m_children.end(); it++)
+			(*it)->UpdateWorldPosition();
 	}
 }

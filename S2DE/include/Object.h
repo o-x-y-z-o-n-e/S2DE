@@ -3,6 +3,7 @@
 
 #include "Types.h"
 #include <string>
+#include <list>
 
 namespace S2DE {
 
@@ -41,7 +42,7 @@ namespace S2DE {
 		vec2f m_worldPosition;
 
 		Object* m_parent;
-		Chain<Object*> m_children;
+		std::list<Object*> m_children;
 
 		Component** m_components;
 		int m_componentCount;

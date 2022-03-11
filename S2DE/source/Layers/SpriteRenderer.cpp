@@ -18,16 +18,15 @@ namespace S2DE {
 
 
 	SpriteRenderer::~SpriteRenderer() {
-		m_list.~Chain();
+		m_list.clear();
 		m_table.~Dictionary();
 	}
 
 
 	void SpriteRenderer::Update() {
-		Chain<Sprite*>::Iterator it = m_list.Begin();
-		Sprite* current = nullptr;
-		while ((current = it.Next()) != nullptr)
-			DrawSprite(*current);
+		std::list<Sprite*>::iterator it;
+		for (it = m_list.begin(); it != m_list.end(); it++)
+			DrawSprite(*(*it));
 	}
 
 
@@ -39,7 +38,7 @@ namespace S2DE {
 		}
 #endif
 
-		m_list.Append(sprite);
+		m_list.push_back(sprite);
 
 		// EDIT: We want to get the Chain::Node and input that into the hash table (with sprite* as the key).
 #ifdef USE_HASH_TABLE
@@ -67,7 +66,7 @@ namespace S2DE {
 		m_list.Remove(m_table.Get(sprite));
 		m_table.Remove(sprite);
 #else
-		m_list.Remove(sprite);
+		m_list.remove(sprite);
 #endif
 	}
 

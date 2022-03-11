@@ -5,6 +5,7 @@
 #include "Layers/Layer.h"
 
 //#include <vector>
+#include <list>
 
 namespace S2DE {
 
@@ -17,7 +18,7 @@ namespace S2DE {
 		static void Process();
 
 	private:
-		static Chain<Layer*> s_layers;
+		static std::list<Layer*> s_layers;
 	};
 
 }
