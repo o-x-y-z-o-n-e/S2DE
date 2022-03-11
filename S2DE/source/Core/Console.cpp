@@ -12,13 +12,13 @@
 
 namespace S2DE {
 
-	bool Console::m_hasInit;
+	bool Console::s_hasInit;
 	std::shared_ptr<spdlog::logger> Console::s_mainLogger;
 	std::shared_ptr<spdlog::logger> Console::s_coreLogger;
-	char Console::buffer[CONSOLE_BUFFER_SIZE];
+	char Console::s_buffer[CONSOLE_BUFFER_SIZE];
 
 	void Console::Init() {
-		if (m_hasInit)
+		if (s_hasInit)
 			return;
 
 		spdlog::set_pattern("[%n][%l] %v");
@@ -29,7 +29,7 @@ namespace S2DE {
 		s_mainLogger = spdlog::stdout_color_mt("GAME");
 		s_mainLogger->set_level(spdlog::level::info);
 
-		m_hasInit = true;
+		s_hasInit = true;
 	}
 
 

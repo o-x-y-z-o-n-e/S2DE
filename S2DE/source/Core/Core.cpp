@@ -21,19 +21,19 @@ namespace S2DE {
 	void SetTargetFrameRate(int fps) { Core::SetTargetFrameRate(fps); }
 
 
-	bool Core::m_hasInit;
-	bool Core::m_isRunning;
-	int Core::m_tickCounter;
+	bool Core::s_hasInit;
+	bool Core::s_isRunning;
+	int Core::s_tickCounter;
 
-	float Core::m_fixedDeltaCounter;
+	float Core::s_fixedDeltaCounter;
 
-	float Core::m_renderTimeStep;
-	float Core::m_renderTickCounter;
+	float Core::s_renderTimeStep;
+	float Core::s_renderTickCounter;
 
-	bool Core::IsRunning() { return m_isRunning; };
+	bool Core::IsRunning() { return s_isRunning; };
 
 	int Core::Init() {
-		if (m_hasInit) {
+		if (s_hasInit) {
 			LogCoreWarning("Already Initialized!");
 			return 0;
 		}
@@ -47,32 +47,32 @@ namespace S2DE {
 		TextureManager::Init();
 		ObjectManager::Init();
 
-		m_hasInit = true;
+		s_hasInit = true;
 		return 1;
 	}
 
 
 	void Core::Start() {
-		if (!m_hasInit) return;
+		if (!s_hasInit) return;
 
 		LogCore("Starting...");
 
-		m_isRunning = true;
+		s_isRunning = true;
 
 		ObjectManager::StartAllObjects();
 
-		while (m_isRunning)
+		while (s_isRunning)
 			Loop();
 	}
 
 
 	void Core::Close() {
-		if (!m_hasInit) return;
-		if (!m_isRunning) return;
+		if (!s_hasInit) return;
+		if (!s_isRunning) return;
 
 		LogCore("Closing...");
 
-		m_isRunning = false;
+		s_isRunning = false;
 
 		Window::Close();
 	}
@@ -101,22 +101,22 @@ namespace S2DE {
 		}
 		
 		int currentTick = SDL_GetTicks();
-		int tickDelta = currentTick - m_tickCounter;
+		int tickDelta = currentTick - s_tickCounter;
 		float timeDelta = tickDelta * 0.001F;    //same as 'tickDelta / 1000.0F'
-		m_tickCounter = currentTick;
+		s_tickCounter = currentTick;
 
-		m_fixedDeltaCounter += timeDelta;
-		m_renderTickCounter += timeDelta;
+		s_fixedDeltaCounter += timeDelta;
+		s_renderTickCounter += timeDelta;
 
 		bool render = false;
-		if (m_renderTickCounter > m_renderTimeStep) {
-			m_renderTickCounter = 0;
+		if (s_renderTickCounter > s_renderTimeStep) {
+			s_renderTickCounter = 0;
 			render = true;
 		}
 
-		if (m_fixedDeltaCounter > FIXED_TIME_STEP) {
-			ObjectManager::FixedUpdateAllObjects(m_fixedDeltaCounter);
-			m_fixedDeltaCounter -= FIXED_TIME_STEP;
+		if (s_fixedDeltaCounter > FIXED_TIME_STEP) {
+			ObjectManager::FixedUpdateAllObjects(s_fixedDeltaCounter);
+			s_fixedDeltaCounter -= FIXED_TIME_STEP;
 		}
 
 		//update gameplay
@@ -137,9 +137,9 @@ namespace S2DE {
 
 	void Core::SetTargetFrameRate(int fps) {
 		if (fps < 1)
-			m_renderTimeStep = 0.0F;
+			s_renderTimeStep = 0.0F;
 		else
-			m_renderTimeStep = 1.0F / (float)fps;
+			s_renderTimeStep = 1.0F / (float)fps;
 	}
 
 }

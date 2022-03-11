@@ -13,60 +13,60 @@ namespace S2DE {
 
 	const char* TITLE = "S2DE";
 
-	bool Window::m_hasInit;
-	SDL_Window* Window::m_window;
-	SDL_Renderer* Window::m_renderer;
-	vec2i Window::m_windowSize;
-	vec2i Window::m_viewSize;
-	vec2i Window::m_viewOffset;
-	vec2f Window::m_viewPosition;
+	bool Window::s_hasInit;
+	SDL_Window* Window::s_window;
+	SDL_Renderer* Window::s_renderer;
+	vec2i Window::s_windowSize;
+	vec2i Window::s_viewSize;
+	vec2i Window::s_viewOffset;
+	vec2f Window::s_viewPosition;
 
 
-	SDL_Renderer* Window::GetRenderer() { return m_renderer; }
+	SDL_Renderer* Window::GetRenderer() { return s_renderer; }
 
 
 	int Window::Init() {
-		if (m_hasInit) return 0;
+		if (s_hasInit) return 0;
 
 		if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 			printf("[S2DE] SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
 			return 0;
 		}
 
-		m_viewSize = DEFAULT_VIEW;
-		m_viewOffset.x = m_viewSize.x / 2;
-		m_viewOffset.y = m_viewSize.y / 2;
-		m_windowSize.x = m_viewSize.x * DEFAULT_SCALE;
-		m_windowSize.y = m_viewSize.y * DEFAULT_SCALE;
+		s_viewSize = DEFAULT_VIEW;
+		s_viewOffset.x = s_viewSize.x / 2;
+		s_viewOffset.y = s_viewSize.y / 2;
+		s_windowSize.x = s_viewSize.x * DEFAULT_SCALE;
+		s_windowSize.y = s_viewSize.y * DEFAULT_SCALE;
 
-		m_window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, m_windowSize.x, m_windowSize.y, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
-		if (m_window == NULL) {
+		s_window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, s_windowSize.x, s_windowSize.y, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+		if (s_window == NULL) {
 			printf("[S2DE] Window could not be created! SDL_Error: %s\n", SDL_GetError());
 			return 0;
 		}
 
-		m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
-		if (m_renderer == NULL) {
+		s_renderer = SDL_CreateRenderer(s_window, -1, SDL_RENDERER_ACCELERATED);
+		if (s_renderer == NULL) {
 			printf("[S2DE] Renderer could not be created! SDL Error: %s\n", SDL_GetError());
 			return 0;
 		}
 
-		SDL_SetRenderDrawColor(m_renderer, 0xFF, 0xFF, 0xFF, 0x00);
-		SDL_RenderSetLogicalSize(m_renderer, m_viewSize.x, m_viewSize.y);
+		SDL_SetRenderDrawColor(s_renderer, 0xFF, 0xFF, 0xFF, 0x00);
+		SDL_RenderSetLogicalSize(s_renderer, s_viewSize.x, s_viewSize.y);
 
-		m_hasInit = true;
+		s_hasInit = true;
 		return 1;
 	}
 
 
 	void Window::Clear() {
-		SDL_SetRenderDrawColor(m_renderer, 0x00, 0x00, 0x00, 0x00);
-		SDL_RenderClear(m_renderer);
+		SDL_SetRenderDrawColor(s_renderer, 0x00, 0x00, 0x00, 0x00);
+		SDL_RenderClear(s_renderer);
 	}
 
 
 	void Window::Update() {
-		SDL_RenderPresent(m_renderer);
+		SDL_RenderPresent(s_renderer);
 	}
 
 
@@ -76,25 +76,25 @@ namespace S2DE {
 			return;
 		}
 
-		SDL_DestroyRenderer(m_renderer);
-		SDL_DestroyWindow(m_window);
+		SDL_DestroyRenderer(s_renderer);
+		SDL_DestroyWindow(s_window);
 
-		m_window = NULL;
-		m_renderer = NULL;
+		s_window = NULL;
+		s_renderer = NULL;
 
 		SDL_Quit();
 	}
 
 
 	void Window::ApplyTexture(Texture& texture, int x, int y) {
-		SDL_Rect rect = { (m_viewOffset.x - (int)m_viewPosition.x) + x, (m_viewOffset.y + (int)m_viewPosition.y) - y, texture.GetWidth(), texture.GetHeight() };
+		SDL_Rect rect = { (s_viewOffset.x - (int)s_viewPosition.x) + x, (s_viewOffset.y + (int)s_viewPosition.y) - y, texture.GetWidth(), texture.GetHeight() };
 		SDL_Texture* tex = (SDL_Texture*)TextureManager::GetTextureData(texture.GetID());
 
-		SDL_RenderCopy(m_renderer, tex, NULL, &rect);
+		SDL_RenderCopy(s_renderer, tex, NULL, &rect);
 	}
 
 
-	void Window::SetTitle(const char* title) { SDL_SetWindowTitle(m_window, title); }
+	void Window::SetTitle(const char* title) { SDL_SetWindowTitle(s_window, title); }
 
 
 	void Window::HandleWindowEvent(SDL_WindowEvent& e) {
@@ -108,30 +108,30 @@ namespace S2DE {
 
 
 	void Window::SetViewPosition(float x, float y) {
-		m_viewPosition.x = x;
-		m_viewPosition.y = y;
+		s_viewPosition.x = x;
+		s_viewPosition.y = y;
 	}
 
 	void Window::GetViewPosition(float* x, float* y) {
-		if(x != NULL) *x = m_viewPosition.x;
-		if(y != NULL) *y = m_viewPosition.y;
+		if(x != NULL) *x = s_viewPosition.x;
+		if(y != NULL) *y = s_viewPosition.y;
 	}
 
 	void Window::SetViewSize(int w, int h) {
 		if (w < 0) w *= -1;
 		if (h < 0) h *= -1;
 
-		m_viewSize.x = w;
-		m_viewSize.y = h;
-		m_viewOffset.x = m_viewSize.x / 2;
-		m_viewOffset.y = m_viewSize.y / 2;
+		s_viewSize.x = w;
+		s_viewSize.y = h;
+		s_viewOffset.x = s_viewSize.x / 2;
+		s_viewOffset.y = s_viewSize.y / 2;
 
-		SDL_RenderSetLogicalSize(m_renderer, m_viewSize.x, m_viewSize.y);
+		SDL_RenderSetLogicalSize(s_renderer, s_viewSize.x, s_viewSize.y);
 	}
 
 	void Window::GetViewSize(int* w, int* h) {
-		if (w != NULL) *w = m_viewSize.x;
-		if (h != NULL) *h = m_viewSize.y;
+		if (w != NULL) *w = s_viewSize.x;
+		if (h != NULL) *h = s_viewSize.y;
 	}
 
 

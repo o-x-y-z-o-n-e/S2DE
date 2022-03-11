@@ -9,8 +9,8 @@ namespace S2DE {
 
 	bool ObjectManager::s_hasInit;
 	Object* ObjectManager::s_root;
-	Object* ObjectManager::m_objectsToRemove[MAX_OBJECTS];
-	int ObjectManager::m_removeObjectCounter;
+	Object* ObjectManager::s_objectsToRemove[MAX_OBJECTS];
+	int ObjectManager::s_removeObjectCounter;
 
 
 	void ObjectManager::Init() {
@@ -50,21 +50,21 @@ namespace S2DE {
 
 
 	void ObjectManager::RemoveObject(Object* object) {
-		m_objectsToRemove[m_removeObjectCounter] = object;
-		m_removeObjectCounter++;
+		s_objectsToRemove[s_removeObjectCounter] = object;
+		s_removeObjectCounter++;
 	}
 
 
 	void ObjectManager::DestroyMarkedObjects() {
-		for (int i = 0; i < m_removeObjectCounter; i++) {
-			Object* object = m_objectsToRemove[i];
+		for (int i = 0; i < s_removeObjectCounter; i++) {
+			Object* object = s_objectsToRemove[i];
 
 			if(object != nullptr)
 				delete(object);
 
-			m_objectsToRemove[i] = nullptr;
+			s_objectsToRemove[i] = nullptr;
 		}
-		m_removeObjectCounter = 0;
+		s_removeObjectCounter = 0;
 	}
 
 

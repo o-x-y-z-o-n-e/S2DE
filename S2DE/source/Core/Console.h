@@ -13,13 +13,13 @@ namespace S2DE {
 		static void Init();
 		inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return s_coreLogger; }
 		inline static std::shared_ptr<spdlog::logger>& GetMainLogger() { return s_mainLogger; }
-		inline static char* GetBuffer() { return buffer; }
+		inline static char* GetBuffer() { return s_buffer; }
 
 	private:
-		static bool m_hasInit;
+		static bool s_hasInit;
 		static std::shared_ptr<spdlog::logger> s_mainLogger;
 		static std::shared_ptr<spdlog::logger> s_coreLogger;
-		static char buffer[];
+		static char s_buffer[];
 
 	};
 

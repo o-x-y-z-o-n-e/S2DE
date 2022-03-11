@@ -15,8 +15,8 @@
 namespace S2DE {
 
 
-	void* TextureManager::m_textureTable[TEXTURE_TABLE_SIZE];
-	int TextureManager::m_textureTableCount;
+	void* TextureManager::s_textureTable[TEXTURE_TABLE_SIZE];
+	int TextureManager::s_textureTableCount;
 
 
 	void TextureManager::Init() {
@@ -33,7 +33,7 @@ namespace S2DE {
 		int index = start;
 
 		int i = 0;
-		while (m_textureTable[index] != NULL) {
+		while (s_textureTable[index] != NULL) {
 			index = start + (i * i);
 		}
 
@@ -45,7 +45,7 @@ namespace S2DE {
 
 
 	int TextureManager::LoadTextureData(std::string path) {
-		if (m_textureTableCount >= TEXTURE_TABLE_SIZE) {
+		if (s_textureTableCount >= TEXTURE_TABLE_SIZE) {
 			LogCoreError("Run out of texture table memory!");
 			LogCoreError("Could not load file '%s'", path.c_str());
 			return -1;
@@ -91,8 +91,8 @@ namespace S2DE {
 			return -1;
 		}
 
-		m_textureTable[index] = texture;
-		m_textureTableCount++;
+		s_textureTable[index] = texture;
+		s_textureTableCount++;
 		return index;
 	}
 
@@ -101,7 +101,7 @@ namespace S2DE {
 
 
 	int TextureManager::CreateTextureData(std::string name, int w, int h) {
-		if (m_textureTableCount >= TEXTURE_TABLE_SIZE) {
+		if (s_textureTableCount >= TEXTURE_TABLE_SIZE) {
 			LogCoreError("Run out of texture table memory!");
 			LogCoreError("Could create texture '%s'", name.c_str());
 			return -1;
@@ -116,8 +116,8 @@ namespace S2DE {
 			return -1;
 		}
 
-		m_textureTable[index] = texture;
-		m_textureTableCount++;
+		s_textureTable[index] = texture;
+		s_textureTableCount++;
 		return index;
 	}
 
@@ -126,12 +126,12 @@ namespace S2DE {
 
 
 	void TextureManager::FreeTextureData(int id) {
-		if (m_textureTable[id] == NULL)
+		if (s_textureTable[id] == NULL)
 			return;
 
-		SDL_DestroyTexture((SDL_Texture*)m_textureTable[id]);
-		m_textureTable[id] = NULL;
-		m_textureTableCount--;
+		SDL_DestroyTexture((SDL_Texture*)s_textureTable[id]);
+		s_textureTable[id] = NULL;
+		s_textureTableCount--;
 	}
 
 
@@ -142,7 +142,7 @@ namespace S2DE {
 		if (id < 0)
 			return NULL;
 
-		return m_textureTable[id];
+		return s_textureTable[id];
 	}
 
 
@@ -153,7 +153,7 @@ namespace S2DE {
 		if (id < 0)
 			return 0;
 
-		if (SDL_QueryTexture((SDL_Texture*)m_textureTable[id], NULL, access, w, h))
+		if (SDL_QueryTexture((SDL_Texture*)s_textureTable[id], NULL, access, w, h))
 			return 1;
 		else return 0;
 	}

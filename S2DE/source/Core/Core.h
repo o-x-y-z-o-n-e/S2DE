@@ -15,14 +15,14 @@ namespace S2DE {
 	private:
 		static void Loop();
 		
-		static bool m_hasInit;
-		static bool m_isRunning;
-		static int m_tickCounter;
+		static bool s_hasInit;
+		static bool s_isRunning;
+		static int s_tickCounter;
 
-		static float m_fixedDeltaCounter;
+		static float s_fixedDeltaCounter;
 
-		static float m_renderTimeStep;
-		static float m_renderTickCounter;
+		static float s_renderTimeStep;
+		static float s_renderTickCounter;
 
 	};
 

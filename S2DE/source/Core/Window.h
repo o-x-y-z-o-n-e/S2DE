@@ -31,13 +31,13 @@ namespace S2DE {
 		static void SetTitle(const char* title);
 
 	private:
-		static bool m_hasInit;
-		static SDL_Window* m_window;
-		static SDL_Renderer* m_renderer;
-		static vec2i m_windowSize;
-		static vec2i m_viewSize;
-		static vec2i m_viewOffset;
-		static vec2f m_viewPosition;
+		static bool s_hasInit;
+		static SDL_Window* s_window;
+		static SDL_Renderer* s_renderer;
+		static vec2i s_windowSize;
+		static vec2i s_viewSize;
+		static vec2i s_viewOffset;
+		static vec2f s_viewPosition;
 		
 
 	};

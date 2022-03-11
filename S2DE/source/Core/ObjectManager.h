@@ -29,8 +29,8 @@ namespace S2DE {
 		static bool s_hasInit;
 		static Object* s_root;
 
-		static Object* m_objectsToRemove[MAX_OBJECTS];
-		static int m_removeObjectCounter;
+		static Object* s_objectsToRemove[MAX_OBJECTS];
+		static int s_removeObjectCounter;
 	};
 
 	

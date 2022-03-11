@@ -18,8 +18,8 @@ namespace S2DE {
 		static int QueryTextureData(int id, int* access, int* w, int* h);
 
 	private:
-		static void* m_textureTable[TEXTURE_TABLE_SIZE];
-		static int m_textureTableCount;
+		static void* s_textureTable[TEXTURE_TABLE_SIZE];
+		static int s_textureTableCount;
 		static int GetEmptyIndex(std::string key);
 
 	};
