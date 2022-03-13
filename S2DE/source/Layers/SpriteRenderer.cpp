@@ -48,15 +48,15 @@ namespace S2DE {
 
 
 	void SpriteRenderer::DrawSprite(Sprite& sprite) {
-		Texture* tex = sprite.GetTexture();
+		std::shared_ptr<Texture> tex = sprite.GetTexture();
 
-		if (tex != nullptr) {
+		if (tex.get() != nullptr) {
 			vec2f position = sprite.GetObject()->GetWorldPosition();
 			if (sprite.Centered) {
 				position.x -= tex->GetWidth() / 2;
 				position.y += tex->GetHeight() / 2;
 			}
-			Window::ApplyTexture(*tex, (int)position.x, (int)position.y);
+			Window::ApplyTexture(*(tex.get()), (int)position.x, (int)position.y);
 		}
 	}
 

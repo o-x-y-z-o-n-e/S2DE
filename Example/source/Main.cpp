@@ -7,7 +7,7 @@ int main(int argc, char** args) {
 	S2DE::SetTitle("Test App");
 
 	S2DE::Object* testObj = S2DE::Object::Create("Test");
-	S2DE::Texture* texture = S2DE::Texture::Load("resources/smile.bmp");
+	std::shared_ptr<S2DE::Texture> texture = S2DE::Texture::Load("resources/smile.bmp");
 	S2DE::Sprite* testSprite = new S2DE::Sprite();
 	testObj->AddComponent(testSprite);
 	testSprite->SetTexture(texture);

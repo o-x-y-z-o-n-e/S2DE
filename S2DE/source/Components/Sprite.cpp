@@ -32,12 +32,12 @@ namespace S2DE {
 		*/
 	}
 
-	void Sprite::SetTexture(Texture* texture) {
+	void Sprite::SetTexture(std::shared_ptr<Texture> texture) {
 		m_texture = texture;
 	}
 
 
-	Texture* Sprite::GetTexture() {
+	std::shared_ptr<Texture> Sprite::GetTexture() {
 		return m_texture;
 	}
 

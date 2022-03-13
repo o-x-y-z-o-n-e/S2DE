@@ -2,14 +2,15 @@
 #define S2DE_TEXTURE_H
 
 #include <string>
+#include <memory>
 
 namespace S2DE {
 
     class Texture {
 	public:
 		Texture();
-		static Texture* Load(std::string path);
-		static Texture* Create(std::string name, int w, int h);
+		static std::shared_ptr<Texture> Load(std::string path);
+		static std::shared_ptr<Texture> Create(std::string name, int w, int h);
 		int GetID();
 		int GetWidth();
 		int GetHeight();

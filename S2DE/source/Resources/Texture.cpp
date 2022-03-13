@@ -12,8 +12,8 @@ namespace S2DE {
 		m_height = 0;
 	}
 
-	Texture* Texture::Load(std::string path) {
-		Texture* texture = new Texture();
+	std::shared_ptr<Texture> Texture::Load(std::string path) {
+		std::shared_ptr<Texture> texture = std::make_shared<Texture>();
 
 		texture->m_id = TextureManager::LoadTextureData(path);
 		TextureManager::QueryTextureData(texture->m_id, NULL, &(texture->m_width), &(texture->m_height));
@@ -23,8 +23,8 @@ namespace S2DE {
 
 
 
-	Texture* Texture::Create(std::string name, int w, int h) {
-		Texture* texture = new Texture();
+	std::shared_ptr<Texture> Texture::Create(std::string name, int w, int h) {
+		std::shared_ptr<Texture> texture = std::make_shared<Texture>();
 
 		texture->m_id = TextureManager::CreateTextureData(name, w, h);
 		TextureManager::QueryTextureData(texture->m_id, NULL, &(texture->m_width), &(texture->m_height));

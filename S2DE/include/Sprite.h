@@ -4,6 +4,8 @@
 #include "Component.h"
 #include "Texture.h"
 
+#include <memory>
+
 namespace S2DE {
 
     class Sprite : public Component {
@@ -15,13 +17,13 @@ namespace S2DE {
 		void Init();
 		void Start();
 		void LateUpdate(float delta);
-        void SetTexture(Texture* texture);
-		Texture* GetTexture();
+        void SetTexture(std::shared_ptr<Texture> texture);
+		std::shared_ptr<Texture> GetTexture();
 		void SetLayer(int layer);
 		int GetLayer();
 
 	private:
-		Texture* m_texture;
+		std::shared_ptr<Texture> m_texture;
 		int m_layer;
 
 	};
