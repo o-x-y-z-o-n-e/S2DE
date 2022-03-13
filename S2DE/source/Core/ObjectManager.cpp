@@ -3,7 +3,8 @@
 
 #include <stddef.h>
 #include <stdlib.h>
-#include <string.h>
+#include <string>
+#include <memory>
 
 namespace S2DE {
 
@@ -27,7 +28,7 @@ namespace S2DE {
 		Object* object = new Object();
 		object->Name = name;
 
-		object->m_components = new Component*[MAX_COMPONENTS];
+		object->m_components = new std::shared_ptr<Component>[MAX_COMPONENTS];
 		object->m_componentCount = 0;
 
 		if (parent == nullptr) {

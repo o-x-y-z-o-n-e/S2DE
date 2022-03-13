@@ -15,7 +15,7 @@ namespace S2DE {
 
 	void Component::AddToObject(Object* object) {
 		m_object = object;
-		m_object->AddComponent(this);
+		m_object->AddComponent(std::shared_ptr<Component>(this));
 	}
 
 	Object* Component::GetObject() { return m_object; }

@@ -4,6 +4,7 @@
 #include "Types.h"
 #include <string>
 #include <list>
+#include <memory>
 
 namespace S2DE {
 
@@ -15,8 +16,8 @@ namespace S2DE {
 		~Object(); // make private somehow
 
 		std::string Name;
-		void AddComponent(Component* component);
-		Component* GetComponent(int i);
+		void AddComponent(std::shared_ptr<Component> component);
+		std::shared_ptr<Component> GetComponent(int i);
 		int GetComponentCount();
 		void SetParent(Object* parent);
 		Object* GetParent();
@@ -44,7 +45,7 @@ namespace S2DE {
 		Object* m_parent;
 		std::list<Object*> m_children;
 
-		Component** m_components;
+		std::shared_ptr<Component>* m_components;
 		int m_componentCount;
 
 	public:

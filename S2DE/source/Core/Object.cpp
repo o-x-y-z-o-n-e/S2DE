@@ -13,7 +13,7 @@ namespace S2DE {
 
 
 		for (int i = 0; m_componentCount; i++)
-			delete(m_components[i]);
+			m_components[i].reset();
 		delete(m_components);
 
 		while (m_children.size() > 0) {
@@ -22,8 +22,8 @@ namespace S2DE {
 		}
 	}
 
-	void Object::AddComponent(Component* component) {
-		if (component->GetObject() == NULL) {
+	void Object::AddComponent(std::shared_ptr<Component> component) {
+		if (component->GetObject() == nullptr) {
 			component->AddToObject(this);
 			return;
 		}
@@ -37,7 +37,7 @@ namespace S2DE {
 	}
 
 
-	Component* Object::GetComponent(int i) {
+	std::shared_ptr<Component> Object::GetComponent(int i) {
 		return m_components[i];
 	}
 
