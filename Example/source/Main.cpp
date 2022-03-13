@@ -7,6 +7,7 @@ int main(int argc, char** args) {
 	if(!S2DE::Init()) return 1;
 	
 	S2DE::SetTitle("Test App");
+	S2DE::SetWindowMode(S2DE_WINDOWED);
 
 	S2DE::Object* testObj = S2DE::Object::Create("Test");
 	std::shared_ptr<S2DE::Texture> texture = S2DE::Texture::Load("resources/smile.bmp");

@@ -140,6 +140,8 @@ namespace S2DE {
 			s_renderTimeStep = 0.0F;
 		else
 			s_renderTimeStep = 1.0F / (float)fps;
+
+		Window::SetRefreshRate(fps);
 	}
 
 }

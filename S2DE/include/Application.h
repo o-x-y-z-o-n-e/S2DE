@@ -1,6 +1,10 @@
 #ifndef S2DE_APPLICATION_H
 #define S2DE_APPLICATION_H
 
+#define S2DE_WINDOWED 0
+#define S2DE_FULLSCREEN 1
+#define S2DE_BORDERLESS 2
+
 namespace S2DE {
 
 	int Init();
@@ -12,6 +16,7 @@ namespace S2DE {
 	void LogWarning(const char* format, ...);
 	void LogError(const char* format, ...);
 
+	void SetWindowMode(int mode);
 	void SetTitle(const char* title);
 	void SetTargetFrameRate(int fps);
 

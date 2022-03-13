@@ -29,6 +29,8 @@ namespace S2DE {
 		static void GetViewSize(int* w, int* h);
 
 		static void SetTitle(const char* title);
+		static void SetMode(int mode);
+		static void SetRefreshRate(int fps);
 
 	private:
 		static bool s_hasInit;

@@ -2,6 +2,7 @@
 #include "Window.h"
 #include "TextureManager.h"
 #include "Types.h"
+#include "Application.h""
 
 #include <iostream>
 #include <stddef.h>
@@ -135,10 +136,34 @@ namespace S2DE {
 	}
 
 
+	void Window::SetMode(int mode) {
+		Uint32 flags = 0;
+
+		switch (mode) {
+		case S2DE_WINDOWED: 
+			flags = 0;
+			break;
+		case S2DE_FULLSCREEN:
+			flags = SDL_WINDOW_FULLSCREEN;
+			break;
+		case S2DE_BORDERLESS:
+			flags = SDL_WINDOW_FULLSCREEN_DESKTOP;
+		}
+
+		SDL_SetWindowFullscreen(s_window, flags);
+	}
+
+
+	void Window::SetRefreshRate(int fps) {
+		
+	}
+
+
 	//--------------------------------
 
 
 	void SetTitle(const char* title) { Window::SetTitle(title); }
+	void SetWindowMode(int mode) { Window::SetMode(mode); }
 
 
 	namespace Camera {
