@@ -9,8 +9,8 @@
 namespace S2DE {
 
 	bool ObjectManager::s_hasInit;
-	Object* ObjectManager::s_root;
-	Object* ObjectManager::s_objectsToRemove[MAX_OBJECTS];
+	std::shared_ptr<Object> ObjectManager::s_root;
+	std::shared_ptr<Object> ObjectManager::s_objectsToRemove[MAX_OBJECTS];
 	int ObjectManager::s_removeObjectCounter;
 
 
@@ -24,15 +24,12 @@ namespace S2DE {
 	}
 
 
-	Object* Object::Create(std::string name, Object* parent) {
-		Object* object = new Object();
+	std::shared_ptr<Object> Object::Create(std::string name, std::shared_ptr<Object> parent) {
+		std::shared_ptr<Object> object = std::make_shared<Object>();
 		object->Name = name;
 
-		object->m_components = new std::shared_ptr<Component>[MAX_COMPONENTS];
-		object->m_componentCount = 0;
-
-		if (parent == nullptr) {
-			if (ObjectManager::GetRoot() != nullptr)
+		if (parent.get() == nullptr) {
+			if (ObjectManager::GetRoot().get() != nullptr)
 				object->SetParent(ObjectManager::GetRoot());
 		} else {
 			object->SetParent(parent);
@@ -42,7 +39,7 @@ namespace S2DE {
 	}
 
 
-	void Object::Destroy(Object* object) {
+	void Object::Destroy(std::shared_ptr<Object> object) {
 		if (object == ObjectManager::GetRoot())
 			return;
 
@@ -50,7 +47,7 @@ namespace S2DE {
 	}
 
 
-	void ObjectManager::RemoveObject(Object* object) {
+	void ObjectManager::RemoveObject(std::shared_ptr<Object> object) {
 		s_objectsToRemove[s_removeObjectCounter] = object;
 		s_removeObjectCounter++;
 	}
@@ -58,12 +55,10 @@ namespace S2DE {
 
 	void ObjectManager::DestroyMarkedObjects() {
 		for (int i = 0; i < s_removeObjectCounter; i++) {
-			Object* object = s_objectsToRemove[i];
+			std::shared_ptr<Object> object = s_objectsToRemove[i];
 
-			if(object != nullptr)
-				delete(object);
-
-			s_objectsToRemove[i] = nullptr;
+			if (object.get() != nullptr)
+				object.reset();
 		}
 		s_removeObjectCounter = 0;
 	}
@@ -87,6 +82,6 @@ namespace S2DE {
 
 
 
-	Object* ObjectManager::GetRoot() { return s_root; }
+	std::shared_ptr<Object> ObjectManager::GetRoot() { return s_root; }
 
 }

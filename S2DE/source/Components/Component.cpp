@@ -13,11 +13,18 @@ namespace S2DE {
 
 	void Component::FixedUpdate(float delta) {}
 
-	void Component::AddToObject(Object* object) {
+	void Component::AddToObject(std::shared_ptr<Object> object) {
 		m_object = object;
-		m_object->AddComponent(std::shared_ptr<Component>(this));
+		m_object->AddComponent(shared_from_this());
 	}
 
-	Object* Component::GetObject() { return m_object; }
+	std::shared_ptr<Object> Component::GetObject() { return m_object; }
+
+
+	void Component::Dettach() {
+		std::shared_ptr<Object> obj = m_object;
+		m_object.reset();
+		obj->RemoveComponent(shared_from_this());
+	}
 
 }

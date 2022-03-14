@@ -9,10 +9,9 @@ int main(int argc, char** args) {
 	S2DE::SetTitle("Test App");
 	S2DE::SetWindowMode(S2DE_WINDOWED);
 
-	S2DE::Object* testObj = S2DE::Object::Create("Test");
+	std::shared_ptr<S2DE::Object> testObj = S2DE::Object::Create("Test");
 	std::shared_ptr<S2DE::Texture> texture = S2DE::Texture::Load("resources/smile.bmp");
-	std::shared_ptr<S2DE::Sprite> testSprite = std::make_shared<S2DE::Sprite>();
-	testObj->AddComponent(testSprite);
+	std::shared_ptr<S2DE::Sprite> testSprite = testObj->CreateComponent<S2DE::Sprite>();
 	testSprite->SetTexture(texture);
 	testSprite->Centered = true;
 
@@ -24,6 +23,7 @@ int main(int argc, char** args) {
 	S2DE::Camera::SetPosition(0, 0);
 
 	S2DE::Log("Hello There!");
+
 
 	S2DE::Start();
 

@@ -5,11 +5,15 @@
 
 namespace S2DE {
 
-    class Component {
+	class Component;
+
+    class Component : public std::enable_shared_from_this<Component> {
 
 	public:
-		Object* GetObject();
-		void AddToObject(Object* object);
+		void Dettach();
+
+		std::shared_ptr<Object> GetObject();
+		void AddToObject(std::shared_ptr<Object> object);
 		virtual void Init();
 		virtual void Start();
 		virtual void DynamicUpdate(float delta);
@@ -17,7 +21,7 @@ namespace S2DE {
 		virtual void FixedUpdate(float delta);
 
 	private:
-		Object* m_object;
+		std::shared_ptr<Object> m_object;
 
 	};
 }

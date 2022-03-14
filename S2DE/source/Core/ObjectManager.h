@@ -15,21 +15,21 @@ namespace S2DE {
 	public:
 		static void Init();
 
-		static Object* GetRoot();
+		static std::shared_ptr<Object> GetRoot();
 
 		static void StartAllObjects();
 		static void DynamicUpdateAllObjects(float delta);
 		static void FixedUpdateAllObjects(float delta);
 		static void LateUpdateAllObjects(float delta);
 		
-		static void RemoveObject(Object* object);
+		static void RemoveObject(std::shared_ptr<Object> object);
 		static void DestroyMarkedObjects();
 
 	public:
 		static bool s_hasInit;
-		static Object* s_root;
+		static std::shared_ptr<Object> s_root;
 
-		static Object* s_objectsToRemove[MAX_OBJECTS];
+		static std::shared_ptr<Object> s_objectsToRemove[MAX_OBJECTS];
 		static int s_removeObjectCounter;
 	};
 

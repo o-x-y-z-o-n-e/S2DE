@@ -9,19 +9,37 @@
 namespace S2DE {
 
     class Component;
+	class Object;
 
-    class Object {
+    class Object : public std::enable_shared_from_this<Object> {
 
 	public:
-		~Object(); // make private somehow
+		void Dettach();
 
 		std::string Name;
+
 		void AddComponent(std::shared_ptr<Component> component);
+		void RemoveComponent(std::shared_ptr<Component> component);
 		std::shared_ptr<Component> GetComponent(int i);
 		int GetComponentCount();
-		void SetParent(Object* parent);
-		Object* GetParent();
-		void AddChild(Object* child);
+
+		template<class T> inline std::shared_ptr<T> CreateComponent() {
+			if constexpr (!std::is_base_of<Component, T>::value) {
+				LogError("Type passed is not a derivative of Component!");
+				return nullptr;
+			}
+
+			std::shared_ptr<T> comp = std::make_shared<T>();
+
+			AddComponent(comp);
+
+			return comp;
+		}
+
+
+		void SetParent(std::shared_ptr<Object> parent);
+		std::shared_ptr<Object> GetParent();
+		void AddChild(std::shared_ptr<Object> child);
 
 		void Start();
 		void DynamicUpdate(float delta);
@@ -34,23 +52,19 @@ namespace S2DE {
 		void SetWorldPosition(vec2f position);
 
 	private:
-		Object() {}
-		
-		void RemoveChild(Object* child);
+		void RemoveChild(std::shared_ptr<Object> child);
 		void UpdateWorldPosition();
 
 		vec2f m_localPosition;
 		vec2f m_worldPosition;
 
-		Object* m_parent;
-		std::list<Object*> m_children;
-
-		std::shared_ptr<Component>* m_components;
-		int m_componentCount;
+		std::shared_ptr<Object> m_parent;
+		std::list<std::shared_ptr<Object>> m_children;
+		std::list<std::shared_ptr<Component>> m_components;
 
 	public:
-		static Object* Create(std::string name, Object* parent = nullptr);
-		static void Destroy(Object* object);
+		static std::shared_ptr<Object> Create(std::string name, std::shared_ptr<Object> parent = nullptr);
+		static void Destroy(std::shared_ptr<Object> object);
 
 	};
 
