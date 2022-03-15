@@ -41,6 +41,17 @@ namespace S2DE {
 	}
 
 
+	bool LayerManager::Exists(int layer) {
+		std::list<Layer*>::iterator it;
+		for (it = s_layers.begin(); it != s_layers.end(); it++) {
+			if (layer == (*it)->GetLevel())
+				return true;
+		}
+
+		return false;
+	}
+
+
 	void LayerManager::Process() {
 		std::list<Layer*>::iterator it;
 		for (it = s_layers.begin(); it != s_layers.end(); it++) {

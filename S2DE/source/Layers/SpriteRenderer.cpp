@@ -17,20 +17,24 @@ namespace S2DE {
 	}
 
 
+	
 	SpriteRenderer::~SpriteRenderer() {
 		m_list.clear();
+#ifdef USE_HASH_TABLE
 		m_table.~Dictionary();
+#endif
 	}
+	
 
 
 	void SpriteRenderer::Update() {
-		std::list<Sprite*>::iterator it;
+		std::list<std::shared_ptr<Sprite>>::iterator it;
 		for (it = m_list.begin(); it != m_list.end(); it++)
-			DrawSprite(*(*it));
+			DrawSprite(*(it->get()));
 	}
 
 
-	void SpriteRenderer::AttachSprite(Sprite* sprite) {
+	void SpriteRenderer::AttachSprite(std::shared_ptr<Sprite> sprite) {
 #ifdef USE_HASH_TABLE
 		if (m_table.Count() >= m_table.Max()) {
 			LogCoreError("Could not add sprite (%s) to layer (%d)", sprite->GetObject()->Name, GetLevel());
@@ -61,7 +65,7 @@ namespace S2DE {
 	}
 
 
-	void SpriteRenderer::DettachSprite(Sprite* sprite) {
+	void SpriteRenderer::DettachSprite(std::shared_ptr<Sprite> sprite) {
 #ifdef USE_HASH_TABLE
 		m_list.Remove(m_table.Get(sprite));
 		m_table.Remove(sprite);

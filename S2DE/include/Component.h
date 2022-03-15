@@ -2,6 +2,7 @@
 #define S2DE_COMPONENT_H
 
 #include "Object.h"
+#include <memory>
 
 namespace S2DE {
 

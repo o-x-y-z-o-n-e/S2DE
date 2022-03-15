@@ -1,7 +1,7 @@
+Physics collision system.
 Change SDL window refresh rate.
 
 S2DE Version System.
-Physics collision system.
 Texture Runtime Manipulation.
 Texture Alias (Spritesheets).
 
@@ -10,4 +10,4 @@ Systems:
     Audio Playback
     Physics
     GUI
-    Resource Manager (Textures, Audio)
+    Unified Resource Manager (Textures, Audio)

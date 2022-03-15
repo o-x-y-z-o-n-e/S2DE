@@ -17,6 +17,12 @@ namespace S2DE {
 		static bool Exists(int index);
 		static void Process();
 
+		template<class T> static inline Layer* CreateLayer(int index) {
+			T* layer = new T(index);
+			LayerManager::AttachLayer(layer);
+			return layer;
+		}
+
 	private:
 		static std::list<Layer*> s_layers;
 	};

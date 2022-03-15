@@ -12,6 +12,7 @@ namespace S2DE {
 
 	public:
 		//Sprite() {}
+		~Sprite();
 
         bool Centered;
 		void Init();

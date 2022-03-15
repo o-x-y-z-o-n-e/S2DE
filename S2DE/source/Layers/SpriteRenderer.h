@@ -6,6 +6,7 @@
 #include "Types.h"
 
 #include <list>
+#include <memory>
 
 namespace S2DE {
 
@@ -18,12 +19,12 @@ namespace S2DE {
 		~SpriteRenderer();
 
 		void Update(); //Render
-		void AttachSprite(Sprite* sprite);
-		void DettachSprite(Sprite* sprite);
+		void AttachSprite(std::shared_ptr<Sprite> sprite);
+		void DettachSprite(std::shared_ptr<Sprite> sprite);
 
 	private:
 		void DrawSprite(Sprite& sprite);
-		std::list<Sprite*> m_list;
+		std::list<std::shared_ptr<Sprite>> m_list;
 		Dictionary m_table;
 	};
 

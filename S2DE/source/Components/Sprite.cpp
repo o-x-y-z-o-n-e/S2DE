@@ -10,6 +10,10 @@
 
 namespace S2DE {
 
+	Sprite::~Sprite() {
+		dynamic_cast<SpriteRenderer*>(LayerManager::GetLayer(m_layer))->DettachSprite(std::shared_ptr<Sprite>(this));
+	}
+
 	void Sprite::Init() {
 		SetLayer(0);
 	}
@@ -48,14 +52,13 @@ namespace S2DE {
 		
 		Layer* l = LayerManager::GetLayer(layer);
 		if(l == nullptr) {
-			l = new SpriteRenderer(layer);
-			LayerManager::AttachLayer(l);
+			l = LayerManager::CreateLayer<SpriteRenderer>(layer);
 		}
 
 		SpriteRenderer* sr = dynamic_cast<SpriteRenderer*>(l);
 		if(sr == nullptr) return;
 
-		sr->AttachSprite(this);
+		sr->AttachSprite(std::shared_ptr<Sprite>(this));
 	}
 
 	int Sprite::GetLayer() { return m_layer; }
