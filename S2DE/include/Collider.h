@@ -8,6 +8,9 @@ namespace S2DE {
 	class Collider : public Component {
 
 	public:
+		void Init();
+		~Collider();
+
 		vec2f GetSize();
 		vec2f GetOffset();
 
@@ -19,6 +22,8 @@ namespace S2DE {
 
 		void SetTrigger(bool trigger);
 		bool IsTrigger();
+
+		bool Intersects(std::shared_ptr<Collider> other);
 
 	private:
 		vec2f m_size;

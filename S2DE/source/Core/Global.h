@@ -3,6 +3,9 @@
 
 #define S2DE_VERSION "0.1.0"
 
+#define PTR(T) std::shared_ptr<T>
+#define PTR_THIS(T) std::dynamic_pointer_cast<T>(shared_from_this())
+
 namespace S2DE {
 
 #ifdef S2DE_UNIX

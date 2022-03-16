@@ -1,6 +1,21 @@
 #include "Collider.h"
+#include "ColliderManager.h"
+#include "Global.h"
+
+#include <stdio.h>
 
 namespace S2DE {
+
+
+	void Collider::Init() {
+		ColliderManager::Attach(PTR_THIS(Collider));
+	}
+
+
+	Collider::~Collider() {
+		ColliderManager::Dettach(PTR_THIS(Collider));
+	}
+
 
 	void Collider::SetSize(vec2f size) { m_size = size; }
 	void Collider::SetOffset(vec2f offset) { m_offset = offset; }
@@ -25,6 +40,17 @@ namespace S2DE {
 				 p.x + m_offset.x + m_size.x,
 				 p.y + m_offset.y + m_size.y
 		};
+	}
+
+
+
+	bool Collider::Intersects(std::shared_ptr<Collider> other) {
+		rec2f A = GetWorldBounds();
+		rec2f B = other->GetWorldBounds();
+
+		bool h = A.x < B.w && A.w > B.x;
+		bool v = A.y < B.h && A.h > B.y;
+		return h && v;
 	}
 
 }
