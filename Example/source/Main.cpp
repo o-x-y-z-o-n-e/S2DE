@@ -21,14 +21,16 @@ int main(int argc, char** args) {
 	std::shared_ptr<S2DE::Object> testObj = S2DE::Object::Create("Test");
 	std::shared_ptr<S2DE::Texture> testTexture = S2DE::Texture::Load("resources/smile.bmp");
 	std::shared_ptr<S2DE::Sprite> testSprite = testObj->CreateComponent<S2DE::Sprite>();
-	std::shared_ptr<S2DE::Collider> testCollider = testObj->CreateComponent<S2DE::Collider>();
+	std::shared_ptr<S2DE::Rigidbody> testRigidbody = testObj->CreateComponent<S2DE::Rigidbody>();
+
 	//std::shared_ptr<Circle> testCircle = testObj->CreateComponent<Circle>();
 
-	testCollider->SetSize({16, 16});
-	testCollider->SetOffset({-8, 8});
+	testRigidbody->SetSize({16, 16});
+	testRigidbody->SetOffset({-8, 8});
+	testRigidbody->SetVelocity({ 0, -64 });
 	testSprite->SetTexture(testTexture);
 	testSprite->Centered = true;
-	testObj->SetLocalPosition(S2DE::vec2f(0, 16));
+	testObj->SetLocalPosition(S2DE::vec2f(0, 96));
 
 	S2DE::Camera::SetPosition(0, 0);
 

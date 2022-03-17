@@ -7,6 +7,7 @@
 #include "Collider.h"
 #include "Component.h"
 #include "Object.h"
+#include "Rigidbody.h"
 #include "Sprite.h"
 #include "Texture.h"
 #include "Types.h"

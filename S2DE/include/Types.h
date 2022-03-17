@@ -25,12 +25,24 @@ namespace S2DE {
 			return v;
 		}
 
+		vec2f& operator +=(const vec2f& a) {
+			x += a.x;
+			y += a.y;
+			return *this;
+		}
+
 		vec2f operator -(const vec2f& a) {
 			vec2f v = { 0.0F, 0.0F };
 			v.x = x - a.x;
 			v.y = y - a.y;
 
 			return v;
+		}
+
+		vec2f& operator -=(const vec2f& a) {
+			x -= a.x;
+			y -= a.y;
+			return *this;
 		}
 
 		vec2f operator *(const float a) {
@@ -45,6 +57,44 @@ namespace S2DE {
 			v.x = x * a;
 			v.y = y * a;
 			return v;
+		}
+
+		vec2f& operator *=(const float a) {
+			x *= a;
+			y *= a;
+			return *this;
+		}
+
+		vec2f& operator *=(const int a) {
+			x *= a;
+			y *= a;
+			return *this;
+		}
+
+		vec2f operator /(const float a) {
+			vec2f v = { 0.0F, 0.0F };
+			v.x = x * a;
+			v.y = y * a;
+			return v;
+		}
+
+		vec2f operator /(const int a) {
+			vec2f v = { 0.0F, 0.0F };
+			v.x = x / a;
+			v.y = y / a;
+			return v;
+		}
+
+		vec2f& operator /=(const float a) {
+			x /= a;
+			y /= a;
+			return *this;
+		}
+
+		vec2f& operator /=(const int a) {
+			x /= a;
+			y /= a;
+			return *this;
 		}
 
 	} vec2f;

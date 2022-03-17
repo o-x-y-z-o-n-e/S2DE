@@ -45,11 +45,14 @@ namespace S2DE {
 
 
 	bool Collider::Intersects(std::shared_ptr<Collider> other) {
-		rec2f A = GetWorldBounds();
-		rec2f B = other->GetWorldBounds();
+		return Intersects(other->GetWorldBounds());
+	}
 
-		bool h = A.x < B.w && A.w > B.x;
-		bool v = A.y < B.h && A.h > B.y;
+
+	bool Collider::Intersects(rec2f area) {
+		rec2f A = GetWorldBounds();
+		bool h = A.x < area.w && A.w > area.x;
+		bool v = A.y < area.h && A.h > area.y;
 		return h && v;
 	}
 

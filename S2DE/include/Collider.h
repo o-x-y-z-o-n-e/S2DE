@@ -24,6 +24,7 @@ namespace S2DE {
 		bool IsTrigger();
 
 		bool Intersects(std::shared_ptr<Collider> other);
+		bool Intersects(rec2f area);
 
 	private:
 		vec2f m_size;

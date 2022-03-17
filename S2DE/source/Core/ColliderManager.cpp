@@ -26,4 +26,18 @@ namespace S2DE {
 		return intersects;
 	}
 
+
+
+	std::list<std::shared_ptr<Collider>> ColliderManager::GetIntersectingColliders(rec2f area) {
+		std::list<std::shared_ptr<Collider>> intersects;
+
+		std::list<std::shared_ptr<Collider>>::iterator it;
+		for (it = s_colliders.begin(); it != s_colliders.end(); it++) {
+			if ((*it)->Intersects(area))
+				intersects.push_back(*it);
+		}
+
+		return intersects;
+	}
+
 }
