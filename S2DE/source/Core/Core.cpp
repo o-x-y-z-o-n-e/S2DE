@@ -86,10 +86,19 @@ namespace S2DE {
 		//SDL events
 		SDL_Event e;
 		while (SDL_PollEvent(&e) != 0) {
-
 			switch (e.type) {
 				case SDL_WINDOWEVENT: {
 					Window::HandleWindowEvent(e.window);
+					break;
+				}
+
+				case SDL_KEYDOWN: {
+					// e.key.keysym.sym == 
+					break;
+				}
+
+				case SDL_KEYUP: {
+
 					break;
 				}
 

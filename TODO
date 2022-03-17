@@ -1,13 +1,16 @@
+Input bindings.
+Input states.
 Physics collision system.
-Change SDL window refresh rate.
 
 S2DE Version System.
 Texture Runtime Manipulation.
 Texture Alias (Spritesheets).
 
+UI Events.
+
 Systems:
     Input
+	Physics
     Audio Playback
-    Physics
     GUI
     Unified Resource Manager (Textures, Audio)
