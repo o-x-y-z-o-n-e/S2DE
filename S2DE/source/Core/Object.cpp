@@ -12,7 +12,6 @@ namespace S2DE {
 
 	void Object::Dettach() {
 		m_parent->RemoveChild(std::shared_ptr<Object>(this));
-		//m_parent.reset();
 
 		while (m_components.size() > 0)
 			m_components.front()->Dettach();
@@ -69,6 +68,11 @@ namespace S2DE {
 		if (ObjectManager::GetRoot().get() == this)
 			return;
 
+		// Remove this from old parent.
+		if (m_parent.get() != nullptr)
+			m_parent->RemoveChild(shared_from_this());
+		
+		// Assign new parent and attach.
 		m_parent = parent;
 		m_parent->AddChild(shared_from_this());
 	}
