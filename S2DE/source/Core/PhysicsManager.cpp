@@ -1,21 +1,21 @@
-#include "ColliderManager.h"
+#include "PhysicsManager.h"
 
 #define SECTOR_SIZE 64
 
 namespace S2DE {
 
-	std::list<std::shared_ptr<Collider>> ColliderManager::s_colliders;
+	std::list<std::shared_ptr<Collider>> PhysicsManager::s_colliders;
 
-	void ColliderManager::Attach(std::shared_ptr<Collider> collider) {
+	void PhysicsManager::Attach(std::shared_ptr<Collider> collider) {
 		s_colliders.push_back(collider);
 	}
 
-	void ColliderManager::Dettach(std::shared_ptr<Collider> collider) {
+	void PhysicsManager::Dettach(std::shared_ptr<Collider> collider) {
 		s_colliders.remove(collider);
 	}
 
 
-	std::list<std::shared_ptr<Collider>> ColliderManager::GetIntersectingColliders(std::shared_ptr<Collider> collider) {
+	std::list<std::shared_ptr<Collider>> PhysicsManager::GetIntersectingColliders(std::shared_ptr<Collider> collider) {
 		std::list<std::shared_ptr<Collider>> intersects;
 
 		std::list<std::shared_ptr<Collider>>::iterator it;
@@ -30,7 +30,7 @@ namespace S2DE {
 
 
 
-	std::list<std::shared_ptr<Collider>> ColliderManager::GetIntersectingColliders(rec2f area) {
+	std::list<std::shared_ptr<Collider>> PhysicsManager::GetIntersectingColliders(rec2f area) {
 		std::list<std::shared_ptr<Collider>> intersects;
 
 		std::list<std::shared_ptr<Collider>>::iterator it;
@@ -43,7 +43,7 @@ namespace S2DE {
 	}
 
 
-	std::list<vec2i> ColliderManager::GetIntersectionSectors(std::shared_ptr<Collider> collider) {
+	std::list<vec2i> PhysicsManager::GetIntersectionSectors(std::shared_ptr<Collider> collider) {
 		std::list<vec2i> sectors;
 
 		rec2f bounds = collider->GetWorldBounds();
@@ -64,6 +64,32 @@ namespace S2DE {
 				sectors.push_back({ x, y });
 
 		return sectors;
+	}
+
+
+	void PhysicsManager::Step(float delta) {
+		// velocity
+
+		// collisions
+		std::list<std::shared_ptr<Collider>>::iterator it_i = s_colliders.begin();
+		std::list<std::shared_ptr<Collider>>::iterator it_j;
+		for(int i = 0; i < s_colliders.size() - 1; i++) {
+			std::shared_ptr<Collider> c1 = *it_i;
+			it_i++;
+			it_j = it_i;
+			for(int j = i + 1; j < s_colliders.size(); j++) {
+				std::shared_ptr<Collider> c2 = *it_j;
+				
+				// CHECK COLLISION HERE
+				if(c1->Intersects(c2)) {
+
+				}
+
+				it_j++;
+			}
+		}
+
+
 	}
 
 

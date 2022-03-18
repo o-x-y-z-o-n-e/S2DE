@@ -2,6 +2,7 @@
 #define S2DE_OBJECT_H
 
 #include "Types.h"
+#include "Application.h"
 #include <string>
 #include <list>
 #include <memory>

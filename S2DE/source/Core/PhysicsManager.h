@@ -7,7 +7,7 @@
 
 namespace S2DE {
 
-	class ColliderManager {
+	class PhysicsManager {
 
 	public:
 		static void Attach(std::shared_ptr<Collider> collider);
@@ -17,6 +17,8 @@ namespace S2DE {
 		static std::list<std::shared_ptr<Collider>> GetIntersectingColliders(rec2f area);
 
 		static std::list<vec2i> GetIntersectionSectors(std::shared_ptr<Collider> collider);
+
+		static void Step(float delta);
 
 	private:
 		static std::list<std::shared_ptr<Collider>> s_colliders;

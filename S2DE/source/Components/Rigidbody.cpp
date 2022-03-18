@@ -1,5 +1,5 @@
 #include "Rigidbody.h"
-#include "ColliderManager.h"
+#include "PhysicsManager.h"
 
 namespace S2DE {
 
@@ -17,7 +17,7 @@ namespace S2DE {
 					   target.y + offset.y + size.y
 		};
 
-		std::list<std::shared_ptr<Collider>> intersections = ColliderManager::GetIntersectingColliders(area);
+		std::list<std::shared_ptr<Collider>> intersections = PhysicsManager::GetIntersectingColliders(area);
 
 		std::list<std::shared_ptr<Collider>>::iterator it;
 		for (it = intersections.begin(); it != intersections.end(); it++) {

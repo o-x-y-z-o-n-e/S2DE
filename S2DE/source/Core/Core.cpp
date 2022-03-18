@@ -125,6 +125,7 @@ namespace S2DE {
 
 		if (s_fixedDeltaCounter > FIXED_TIME_STEP) {
 			ObjectManager::FixedUpdateAllObjects(s_fixedDeltaCounter);
+			//PhysicsManager::Step(s_fixedDeltaCounter);
 			s_fixedDeltaCounter -= FIXED_TIME_STEP;
 		}
 

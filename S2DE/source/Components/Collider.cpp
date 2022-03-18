@@ -1,5 +1,5 @@
 #include "Collider.h"
-#include "ColliderManager.h"
+#include "PhysicsManager.h"
 #include "Global.h"
 
 #include <stdio.h>
@@ -8,12 +8,12 @@ namespace S2DE {
 
 
 	void Collider::Init() {
-		ColliderManager::Attach(PTR_THIS(Collider));
+		PhysicsManager::Attach(PTR_THIS(Collider));
 	}
 
 
 	Collider::~Collider() {
-		ColliderManager::Dettach(PTR_THIS(Collider));
+		PhysicsManager::Dettach(PTR_THIS(Collider));
 	}
 
 
