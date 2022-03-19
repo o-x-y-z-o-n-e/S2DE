@@ -24,6 +24,8 @@ namespace S2DE {
 		static float s_renderTimeStep;
 		static float s_renderTickCounter;
 
+		static int SDLToInput(int scancode);
+
 	};
 
 
