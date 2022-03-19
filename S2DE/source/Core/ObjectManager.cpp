@@ -73,11 +73,11 @@ namespace S2DE {
 	}
 
 	void ObjectManager::LateUpdateAllObjects(float delta) {
-		s_root->FixedUpdate(delta);
+		s_root->LateUpdate(delta);
 	}
 
 	void ObjectManager::FixedUpdateAllObjects(float delta) {
-		s_root->LateUpdate(delta);
+		s_root->FixedUpdate(delta);
 	}
 
 

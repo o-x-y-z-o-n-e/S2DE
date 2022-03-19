@@ -89,8 +89,6 @@ namespace S2DE {
 				it_j++;
 			}
 		}
-
-
 	}
 
 
