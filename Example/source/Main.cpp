@@ -27,10 +27,10 @@ int main(int argc, char** args) {
 
 	testRigidbody->SetSize({16, 16});
 	testRigidbody->SetOffset({-8, 8});
-	testRigidbody->SetVelocity({ 0, -64 });
+	testRigidbody->SetVelocity({ -64, -64 });
 	testSprite->SetTexture(testTexture);
 	testSprite->Centered = true;
-	testObj->SetLocalPosition(S2DE::vec2f(0, 96));
+	testObj->SetLocalPosition(S2DE::vec2f(64, 96));
 
 	S2DE::Camera::SetPosition(0, 0);
 

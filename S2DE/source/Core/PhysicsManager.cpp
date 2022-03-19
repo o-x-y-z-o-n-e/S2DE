@@ -69,6 +69,7 @@ namespace S2DE {
 
 	void PhysicsManager::Step(float delta) {
 		// velocity
+		
 
 		// collisions
 		std::list<std::shared_ptr<Collider>>::iterator it_i = s_colliders.begin();
