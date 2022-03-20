@@ -6,6 +6,7 @@
 #include "Camera.h"
 #include "Collider.h"
 #include "Component.h"
+#include "Input.h"
 #include "Object.h"
 #include "Rigidbody.h"
 #include "Sprite.h"
