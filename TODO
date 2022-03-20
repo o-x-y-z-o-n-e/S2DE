@@ -1,16 +1,13 @@
-Input bindings.
-Input states.
-Physics collision system.
-
-S2DE Version System.
-Texture Runtime Manipulation.
 Texture Alias (Spritesheets).
+Texture Runtime Manipulation.
 
-UI Events.
+Physics slide collision.
+Physics multiple collision resolution.
 
 Systems:
-    Input
-	Physics
-    Audio Playback
-    GUI
-    Unified Resource Manager (Textures, Audio)
+    Audio Playback.
+    GUI.
+    Unified Resource Manager (Textures, Audio).
+
+Possible Features:
+	Physics collision sector system.
