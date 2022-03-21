@@ -2,6 +2,7 @@
 #define S2DE_TYPES_H
 
 #include <stdint.h>
+#include <math.h>
 
 namespace S2DE {
 
@@ -16,6 +17,13 @@ namespace S2DE {
 		};
 
 		static inline vec2f zero() { return { 0.0F, 0.0F }; }
+		inline float magnitude() { return sqrtf((x*x) + (y*y)); }
+		inline vec2f normal() {
+			float m = magnitude();
+			vec2f n = {x/m, y/m};
+			return n;
+		}
+		
 
 		vec2f operator +(const vec2f& a) {
 			vec2f v = { 0.0F, 0.0F };
@@ -191,6 +199,16 @@ namespace S2DE {
 			this->h = h;
 		}
 	} rec2i;
+
+
+	typedef struct ray2f {
+		vec2f origin;
+		vec2f direction;
+		float distance;
+		
+		inline vec2f start() { return origin; }
+		inline vec2f end() { return origin + (direction * distance); }
+	} ray2f;
 
 
 

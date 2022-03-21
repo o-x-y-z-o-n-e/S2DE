@@ -8,6 +8,7 @@
 #include "Component.h"
 #include "Input.h"
 #include "Object.h"
+#include "Physics.h"
 #include "Rigidbody.h"
 #include "Sprite.h"
 #include "Texture.h"

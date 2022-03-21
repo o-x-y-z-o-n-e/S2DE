@@ -1,4 +1,7 @@
+#include "Physics.h"
 #include "PhysicsManager.h"
+
+#include <stdarg.h>
 
 #define SECTOR_SIZE 64
 
@@ -89,6 +92,36 @@ namespace S2DE {
 				it_j++;
 			}
 		}
+	}
+
+
+	mask mask::GetMask(int n, ...) {
+		mask m;
+		va_list valist;
+
+		va_start(valist, n);
+
+		for(int i = 0; i < n; i++) {
+			int b = va_arg(valist, int);
+			if(b >= 0 && b < 32)
+				m.bitmask |= 0x0001 << b;
+		}
+		va_end(valist);
+
+		return m;
+	}
+
+
+	bool Physics::Raycast(const ray2f& ray) {
+		return Raycast(ray, mask::all(), false);
+	}
+
+	bool Physics::Raycast(const ray2f& ray, const mask& layers) {
+		return Raycast(ray, layers, false);
+	}
+
+	bool Physics::Raycast(const ray2f& ray, const mask& layers, bool ignoreTrigger) {
+		return false;
 	}
 
 
