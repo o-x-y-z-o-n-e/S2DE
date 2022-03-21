@@ -1,5 +1,6 @@
 #include "S2DE.h"
 #include "Circle.h"
+#include "Player.h"
 
 #include <memory>
 
@@ -22,14 +23,15 @@ int main(int argc, char** args) {
 	std::shared_ptr<S2DE::Texture> testTexture = S2DE::Texture::Load("resources/smile.bmp");
 	std::shared_ptr<S2DE::Sprite> testSprite = testObj->CreateComponent<S2DE::Sprite>();
 	//std::shared_ptr<S2DE::Rigidbody> testRigidbody = testObj->CreateComponent<S2DE::Rigidbody>();
-	std::shared_ptr<Circle> testCircle = testObj->CreateComponent<Circle>();
+	//std::shared_ptr<Circle> testCircle = testObj->CreateComponent<Circle>();
+	std::shared_ptr<Player> testPlayer = testObj->CreateComponent<Player>();
 
-	//testRigidbody->SetSize({16, 16});
-	//testRigidbody->SetOffset({-8, 8});
+	testPlayer->SetSize({16, 16});
+	testPlayer->SetOffset({-8, 8});
 	//testRigidbody->SetVelocity({ -64, -64 });
 	testSprite->SetTexture(testTexture);
 	testSprite->Centered = true;
-	testObj->SetLocalPosition(S2DE::vec2f(64, 96));
+	testObj->SetLocalPosition(S2DE::vec2f(0, 96));
 
 	S2DE::Camera::SetPosition(0, 0);
 
