@@ -6,13 +6,19 @@
 namespace S2DE {
 
 	void Rigidbody::FixedUpdate(float delta) {
-		vec2f position = GetObject()->GetWorldPosition();
 		vec2f vel = m_velocity * delta;
+
+		vec2f slide = Move(vel);
+		Move(slide);
+	}
+
+
+	vec2f Rigidbody::Move(const vec2f& vel) {
+		vec2f position = GetObject()->GetWorldPosition();
 		vec2f target = position + vel;
 		vec2f size = GetSize();
 		vec2f offset = GetOffset();
-		
-		
+
 		rec2f A = GetWorldBounds();
 		rec2f C = { target.x + offset.x,
 					   target.y + offset.y,
@@ -26,19 +32,16 @@ namespace S2DE {
 		for (it = intersections.begin(); it != intersections.end(); it++) {
 			if ((*it).get() != this && !(*it).get()->IsTrigger()) {
 				rec2f B = (*it)->GetWorldBounds();
-				
-				vec2f diff = Resolve(A, B, vel);
-
-				GetObject()->SetWorldPosition(position + diff);
-				return;
+				return Resolve(A, B, vel, position);
 			}
 		}
 
-		GetObject()->SetWorldPosition(target);
+		GetObject()->SetWorldPosition(position + vel);
+		return {0,0};
 	}
 
 
-	vec2f Rigidbody::Resolve(const rec2f& A, const rec2f& B, const vec2f& v) {
+	vec2f Rigidbody::Resolve(const rec2f& A, const rec2f& B, const vec2f& v, vec2f& p) {
 		vec2f d;
 		vec2f t;
 
@@ -74,11 +77,13 @@ namespace S2DE {
 			move.y = s * v.y;
 
 			// CHECK FOR SLIDE COLLISION
-			if (s == t.x) slide.y = v.y - move.y;
-			if (s == t.y) slide.x = v.x - move.x;
+			if (t.x < t.y) slide.y = v.y - move.y;
+			if (t.y < t.x) slide.x = v.x - move.x;
 		}
 
-		return move + slide;
+		GetObject()->SetWorldPosition(p + move);
+
+		return slide;
 	}
 
 

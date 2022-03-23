@@ -14,7 +14,8 @@ namespace S2DE {
 		vec2f GetVelocity();
 
 	private:
-		vec2f Resolve(const rec2f& A, const rec2f& B, const vec2f& v);
+		vec2f Move(const vec2f& vel);
+		vec2f Resolve(const rec2f& A, const rec2f& B, const vec2f& v, vec2f& p);
 
 		vec2f m_velocity;
 

@@ -6,9 +6,13 @@
 #define m_jump 40.0f
 #define m_gravity 40.0f
 
-void Player::FixedUpdate(float delta) {
-    S2DE::Rigidbody::FixedUpdate(delta);
+void Player::DynamicUpdate(float delta) {
+	if (S2DE::Input::IsPressed(S2DE_KEY_SPACE)) {
+		m_targetVelocity.y = m_jump / m_mass;
+	}
+}
 
+void Player::FixedUpdate(float delta) {
     float moveInput = 0;
 
     if(S2DE::Input::IsHeld(S2DE_KEY_A))
@@ -19,13 +23,11 @@ void Player::FixedUpdate(float delta) {
     m_targetVelocity.x += (moveInput * m_walk) / m_mass;
     m_targetVelocity.x -= (m_targetVelocity.x) * m_friction;
 
-    if(S2DE::Input::IsPressed(S2DE_KEY_SPACE)) {
-        m_targetVelocity.y = m_jump / m_mass;
-    }
-
     m_targetVelocity.y -= m_gravity * delta;
     if(m_targetVelocity.y < -64.0f)
         m_targetVelocity.y = -64.0f;
 
     SetVelocity(m_targetVelocity);
+
+	S2DE::Rigidbody::FixedUpdate(delta);
 }

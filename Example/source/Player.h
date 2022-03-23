@@ -5,6 +5,7 @@
 class Player : public S2DE::Rigidbody {
 
 public:
+	void DynamicUpdate(float delta);
     void FixedUpdate(float delta);
 
 private:
