@@ -1,13 +1,19 @@
+Physics layers.
+Multiple raycast function.
+Physics multiple collision resolution.
+Physics collision sector system.
+
+
 Texture Alias (Spritesheets).
 Texture Runtime Manipulation.
 
-Swap physics orccurances with rec2f with box2f.
-Physics layers.
-Physics multiple collision resolution.
-Physics collision sector system.
-Multiple raycast function.
 
 Systems:
     Audio Playback.
     GUI.
     Unified Resource Manager (Textures, Audio).
+
+
+Far Future Features:
+	Circle Colliders.
+	Rigidbody on Rigidbody momentum resolution.

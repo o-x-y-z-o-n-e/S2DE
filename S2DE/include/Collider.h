@@ -17,14 +17,14 @@ namespace S2DE {
 		void SetSize(vec2f size);
 		void SetOffset(vec2f offset);
 
-		rec2f GetLocalBounds();
-		rec2f GetWorldBounds();
+		box2f GetLocalBounds();
+		box2f GetWorldBounds();
 
 		void SetTrigger(bool trigger);
 		bool IsTrigger();
 
 		bool Intersects(std::shared_ptr<Collider> other);
-		bool Intersects(const rec2f& area);
+		bool Intersects(const box2f& area);
 		bool Intersects(const ray2f& ray, float* distance);
 
 	private:

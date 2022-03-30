@@ -202,6 +202,18 @@ namespace S2DE {
 	} rec2i;
 
 
+	typedef struct box2f {
+		vec2f min;
+		vec2f max;
+	} box2f;
+
+
+	typedef struct box2i {
+		vec2i min;
+		vec2i max;
+	} box2i;
+
+
 	typedef struct ray2f {
 		vec2f origin;
 		vec2f direction;

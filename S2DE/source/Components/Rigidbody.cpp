@@ -19,11 +19,10 @@ namespace S2DE {
 		vec2f size = GetSize();
 		vec2f offset = GetOffset();
 
-		rec2f A = GetWorldBounds();
-		rec2f C = { target.x + offset.x,
-					   target.y + offset.y,
-					   target.x + offset.x + size.x,
-					   target.y + offset.y + size.y
+		box2f A = GetWorldBounds();
+		box2f C = {
+			{ target.x + offset.x, target.y + offset.y },
+			{ target.x + offset.x + size.x, target.y + offset.y + size.y }
 		};
 
 		std::list<std::shared_ptr<Collider>> intersections = PhysicsManager::GetIntersectingColliders(C);
@@ -31,7 +30,7 @@ namespace S2DE {
 		std::list<std::shared_ptr<Collider>>::iterator it;
 		for (it = intersections.begin(); it != intersections.end(); it++) {
 			if ((*it).get() != this && !(*it).get()->IsTrigger()) {
-				rec2f B = (*it)->GetWorldBounds();
+				box2f B = (*it)->GetWorldBounds();
 				return Resolve(A, B, vel, position);
 			}
 		}
@@ -41,23 +40,23 @@ namespace S2DE {
 	}
 
 
-	vec2f Rigidbody::Resolve(const rec2f& A, const rec2f& B, const vec2f& v, vec2f& p) {
+	vec2f Rigidbody::Resolve(const box2f& A, const box2f& B, const vec2f& v, vec2f& p) {
 		vec2f d;
 		vec2f t;
 
 		vec2f move;
 		vec2f slide;
 
-		if (A.x < B.x) {
-			d.x = B.x - A.w;
+		if (A.min.x < B.min.x) {
+			d.x = B.min.x - A.max.x;
 		} else {
-			d.x = A.x - B.w;
+			d.x = A.min.x - B.max.x;
 		}
 
-		if (A.y < B.y) {
-			d.y = B.y - A.h;
+		if (A.min.y < B.min.y) {
+			d.y = B.min.y - A.max.y;
 		} else {
-			d.y = A.y - B.h;
+			d.y = A.min.y - B.max.y;
 		}
 
 		t.x = v.x != 0 ? abs(d.x / v.x) : 0;

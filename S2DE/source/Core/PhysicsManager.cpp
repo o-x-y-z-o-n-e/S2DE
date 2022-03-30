@@ -33,7 +33,7 @@ namespace S2DE {
 
 
 
-	std::list<std::shared_ptr<Collider>> PhysicsManager::GetIntersectingColliders(rec2f area) {
+	std::list<std::shared_ptr<Collider>> PhysicsManager::GetIntersectingColliders(box2f area) {
 		std::list<std::shared_ptr<Collider>> intersects;
 
 		std::list<std::shared_ptr<Collider>>::iterator it;
@@ -93,21 +93,21 @@ namespace S2DE {
 	std::list<vec2i> PhysicsManager::GetIntersectionSectors(std::shared_ptr<Collider> collider) {
 		std::list<vec2i> sectors;
 
-		rec2f bounds = collider->GetWorldBounds();
-		rec2i sec;
+		box2f bounds = collider->GetWorldBounds();
+		box2i sec;
 
-		sec.x = bounds.x / SECTOR_SIZE;
-		sec.y = bounds.y / SECTOR_SIZE;
-		sec.w = bounds.w / SECTOR_SIZE;
-		sec.h = bounds.h / SECTOR_SIZE;
+		sec.min.x = bounds.min.x / SECTOR_SIZE;
+		sec.min.y = bounds.min.y / SECTOR_SIZE;
+		sec.max.x = bounds.max.x / SECTOR_SIZE;
+		sec.max.y = bounds.max.y / SECTOR_SIZE;
 
-		if (bounds.x < 0) sec.x--;
-		if (bounds.y < 0) sec.y--;
-		if (bounds.w > 0) sec.w++;
-		if (bounds.h > 0) sec.h++;
+		if (bounds.min.x < 0) sec.min.x--;
+		if (bounds.min.y < 0) sec.min.y--;
+		if (bounds.max.x > 0) sec.max.x++;
+		if (bounds.max.y > 0) sec.max.y++;
 
-		for (int x = sec.x; x < sec.w; x++)
-			for (int y = sec.y; y < sec.h; y++)
+		for (int x = sec.min.x; x < sec.max.x; x++)
+			for (int y = sec.min.y; y < sec.max.y; y++)
 				sectors.push_back({ x, y });
 
 		return sectors;
