@@ -88,7 +88,7 @@ namespace S2DE {
 
 
 	void Window::ApplyTexture(Texture& texture, int x, int y) {
-		SDL_Rect rect = { (s_viewOffset.x - (int)s_viewPosition.x) + x, (s_viewOffset.y + (int)s_viewPosition.y) - y, texture.GetWidth(), texture.GetHeight() };
+		SDL_Rect rect = { (s_viewOffset.x - (int)s_viewPosition.x) + x, (s_viewOffset.y + (int)s_viewPosition.y) - y - texture.GetHeight(), texture.GetWidth(), texture.GetHeight() };
 		SDL_Texture* tex = (SDL_Texture*)TextureManager::GetTextureData(texture.GetID());
 
 		SDL_RenderCopy(s_renderer, tex, NULL, &rect);

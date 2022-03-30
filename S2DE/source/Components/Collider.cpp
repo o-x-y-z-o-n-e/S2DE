@@ -49,11 +49,45 @@ namespace S2DE {
 	}
 
 
-	bool Collider::Intersects(rec2f area) {
+	bool Collider::Intersects(const rec2f& area) {
 		rec2f A = GetWorldBounds();
 		bool h = A.x < area.w && A.w > area.x;
 		bool v = A.y < area.h && A.h > area.y;
 		return h && v;
+	}
+
+
+	bool Collider::Intersects(const ray2f& ray, float* distance) {
+		rec2f A = GetWorldBounds();
+		vec2f min = { A.x, A.y };
+		vec2f max = { A.w, A.h };
+
+		float t_min_x = (min.x - ray.origin.x) / ray.direction.x;
+		float t_max_x = (max.x - ray.origin.x) / ray.direction.x;
+
+		float t_min_y = (min.y - ray.origin.y) / ray.direction.y;
+		float t_max_y = (max.y - ray.origin.y) / ray.direction.y;
+
+		float t_min = fmaxf(fminf(t_min_x, t_max_x), fminf(t_min_y, t_max_y));
+		float t_max = fminf(fmaxf(t_min_x, t_max_x), fmaxf(t_min_y, t_max_y));
+
+		// If ray intersects but AABB is 'behind' the ray origin.
+		if (t_max < 0)
+			return false;
+
+		// No intersection.
+		if (t_max < t_min)
+			return false;
+
+		float t = fminf(t_min, t_max);
+
+		// If the first intersection is further than ray distance.
+		if (t > ray.distance)
+			return false;
+
+		// Else, there was an intersection.
+		*distance = t;
+		return true;
 	}
 
 }

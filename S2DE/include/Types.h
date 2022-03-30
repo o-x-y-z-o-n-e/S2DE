@@ -3,6 +3,7 @@
 
 #include <stdint.h>
 #include <math.h>
+#include <memory>
 
 namespace S2DE {
 
@@ -209,6 +210,15 @@ namespace S2DE {
 		inline vec2f start() { return origin; }
 		inline vec2f end() { return origin + (direction * distance); }
 	} ray2f;
+
+
+	class Collider;
+	typedef struct hitinfo {
+		bool hit;
+		vec2f point;
+		float distance;
+		std::shared_ptr<Collider> collider;
+	} hitinfo;
 
 
 

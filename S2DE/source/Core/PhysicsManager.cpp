@@ -46,6 +46,50 @@ namespace S2DE {
 	}
 
 
+	std::list<hitinfo> PhysicsManager::GetIntersectingColliders(ray2f ray) {
+		std::list<hitinfo> intersects;
+
+		std::list<std::shared_ptr<Collider>>::iterator it;
+		for (it = s_colliders.begin(); it != s_colliders.end(); it++) {
+			float t = 0;
+			if ((*it)->Intersects(ray, &t)) {
+				hitinfo hit;
+
+				hit.distance = t;
+				hit.point = ray.origin + (ray.direction * t);
+				hit.collider = *it;
+				hit.hit = true;
+
+				intersects.push_back(hit);
+			}
+		}
+
+		return intersects;
+	}
+
+
+	hitinfo PhysicsManager::GetClosetIntersectingCollider(ray2f ray) {
+		hitinfo hit;
+		hit.hit = false;
+		hit.distance = 1000.0F;
+
+		std::list<std::shared_ptr<Collider>>::iterator it;
+		for (it = s_colliders.begin(); it != s_colliders.end(); it++) {
+			float t = 0;
+			if ((*it)->Intersects(ray, &t)) {
+				if (hit.distance == 0 || t < hit.distance) {
+					hit.distance = t;
+					hit.point = ray.origin + (ray.direction * t);
+					hit.collider = *it;
+					hit.hit = true;
+				}
+			}
+		}
+
+		return hit;
+	}
+
+
 	std::list<vec2i> PhysicsManager::GetIntersectionSectors(std::shared_ptr<Collider> collider) {
 		std::list<vec2i> sectors;
 
@@ -70,31 +114,6 @@ namespace S2DE {
 	}
 
 
-	void PhysicsManager::Step(float delta) {
-		// velocity
-		
-
-		// collisions
-		std::list<std::shared_ptr<Collider>>::iterator it_i = s_colliders.begin();
-		std::list<std::shared_ptr<Collider>>::iterator it_j;
-		for(int i = 0; i < s_colliders.size() - 1; i++) {
-			std::shared_ptr<Collider> c1 = *it_i;
-			it_i++;
-			it_j = it_i;
-			for(int j = i + 1; j < s_colliders.size(); j++) {
-				std::shared_ptr<Collider> c2 = *it_j;
-				
-				// CHECK COLLISION HERE
-				if(c1->Intersects(c2)) {
-
-				}
-
-				it_j++;
-			}
-		}
-	}
-
-
 	mask mask::GetMask(int n, ...) {
 		mask m;
 		va_list valist;
@@ -111,17 +130,17 @@ namespace S2DE {
 		return m;
 	}
 
-
-	bool Physics::Raycast(const ray2f& ray) {
+	hitinfo Physics::Raycast(const ray2f& ray) {
 		return Raycast(ray, mask::all(), false);
 	}
 
-	bool Physics::Raycast(const ray2f& ray, const mask& layers) {
+	hitinfo Physics::Raycast(const ray2f& ray, const mask& layers) {
 		return Raycast(ray, layers, false);
 	}
 
-	bool Physics::Raycast(const ray2f& ray, const mask& layers, bool ignoreTrigger) {
-		return false;
+	hitinfo Physics::Raycast(const ray2f& ray, const mask& layers, bool ignoreTrigger) {
+		// USEE LAYER & IGNORE TRIGGER INFO
+		return PhysicsManager::GetClosetIntersectingCollider(ray);
 	}
 
 

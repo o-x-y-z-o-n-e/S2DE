@@ -17,9 +17,10 @@ namespace S2DE {
     class Physics {
         
     public:
-        bool Raycast(const ray2f& ray);
-        bool Raycast(const ray2f& ray, const mask& layers);
-        bool Raycast(const ray2f& ray, const mask& layers, bool ignoreTriggers);
+        static hitinfo Raycast(const ray2f& ray);
+		static hitinfo Raycast(const ray2f& ray, const mask& layers);
+		static hitinfo Raycast(const ray2f& ray, const mask& layers, bool ignoreTriggers);
+		// ADD RaycastAll functions
 
     };
 

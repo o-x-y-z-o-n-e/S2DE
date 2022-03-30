@@ -24,12 +24,13 @@ namespace S2DE {
 		bool IsTrigger();
 
 		bool Intersects(std::shared_ptr<Collider> other);
-		bool Intersects(rec2f area);
+		bool Intersects(const rec2f& area);
+		bool Intersects(const ray2f& ray, float* distance);
 
 	private:
 		vec2f m_size;
 		vec2f m_offset;
-		bool m_isTrigger; //IMPLEMENT
+		bool m_isTrigger;
 
 	};
 

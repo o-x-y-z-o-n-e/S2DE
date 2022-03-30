@@ -10,5 +10,6 @@ public:
 
 private:
     S2DE::vec2f m_targetVelocity;
+	bool m_isGrounded;
 
 };

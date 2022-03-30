@@ -58,7 +58,7 @@ namespace S2DE {
 			vec2f position = sprite.GetObject()->GetWorldPosition();
 			if (sprite.Centered) {
 				position.x -= tex->GetWidth() / 2;
-				position.y += tex->GetHeight() / 2;
+				position.y -= tex->GetHeight() / 2;
 			}
 			Window::ApplyTexture(*(tex.get()), (int)position.x, (int)position.y);
 		}
