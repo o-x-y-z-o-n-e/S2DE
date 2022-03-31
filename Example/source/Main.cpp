@@ -19,6 +19,16 @@ int main(int argc, char** args) {
 	floorObj->SetWorldPosition({ -64, -16 });
 	floorSprite->SetTexture(floorTexture);
 
+
+	std::shared_ptr<S2DE::Texture> wallTexture = S2DE::Texture::Load("resources/wall.bmp");
+	std::shared_ptr<S2DE::Object> wallObj = S2DE::Object::Create("Wall");
+	std::shared_ptr<S2DE::Collider> wallCollider = wallObj->CreateComponent<S2DE::Collider>();
+	std::shared_ptr<S2DE::Sprite> wallSprite = wallObj->CreateComponent<S2DE::Sprite>();
+
+	wallCollider->SetSize({ 16, 16 });
+	wallObj->SetWorldPosition({ 64, 0 });
+	wallSprite->SetTexture(wallTexture);
+
 	std::shared_ptr<S2DE::Object> testObj = S2DE::Object::Create("Test");
 	std::shared_ptr<S2DE::Texture> testTexture = S2DE::Texture::Load("resources/smile.bmp");
 	std::shared_ptr<S2DE::Sprite> testSprite = testObj->CreateComponent<S2DE::Sprite>();

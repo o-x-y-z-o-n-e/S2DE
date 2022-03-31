@@ -1,5 +1,5 @@
 Multiple raycast function.
-Physics multiple collision resolution.
+Fix Physics multiple collision resolution (tunneling through corners, etc..).
 Physics collision sector system.
 Fix mask::GetMask(...) function.
 
