@@ -1,7 +1,7 @@
-Physics layers.
 Multiple raycast function.
 Physics multiple collision resolution.
 Physics collision sector system.
+Fix mask::GetMask(...) function.
 
 
 Texture Alias (Spritesheets).

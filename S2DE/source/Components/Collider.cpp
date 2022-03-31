@@ -86,4 +86,18 @@ namespace S2DE {
 		return true;
 	}
 
+
+	char Collider::GetLayer() { return m_layer; }
+	void Collider::SetLayer(char layer) {
+		if (layer < 0) layer = 0;
+		if (layer > 31) layer = 31;
+		m_layer = layer; 
+	}
+
+	bool Collider::InMask(const mask& layers) {
+		uint32_t b = 0x0001 << m_layer;
+		return layers.bitmask & b;
+	}
+	
+
 }

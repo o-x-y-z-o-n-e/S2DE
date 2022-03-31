@@ -29,12 +29,15 @@ void Player::FixedUpdate(float delta) {
 
 	S2DE::ray2f ray;
 	ray.origin = GetObject()->GetLocalPosition();
-	ray.origin.x -= 9;
+	ray.origin.x -= 0;
 	ray.origin.y -= 7;
 	ray.direction = { 0, -1 };
 	ray.distance = 1;
 
-	S2DE::hitinfo hit = S2DE::Physics::Raycast(ray);
+	S2DE::mask mask;
+	mask.bitmask = 0b1101;
+
+	S2DE::hitinfo hit = S2DE::Physics::Raycast(ray, mask);
 	m_isGrounded = hit.hit;
 
 	if (!m_isGrounded) {

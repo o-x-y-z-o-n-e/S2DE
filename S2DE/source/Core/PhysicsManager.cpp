@@ -33,7 +33,7 @@ namespace S2DE {
 
 
 
-	std::list<std::shared_ptr<Collider>> PhysicsManager::GetIntersectingColliders(box2f area) {
+	std::list<std::shared_ptr<Collider>> PhysicsManager::GetIntersectingColliders(box2f& area) {
 		std::list<std::shared_ptr<Collider>> intersects;
 
 		std::list<std::shared_ptr<Collider>>::iterator it;
@@ -46,11 +46,17 @@ namespace S2DE {
 	}
 
 
-	std::list<hitinfo> PhysicsManager::GetIntersectingColliders(ray2f ray) {
+	std::list<hitinfo> PhysicsManager::GetIntersectingColliders(ray2f& ray, const mask& layers, bool ignoreTriggers) {
 		std::list<hitinfo> intersects;
 
 		std::list<std::shared_ptr<Collider>>::iterator it;
 		for (it = s_colliders.begin(); it != s_colliders.end(); it++) {
+			if (!(*it)->InMask(layers))
+				continue;
+
+			if (ignoreTriggers && (*it)->IsTrigger())
+				continue;
+
 			float t = 0;
 			if ((*it)->Intersects(ray, &t)) {
 				hitinfo hit;
@@ -68,13 +74,19 @@ namespace S2DE {
 	}
 
 
-	hitinfo PhysicsManager::GetClosetIntersectingCollider(ray2f ray) {
+	hitinfo PhysicsManager::GetClosetIntersectingCollider(ray2f& ray, const mask& layers, bool ignoreTriggers) {
 		hitinfo hit;
 		hit.hit = false;
 		hit.distance = 1000.0F;
 
 		std::list<std::shared_ptr<Collider>>::iterator it;
 		for (it = s_colliders.begin(); it != s_colliders.end(); it++) {
+			if (!(*it)->InMask(layers))
+				continue;
+
+			if (ignoreTriggers && (*it)->IsTrigger())
+				continue;
+
 			float t = 0;
 			if ((*it)->Intersects(ray, &t)) {
 				if (hit.distance == 0 || t < hit.distance) {
@@ -130,17 +142,16 @@ namespace S2DE {
 		return m;
 	}
 
-	hitinfo Physics::Raycast(const ray2f& ray) {
-		return Raycast(ray, mask::all(), false);
+	hitinfo Physics::Raycast(ray2f ray) {
+		return PhysicsManager::GetClosetIntersectingCollider(ray, mask::all(), false);
 	}
 
-	hitinfo Physics::Raycast(const ray2f& ray, const mask& layers) {
-		return Raycast(ray, layers, false);
+	hitinfo Physics::Raycast(ray2f ray, const mask& layers) {
+		return PhysicsManager::GetClosetIntersectingCollider(ray, layers, false);
 	}
 
-	hitinfo Physics::Raycast(const ray2f& ray, const mask& layers, bool ignoreTrigger) {
-		// USEE LAYER & IGNORE TRIGGER INFO
-		return PhysicsManager::GetClosetIntersectingCollider(ray);
+	hitinfo Physics::Raycast(ray2f ray, const mask& layers, bool ignoreTrigger) {
+		return PhysicsManager::GetClosetIntersectingCollider(ray, layers, ignoreTrigger);
 	}
 
 

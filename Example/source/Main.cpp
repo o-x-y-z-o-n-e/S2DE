@@ -26,6 +26,7 @@ int main(int argc, char** args) {
 
 	testPlayer->SetSize({16, 16});
 	testPlayer->SetOffset({-8, -8});
+	testPlayer->SetLayer(1);
 	testSprite->SetTexture(testTexture);
 	testSprite->Centered = true;
 	testObj->SetLocalPosition(S2DE::vec2f(0, 8));
